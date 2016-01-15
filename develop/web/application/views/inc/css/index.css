@@ -1,0 +1,36 @@
+﻿.diy-container {
+    margin: 0 1%;
+    background-color: white;
+    padding: 20px 0;
+}
+
+.diy {
+    text-decoration: none !important;
+    color: grey;
+    font-size: 30px;
+}
+
+.diy :link {
+    text-decoration: none !important;
+    color: grey;
+}
+
+.diy :visited {
+    text-decoration: none !important;
+    color: grey;
+}
+
+.diy :hover {
+    text-decoration: none !important;
+    color: grey;
+}
+
+.diy :active {
+    text-decoration: none !important;
+    color: grey;
+}
+
+.diy :focus {
+    text-decoration: none !important;
+    color: grey;
+}

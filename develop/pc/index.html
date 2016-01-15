@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>街报-想逛街 看街报！</title>
+<meta name="baidu-site-verification" content="TvLdqjRAzu" />
+<meta name=”description” content=”街报，专注于品牌时装的逛街购物导航！实时发现身边最新品牌优惠，发现自己喜欢的美衣、搭配，从此不再错过！DIY逛街攻略，还能享受街报特权福利！聪明逛街，省钱购物，从看街报开始！”> 
+<meta name=”keyword” content=”街报，逛街， 逛，街巷“>
+<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<!---strat-slider---->
+<link rel="stylesheet" type="text/css" href="css/slider.css" />
+<script type="text/javascript" src="js/modernizr.custom.28468.js"></script>
+<script type="text/javascript" src="js/jquery.cslider.js"></script>
+<script type="text/javascript">
+	$(function() {
+	
+		$('#da-slider').cslider({
+			autoplay	: true,
+			bgincrement	: 450
+		});
+	
+	});
+</script>
+<!---//strat-slider---->
+<!-- scroll -->
+<script type="text/javascript">
+$(document).ready(function() {
+
+	var defaults = {
+		containerID: 'toTop', // fading element id
+		containerHoverID: 'toTopHover', // fading element hover id
+		scrollSpeed: 1200,
+		easingType: 'linear' 
+	};
+	
+	
+	$().UItoTop({ easingType: 'easeOutQuart' });
+	
+});
+</script>
+<!-- //scroll -->	
+<!-- start portfolios -->
+<link href="css/portfolio.css" rel="stylesheet" type="text/css" media="all" />
+<script type="text/javascript">
+$('body').flipLightBox()
+</script>
+<script type="text/javascript" src="js/jquery.easing.min.js"></script>
+<script type="text/javascript" src="js/jquery.mixitup.min.js"></script>
+<script type="text/javascript">
+$(function() {
+
+	var filterList = {
+
+		init : function() {
+
+			// MixItUp plugin
+			// http://mixitup.io
+			$('#portfoliolist').mixitup({
+				targetSelector : '.portfolio',
+				filterSelector : '.filter',
+				effects : ['fade'],
+				easing : 'snap',
+				// call the hover effect
+				onMixEnd : filterList.hoverEffect()
+			});
+
+		},
+
+		hoverEffect : function() {
+
+			// Simple parallax effect
+			$('#portfoliolist .portfolio').hover(function() {
+				$(this).find('.label').stop().animate({
+					bottom : 0
+				}, 200, 'easeOutQuad');
+				$(this).find('img').stop().animate({
+					top : -40
+				}, 500, 'easeOutQuad');
+			}, function() {
+				$(this).find('.label').stop().animate({
+					bottom : -40
+				}, 200, 'easeInQuad');
+				$(this).find('img').stop().animate({
+					top : 0
+				}, 300, 'easeOutQuad');
+			});
+
+		}
+	};
+
+	// Run the show!
+	filterList.init();
+
+});
+</script>
+<!-- popup -->
+<script src="js/jquery.magnific-popup.js" type="text/javascript"></script>
+<script>
+$(document).ready(function() {
+	$('.popup-with-zoom-anim').magnificPopup({
+		type: 'inline',
+		fixedContentPos: false,
+		fixedBgPos: true,
+		overflowY: 'auto',
+		closeBtnInside: true,
+		preloader: false,
+		midClick: true,
+		removalDelay: 300,
+		mainClass: 'my-mfp-zoom-in'
+});
+});
+</script>
+<script type="text/javascript" src="js/jquery.lightbox.js"></script>
+<script type="text/javascript">
+$(function() {
+	$('#portfoliolist a').lightBox();
+});
+</script>
+<!-- nav -->  
+<script type="text/javascript" 	src="js/jquery.smint.js"></script>
+<script type="text/javascript">
+$(document).ready( function() {
+    $('.subMenu').smint({
+    	'scrollSpeed' : 1000
+    });
+});
+</script>
+<script>
+window.addEventListener("load",function() {
+  setTimeout(function(){
+    window.scrollTo(0, 1);
+  }, 0);
+});</script>
+<script>
+$(".button.qr").click(function(){
+    var href = $(this).attr("href");
+    var pos = $(href).offset().top;
+    $("html,body").animate({scrollTop: pos}, 1000);
+    return false;
+});
+</script>
+</head>
+<body>
+		<!-- start slider -->
+<div class="slider_bg " >
+<!-- start main -->
+				<div class="da-head">
+					<div class="da-logo"><h1><img src="images/logo.png"></h1></div>
+					<div class="da-slogan"><p>逛街，从看街报开始</p></div>
+					<div class="clear"></div>
+				</div>
+				<!---start-da-slider----->
+				<div id="da-slider" class="da-slider">
+				<div class="da-slide">
+                      <p class="description">从此不再错过你想要的优惠</p>  
+				</div>
+				<div class="da-slide">
+                      <p class="description">从此不再错过你想要的优惠</p>  
+				</div>
+				 <a  href="#QR" class="button qr">查看最新优惠</a>		
+				 <a  href="#services" class="button scroll"><img src="images/down.png"></a>
+			</div>
+ </div>
+
+				<!--- services --->	
+				     <div class="services sTop" id="services">
+						  	<div class="wrap">
+						  		<p><img src="images/content.png"/></p>
+						  		<div  class="services-shopping" id="QR">
+						  			<img src="images/shopping.png" />
+						  		</div>
+						  		<div class="services-qr">
+						  			<img class="float-lt" src="images/mobileweb.png">
+						  		    <img class="float-rt" src="images/weixin.png" />
+						  		</div>
+								 <div class="clear"></div>
+				   		   </div>
+				   		 </div>
+				<!--- end services --->
+   		        <!----start-bottom-footer---->
+				<div class="bottom-footer">
+					<div class="wrap"> 
+						<div class="bottom-footer-left">
+							<p><span>北京街巷科技有限公司</span></p>
+							<br />
+							<p><span>&#169; Copyright 2015 Kanjiebao</span></p>
+						</div>		  
+						<div class="clear"> </div>
+					</div>
+				</div>
+				<!----//End-bottom-footer---->
+ <!-- scroll_top_btn -->
+<script type="text/javascript" src="js/move-top.js"></script>
+<script type="text/javascript" src="js/easing.js"></script>
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+	$(".scroll").click(function(event){		
+		event.preventDefault();
+		$('html,body').animate({scrollTop:$(this.hash).offset().top},1200);
+	});
+});
+</script>
+
+ <a href="#" id="toTop" style="display: block;"><span id="toTopHover" style="opacity: 1;"></span></a>
+</body>
+</html>

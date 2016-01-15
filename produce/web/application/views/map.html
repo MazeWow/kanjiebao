@@ -1,0 +1,153 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=0.35, maximum-scale=0.35, user-scalable=0"/>
+<title>地图</title>
+<link rel="stylesheet" href="application/views/inc/css/bootstrap.min.css"/>
+<script src="application/views/inc/js/jquery-2.1.4.min.js"></script>
+<script src="application/views/inc/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="application/views/inc/css/head.css"/>
+<link rel="stylesheet" href="application/views/inc/css/map.css"/>
+<script src="application/views/inc/js/func.js"></script>
+<script src="application/views/inc/js/iscroll-zoom.js"></script>
+<script>
+function test()
+{
+    console.log(document.body.clientHeight);
+    console.log(document.body.offsetHeight);
+    console.log(document.body.scrollHeight);
+    console.log(document.body.scrollTop);
+    console.log(window.screenTop);
+    console.log(window.screen.height);
+    console.log(window.screen.availHeight);
+}
+
+function setHeight()
+{
+	
+    var hHeight = $(".head").css("height");
+    hHeight = hHeight.substring(0, hHeight.indexOf("px"));
+    $("#map").css("height", document.body.scrollHeight-hHeight+"px");
+	$("#floor").css("bottom",(document.body.scrollHeight-hHeight)/2+"px");
+}
+
+function getData()
+{
+    $.post("mapapi", {floor_id:floorId}, 
+    function(data)
+    {
+        var datas = "";
+        if (datas = checkData(data))
+        {
+            //console.log(datas);
+            $("#title").text(datas["mall_name"]+"室内地图"+datas["mall_floor_name"]);
+            $("#title").show();
+            $("#map").attr("src", datas["mall_floor_photo"][0]);
+        }
+    });
+    $("#blank").remove();
+}
+
+$(window).resize(function()
+{
+    //test();
+    setHeight();
+});
+
+$(document).ready(function()
+{
+
+
+    //test();
+    setHeight();
+    
+    mallId = getQuerystring("id");
+    mallId = mallId ? mallId : 1;
+    
+    var myScroll;
+    myScroll = new IScroll('#wrapper', {
+        zoom: true,
+        scrollX: true,
+        scrollY: true,
+        mouseWheel: true,
+        wheelAction: 'zoom',
+        zoomMax: 2
+    });
+    document.addEventListener('touchmove', function (e) { e.preventDefault(); }, false);
+    
+    floorId = "";
+    $.ajax(
+    {
+        type:"POST", 
+        url:"mallfloorapi", 
+        data:{mall_id:mallId}, 
+        async:false, 
+        success:function(data)
+        {
+            var datas = "";
+            if(datas = checkData(data))
+            {
+                for (var i in datas)
+                {
+                    if (1 < datas[i]["mall_floor_name"].length)
+                    {
+                        var floorNum = datas[i]["mall_floor_name"][1];
+                    }
+                    if ("F1" == datas[i]["mall_floor_name"])
+                    {
+                        floorId = datas[i]["mall_floor_id"];
+                    }
+                    switch (datas[i]["mall_floor_name"][0])
+                    {
+                        case "B":
+                            $("#floor").append('<button type="button" class="floor-icons" value="'+datas[i]["mall_floor_id"]+'" id="'+datas[i]["mall_floor_name"]+'"><img src="application/views/inc/img/B'+floorNum+'-B.png"/></button>');
+                            break;
+                        case "M":
+                            $("#floor").append('<button type="button" class="floor-icons" value="'+datas[i]["mall_floor_id"]+'" id="'+datas[i]["mall_floor_name"]+'"><img src="application/views/inc/img/M-B.png"/></button>');
+                            break;
+                        case "F":
+                            $("#floor").append('<button type="button" class="floor-icons'+(1==floorNum ? " floor-now" : "")+'" value="'+datas[i]["mall_floor_id"]+'" id="'+datas[i]["mall_floor_name"]+'"><img src="application/views/inc/img/F'+floorNum+'-'+(1==floorNum ? "Y" : "B")+'.png"/></button>');
+                            break;
+                    }
+                }
+                $(".floor-icons").click(function()
+                {
+                    var preFloorname = $(".floor-now").attr("id");
+                    var floorName = $(this).attr("id");
+                    if (preFloorname != floorName)
+                    {
+                        $("#"+preFloorname+" img").attr("src", "application/views/inc/img/"+preFloorname+"-B.png");
+                        $("#"+preFloorname).removeClass("floor-now");
+                        $("#"+floorName+" img").attr("src", "application/views/inc/img/"+floorName+"-Y.png");
+                        $("#"+floorName).addClass("floor-now");
+                        
+                        $("body").append('<div class="blank" id="blank"></div>');
+                        floorId = $(this).val();
+                        getData();
+                    }
+                });
+            }
+        }
+    });
+    getData();
+});
+</script>
+</head>
+<body>
+<div class="head">
+  <a class="pull-left icon-left-a" href="javascript:history.go(-1);"><img class="img-responsive icon-left" src="application/views/inc/img/back_arrow.png"/></a>
+  <a class="pull-right icon-right-a" href="user"><img class="img-responsive icon-right" src="application/views/inc/img/user.png"/></a>
+  <div class="center"><span class="title title-selected title-center dn" id="title"></span></div>
+</div>
+<div id="wrapper">
+  <div id="scroller" class="center">
+    <img id="map"/>
+  </div>
+</div>
+<div class="floor-container">
+  <div id="floor" class="floor"></div>
+</div>
+<br/>
+</body>
+</html>

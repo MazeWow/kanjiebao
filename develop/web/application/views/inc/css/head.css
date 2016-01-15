@@ -1,0 +1,89 @@
+﻿body {
+    background-color: #eee;
+}
+
+.head {
+    background-color: white;
+    height: 130px;
+    border-bottom: 1px solid #ccc !important;
+    padding: 40px 2% 0 2%;
+}
+
+.head * {
+    color: #f54a77;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.icon-left {
+    width: 100%;
+}
+
+.icon-right {
+    width: 100%;
+}
+
+.center {
+    text-align: center;
+}
+
+.head-fixed {
+    position: fixed;
+    top: 0;
+    z-index: 4;
+    width: 100%;
+}
+
+.head-blank {
+    display: none;
+    height: 130px;
+}
+
+.title {
+    padding: 0 24px 35px 24px;
+    border-bottom: 3px solid transparent !important;
+}
+
+.title-selected {
+    border-bottom-color: #f54a77 !important;
+}
+
+.title-center {
+    margin-left: -4%;
+}
+
+.title-left {
+    margin-left: -2%;
+}
+
+.title-right {
+    margin-right: 2%;
+}
+/*
+@font-face {
+ font-family: 'dhRegular';
+ src: url('../fonts/dh.eot');
+ src: local('dh Regular'),
+        local('dh'),
+        url('../fonts/dh.woff') format('woff'),
+        url('../fonts/dh.ttf') format('truetype'),
+        url('../fonts/dh.svg#dh') format('svg');
+}
+
+* {
+    font-family: "dh";
+}*/
+
+.dn {
+    display: none;
+}
+
+.icon-left-a {
+    height: 50px;
+    width: 80px;
+}
+
+.icon-right-a {
+    height :50px;
+    width: 45px;
+}

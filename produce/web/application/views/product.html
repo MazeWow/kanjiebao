@@ -1,0 +1,92 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=0.35, maximum-scale=0.35, user-scalable=0"/>
+<title>商品详情</title>
+<link rel="stylesheet" href="application/views/inc/css/bootstrap.min.css"/>
+<script src="application/views/inc/js/jquery-2.1.4.min.js"></script>
+<script src="application/views/inc/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="application/views/inc/css/head.css"/>
+<link rel="stylesheet" href="application/views/inc/css/product.css"/>
+<link rel="stylesheet" href="application/views/inc/css/carousel.css"/>
+<script src="application/views/inc/js/func.js"></script>
+<script src="application/views/inc/js/jquery.mobile.custom.min.js"></script>
+<script>
+function setHeight()
+{
+    var screenWidth = document.body.clientWidth;
+    var cHeight = screenWidth*1.377083333333333;
+    $("#inner").css("height", cHeight + "px");
+}
+
+function getData()
+{
+    $.post("productapi", {product_id:productId}, 
+    function(data)
+    {
+        var datas = "";
+        if (datas = checkData(data))
+        {
+            console.log(datas);
+            if (datas["product_photos"] && ""!=datas["product_photos"])
+            {
+                setCarousel(datas["product_photos"], false);
+            }
+            else
+            {
+                setCarousel(Array(datas["photo"]), false);
+            }
+            $("#carousel").append('<div class="product-detail">'+datas["name"]+'<br/>'+((datas["promote_price"] && ""!=datas["promote_price"]) ? "&yen;"+datas["promote_price"]+"&nbsp;&nbsp;<del>&yen;"+datas["price"]+"</del>" : "&yen;"+datas["price"])+'</div>');
+        }
+    });
+}
+
+$(document).ready(function()
+{
+    setHeight();
+    
+    productId = getQuerystring("product");
+    productId = productId ? productId : 14;
+    
+    getData();
+    
+    slideNow = 0;
+    slideTotal = 0;
+    $("#carousel").swipeleft(function()
+    {
+        if (slideNow < slideTotal-1)
+        {
+            $("#slide"+(slideNow+1)).click();
+        }
+        else
+        {
+            $("#slide0").click();
+        }
+    });
+    $("#carousel").swiperight(function()
+    {
+        if (0 < slideNow)
+        {
+            $("#slide"+(slideNow-1)).click();
+        }
+        else
+        {
+            $("#slide"+(slideTotal-1)).click();
+        }
+    });
+});
+</script>
+</head>
+<body>
+<div class="head">
+  <a class="pull-left icon-left-a" href="javascript:history.go(-1);"><img class="img-responsive icon-left" src="application/views/inc/img/back_arrow.png"/></a>
+  <a class="pull-right icon-right-a" href="user"><img class="img-responsive icon-right" src="application/views/inc/img/user.png"/></a>
+  <div class="center"><span class="title title-selected title-center">商品详情</span></div>
+</div>
+<div id="carousel" class="carousel slide">
+  <ol class="carousel-indicators" id="indicators"></ol>
+  <div class="carousel-inner" id="inner"></div>
+</div>
+</body>
+</html>

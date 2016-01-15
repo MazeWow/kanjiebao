@@ -1,0 +1,23 @@
+﻿.code {
+    position: absolute;
+    z-index: 1;
+    right: 7.5%;
+    width: 400px;
+    background-color: #f54a77;
+    cursor: pointer;
+    color: white;
+    height: 100px;
+    width: 40%;
+    border-radius: 0 10px 10px 0;
+    -webkit-border-radius: 0 10px 10px 0;
+    padding-top: 1.5%;
+    top: 0;
+}
+
+.errors {
+    top: 77%;
+}
+
+.verify-container {
+    position: relative;
+}

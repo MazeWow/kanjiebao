@@ -1,0 +1,17 @@
+﻿.carousel-indicators {
+    margin-bottom: 250px;
+}
+
+.product-detail {
+    position: absolute;
+    bottom: 0;
+    z-index: 1;
+    width: 100%;
+    color: white;
+    font-size: 45px;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.8);
+    filter: alpha(opacity = 80);
+    padding: 40px;
+    line-height: 90px;
+}

@@ -1,0 +1,159 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=0.35, maximum-scale=0.35, user-scalable=0"/>
+<title>商圈</title>
+<link rel="stylesheet" href="application/views/inc/css/bootstrap.min.css"/>
+<script src="application/views/inc/js/jquery-2.1.4.min.js"></script>
+<script src="application/views/inc/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="application/views/inc/css/head.css"/>
+<script src="application/views/inc/js/func.js"></script>
+<link rel="stylesheet" href="application/views/inc/css/act.css"/>
+<link rel="stylesheet" href="application/views/inc/css/districtlist.css"/>
+<link rel="stylesheet" href="application/views/inc/css/district.css"/>
+<script>
+function setHeight1()
+{
+    var screenWidth = document.body.clientWidth;
+    var adHeight = screenWidth*0.50625;
+    $("#districtImgContainer").css("height", adHeight + "px");
+    $("#act-header").show();
+}
+
+function setHeight2()
+{
+    var screenWidth = document.body.clientWidth;
+    var mallHeight = screenWidth*0.2319444444444444;
+    $(".district-mall-img").css("height", mallHeight + "px");
+    $("#mall-header").show();
+}
+
+function getData()
+{
+    $.post("eventlistapi", {page_now:pageNow, page_size:pageSize, district:districtId}, function(data)
+    {
+        var datas = "";
+        if (datas = checkData(data))
+        {
+            setData(datas);
+        }
+    });
+}
+
+$(document).ready(function()
+{
+    districtId = getQuerystring("district");
+    districtId = districtId ? districtId : 2;
+    
+    $.post("districtdetailapi", {district_id:districtId}, 
+    function(data)
+    {
+        var datas = "";
+        if (datas = checkData(data))
+        {
+            //console.log(datas);
+            $("#title").text(datas["name"]);
+            $("#title").show();
+            $("#districtImgContainer").append('<div class="area-name"><div class="area-name-detail">'+datas["name"]+'</div></div><img src="application/views/inc/img/loading_districtlist.jpg" class="img-responsive area-img" id="districtImg"/>');
+            setHeight1();
+            lazyImg(datas["photo"][0] ? datas["photo"][0] : "application/views/inc/img/1.jpg", "districtImg", "#districtImgContainer");
+        }
+    });
+    
+    $.post("malllistapi", {district_id:districtId}, 
+    function(data)
+    {
+        var datas = "";
+        if (datas = checkData(data))
+        {
+		    var num = datas.length;
+		    $("#districtMall").css("width", 45*num+"%");
+            for (var i in datas)
+            {
+                $("#districtMall").append('<div class="district-mall-container pull-left"><a href="mall?mall='+datas[i]["mall_id"]+'" class="district-mall-a"><img class="district-mall-img" id="district-mall-img-'+i+'"/><div class="district-mall-name">'+datas[i]["mall_name"]+'</div></a></div>');
+                lazyImg(datas[i]["mall_photo"][0] ? datas[i]["mall_photo"][0] : "application/views/inc/img/1.jpg", "district-mall-img-"+i, ".district-mall-img");
+            }
+            setHeight2();
+            var mg = 100/45/num*2;
+            $(".district-mall-container").css("margin", "0 "+mg+"%");
+			$(".district-mall-container").css("width", (100/num-mg*2)+"%");
+        }
+    });
+    pageNow = 1;
+    pageSize = 10;
+    pageMax = 0;
+    getData();
+    hOld = $(window).scrollTop();
+    time = new Date();
+    start = time.getTime();
+});
+
+$(window).scroll(function()
+{
+    var hNow = $(window).scrollTop();
+    if (hNow <= hOld)
+    {
+        if ("none" == $("#headBlank").css("display"))
+        {
+            $("#head").addClass("head-fixed");
+            $("#headBlank").show();
+        }
+    }
+    else
+    {
+        if ("block" == $("#headBlank").css("display"))
+        {
+            $("#head").removeClass("head-fixed");
+            $("#headBlank").hide();
+        }
+    }
+    hOld = hNow;
+    
+    if(pageMax && pageMax<=pageNow)
+    {
+        return false;
+    }
+　　if(isBottom(1000))
+    {
+        time = new Date();
+        var now = time.getTime();
+        if(500 > now-start)
+        {
+            start = now;
+            return false;
+        }
+        start = now;
+        ++pageNow;
+        getData();
+    }
+});
+</script>
+</head>
+<body >
+<div class="head" id="head">
+  <a class="pull-left icon-left-a" href="javascript:history.go(-1);"><img class="img-responsive icon-left" src="application/views/inc/img/back_arrow.png"/></a>
+  <a class="pull-right icon-right-a" href="user"><img class="img-responsive icon-right" src="application/views/inc/img/user.png"/></a>
+  <div class="center"><span class="title title-selected title-center dn" id="title"></span></div>
+</div>
+<div class="head-blank" id="headBlank"></div>
+<div id="districtImgContainer"  class="district-img-container"></div>
+<br/>
+<div class="mall-header dn" id="mall-header">
+  <img src="application/views/inc/img/mall.png" class="mall-header-img"/>
+  <span class="mall-header-text">商场</span>
+</div>
+<!--<div id="districtMall" class="clearfix">-->
+<div class="flow-container">
+  <div class="district-mall-containers">
+    <div id="districtMall" class="clearfix district-mall"></div>
+  </div>
+  <br/>
+</div>
+<br/>
+<div class="act-header dn" id="act-header">
+  <img src="application/views/inc/img/bag.png" class="mall-header-img"/>
+  <span class="act-header-text">精选活动</span>
+</div>
+</body>
+</html>

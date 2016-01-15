@@ -1,0 +1,147 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=0.35, maximum-scale=0.35, user-scalable=0"/>
+<title>店铺</title>
+<link rel="stylesheet" href="application/views/inc/css/bootstrap.min.css"/>
+<script src="application/views/inc/js/jquery-2.1.4.min.js"></script>
+<script src="application/views/inc/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="application/views/inc/css/head.css"/>
+<link rel="stylesheet" href="application/views/inc/css/store.css"/>
+<script src="application/views/inc/js/func.js"></script>
+<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=f980595559486bdd3480b919b24a2905"></script>
+<script>
+function setHeight()
+{
+    var screenWidth = document.body.clientWidth;
+    var sHeight = screenWidth*0.5860857343640197;
+    $("#storeImgContainer").css("height", sHeight + "px");
+    $(".store-distance").show();
+    $(".content").show();
+}
+
+$(document).ready(function()
+{
+    setHeight();
+    
+    storeId = getQuerystring("id");
+    storeId = storeId ? storeId : 1;
+    geoLo = cookieGet("geo");
+    setGeolocation();
+    var lng = "";
+    var lat = "";
+    if ("" != geoLo)
+    {
+        var geo_arr = geoLo.split(",");
+        lng = geo_arr[0];
+        lat = geo_arr[1];
+    }
+    mallId = "";
+    $.ajax(
+    {
+        type:"POST",
+        url:"storedetailapi",
+        data:{store_id:storeId, lng:lng, lat:lat},
+        async:false,
+        success:function(data)
+        {
+            var datas = $.parseJSON(data);
+			if (0 != datas["err_num"])
+			{
+				history.go(-1);
+			}
+			else
+			{
+				datas = datas["results"];
+				console.log(datas);
+                $("#title").text(datas["brand_name"]);
+                $("#title").show();
+                if (datas["store_photo"] && null!=datas["store_photo"])
+                {
+                    //$("#storeImg").attr("src", datas["store_photo"][0]);
+                    lazyImg(datas["store_photo"][0], "storeImg", "#storeImgContainer");
+                }
+                else
+                {
+                    history.go(-1);
+                    return false;
+                }
+                $("#storeLogo").attr("src", datas["brand_logo"]);
+                $("#storeName").text(datas["store_name"]);
+                for (var i in datas["store_category"])
+                {
+                    $("#category").append('<span class="category">'+datas["store_category"][i]+'</span>');
+                }
+                $("#address").append(datas["store_addr"]);
+                $("#phone").append(datas["store_phone"]);
+                $("#time").append(datas["store_opening_hours"]);
+                mallId = datas["mall_id"];
+            }
+        }
+    });
+    $.post("eventlistapi", {store_id:storeId}, 
+    function(data)
+    {
+        var obj = $.parseJSON(data);
+        console.log(obj);
+        if (0 != obj["err_num"])
+        {
+            $("#event").append('<a class="pull-right more-a" href="mall?mall='+mallId+'">查看商场其他活动<img src="application/views/inc/img/right_arrow.png" class="arrow-right"/></a><div>正在为您筹划中</div><br/><hr/>');
+        }
+        else
+        {
+            for (var i in obj)
+            {
+                $("#event").append('<a class="pull-right more-a" href="event?event='+obj[i]["event_id"]+'">点击查看详情<img src="application/views/inc/img/right_arrow.png" class="arrow-right"/></a><div>'+obj[i]["event_name"]+'</div><br/><hr/><br/>');
+            }
+        }
+    });
+});
+</script>
+</head>
+<body>
+<div class="head">
+  <a class="pull-left icon-left-a" href="javascript:history.go(-1);"><img class="img-responsive icon-left" src="application/views/inc/img/back_arrow.png"/></a>
+  <a class="pull-right icon-right-a" href="user"><img class="img-responsive icon-right" src="application/views/inc/img/user.png"/></a>
+  <div class="center"><span class="title title-selected title-center dn" id="title"></span></div>
+</div>
+<div class="store-img-container" id="storeImgContainer">
+  <img class="store-img" id="storeImg" src="application/views/inc/img/loading_store.jpg"/>
+  <img class="img-circle store-logo" id="storeLogo"/>
+</div>
+<div class="store-info center">
+  <br/>
+  <div id="storeName" class="store-name"></div>
+  <br/>
+  <div class="store-distance dn">
+    <img src="application/views/inc/img/pointer_new.png"/>
+    <span id="distance"></span>
+  </div>
+</div>
+<div class="content dn">
+  <hr/>
+  <br/>
+  <div id="category">
+    经营品类：
+  </div>
+  <div id="address">
+    商铺地址：
+  </div>
+  <div id="phone">
+    联系电话：
+  </div>
+  <div id="time">
+    营业时间：
+  </div>
+</div>
+<br/><br/>
+<div class="content dn">
+  <img src="application/views/inc/img/bag.png"/>
+  <span>商铺活动</span>
+  <br/><br/>
+  <div id="event" class="clearfix event"></div>
+  <br/>
+</div>
+</body>
+</html>

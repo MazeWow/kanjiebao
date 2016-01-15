@@ -1,0 +1,83 @@
+﻿.floor-container {
+    position: relative;
+    /*border: 1px solid gray;*/
+	
+}
+
+.floor {
+	border-radius: 50px;
+    background-color: gray;
+    position: absolute;
+    z-index: 1;
+	
+	 
+    bottom: 0px;
+    right: -150px;
+    padding: 0.5% 0;
+    transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -webkit-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+}
+
+.floor button {
+    border: 0;
+    background-color: transparent;
+}
+
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+html {
+    -ms-touch-action: none;
+}
+
+body,ul,li {
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
+body {
+    font-size: 12px;
+    font-family: ubuntu, helvetica, arial;
+    overflow: hidden;
+}
+
+#wrapper {
+    /*position: absolute;
+    z-index: 1;
+    top: 50px;
+    bottom: 50px;
+    left: 50px;
+    right: 50px;*/
+    background: #ccc;
+    overflow: hidden;
+    margin: 0 1%;
+}
+
+#scroller {
+    /*position: absolute;
+    z-index: 1;
+    width: 100%;*/
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-transform: translateZ(0);
+    -moz-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    -o-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-text-size-adjust: none;
+    -moz-text-size-adjust: none;
+    -ms-text-size-adjust: none;
+    -o-text-size-adjust: none;
+    text-size-adjust: none;
+}

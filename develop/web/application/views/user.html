@@ -1,0 +1,237 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=0.35, maximum-scale=0.35, user-scalable=0"/>
+<title>用户中心</title>
+<link rel="stylesheet" href="application/views/inc/css/bootstrap.min.css"/>
+<script src="application/views/inc/js/jquery-2.1.4.min.js"></script>
+<script src="application/views/inc/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="application/views/inc/css/head.css"/>
+<link rel="stylesheet" href="application/views/inc/css/act.css"/>
+<link rel="stylesheet" href="application/views/inc/css/user.css"/>
+<script src="application/views/inc/js/func.js"></script>
+<script>
+function setEventheight()
+{
+    var districtNum = $(".panel-group").length;
+    for (var l=1,m=0,n=1,num=0; m<districtNum; ++l)
+    {
+        if (undefined != $("#eventIds"+l).val())
+        {
+            var numNew = $("#eventIds"+l).val().split(",");
+            num += numNew.length-1;
+            for (; n<=num; ++n)
+            {
+                if (0!=$("#actImg"+n).height() && null!=$("#actImg"+n).height())
+                {
+                    eventHeight = $("#actImg"+n).height()+$("#detail"+n).height();
+                    $(".overdue").css("height", eventHeight);
+                    return;
+                }
+            }
+            ++m;
+        }
+    }
+}
+
+function changeArrow(i)
+{
+    $("#collapseContainer"+i).on("show.bs.collapse", function()
+    {
+        $("#arrowImage"+i).attr("src", "application/views/inc/img/up_arrow.png");
+    });
+    $("#collapseContainer"+i).on("hide.bs.collapse", function()
+    {
+        $("#arrowImage"+i).attr("src", "application/views/inc/img/down_arrow.png");
+    });
+    $("#collapseContainer"+i).on("shown.bs.collapse", function()
+    {
+        setEventheight();
+    });
+}
+
+function delCollection(event_id, i)
+{
+    if (!confirm("确定删除？"))
+    {
+        return false;
+    }
+    $.post("cancelcollectapi", {event_id: event_id}, 
+    function(data)
+    {
+        var obj = $.parseJSON(data);
+        if (0 != obj["err_num"])
+        {
+            if (8002 == obj["err_num"])
+            {
+                logOut();
+                return false;
+            }
+            console.log(obj["err_msg"]);
+        }
+        else
+        {
+            $("#actMall"+i).remove();
+            $("#store"+i).remove();
+            $("#detail"+i).remove();
+            $("#br"+i).remove();
+            $("#overdue"+i).remove();
+            var districtNum = $(".panel-group").length;
+            for (var l=1,m=0; m<districtNum; ++l)
+            {
+                if (undefined != $("#eventIds"+l).val())
+                {
+                    if (0 <= $("#eventIds"+l).val().indexOf(event_id))
+                    {
+                        if (1 < Number($("#"+$("#eventIds"+l).parent().attr("id")+" span").text()))
+                        {
+                            $("#"+$("#eventIds"+l).parent().attr("id")+" span").text(Number($("#"+$("#eventIds"+l).parent().attr("id")+" span").text())-1);
+                        }
+                        else
+                        {
+                            $("#accordion"+l).remove();
+                            if (2 > districtNum)
+                            {
+                                $("body").append('<!--<div class="none-label"></div>--><div class="center none"><div class="none-detail">给力活动很多，可是你还没有收藏</div><a class="btn btn-default to-collect" href="index">收藏好活动</a></div>');
+                            }
+                        }
+                        break;
+                    }
+                    ++m;
+                }
+            }
+            console.log("取消收藏成功");
+        }
+    });
+}
+
+function getData()
+{
+    $.post("userinfoapi", {}, 
+    function(data)
+    {
+        var datas = "";
+        if(datas = checkData(data))
+        {
+            $("#iconCenter").attr("src", ""!=datas["head"] ? datas["head"] : "application/views/inc/img/2.jpg");
+        }
+    });
+    
+    $.post("usereventapi", {}, 
+    function(data)
+    {
+        var obj = $.parseJSON(data);
+        if (0 != obj["err_num"])
+        {
+            if (8002 == obj["err_num"])
+            {
+                logOut();
+                return false;
+            }
+            console.log(obj["err_msg"]);
+            $("body").append('<!--<div class="none-label"></div>--><div class="center none"><div class="none-detail">给力活动很多，可是你还没有收藏</div><a class="btn btn-default to-collect" href="index">收藏好活动</a></div>');
+        }
+        else
+        {
+            var datas = obj["results"];
+            if(1 > datas.length)
+            {
+                console.log("没有数据");
+            }
+            else
+            {
+                console.log(datas);
+                var k = 0;
+                for (var i in datas)
+                {
+                    $("body").append('<div class="panel-group" id="accordion'+i+'"><div class="panel panel-default"><div class="panel-heading arrow"><a data-toggle="collapse" data-parent="#accordion'+i+'" href="#collapseContainer'+i+'"><div class="collection-district"><img class="img-responsive pull-left icon-content" src="application/views/inc/img/point_for_address.png"/><div class="collection-district-name">'+datas[i][0]["store_info"]["district_name"]+'</div><div class="pull-right collection-right" id="collectionNumber'+i+'"><input type="hidden" id="eventIds'+i+'"/><span class="collection-perdistrictnumber">'+datas[i].length+'</span><img src="application/views/inc/img/down_arrow.png" class="arrow-image" id="arrowImage'+i+'"/></div></div><div class="clearfix"></div></a></div><div id="collapseContainer'+i+'" class="panel-collapse collapse"><div class="panel-body" id="eventDetail'+i+'"></div></div></div></div>');
+                    changeArrow(i);
+                    for (var j in datas[i])
+                    {
+                        ++k;
+                        if (1 <= datas[i][j]["event_left_day"])
+                        {
+                            $("#eventDetail"+i).append('<div class="act-mall" id="actMall'+k+'"><a href="event?event='+datas[i][j]["event_id"]+'"><img class="img-responsive act-img" src="application/views/inc/img/loading.gif" id="actImg'+k+'"/></a></div>');
+                        }
+                        else
+                        {
+                            $("#eventDetail"+i).append('<div class="center overdue" id="overdue'+k+'">已过期</div><div class="act-mall act-mall-overdue" id="actMall'+k+'"><a href="event?event='+datas[i][j]["event_id"]+'"><img class="img-responsive act-img" src="application/views/inc/img/loading.gif" id="actImg'+k+'"/></a></div>');
+                        }
+                        lazyImg(datas[i][j]["event_photo"][0] ? datas[i][j]["event_photo"][0] : "application/views/inc/img/1.jpg", "actImg"+k, "");
+                        $("#eventDetail"+i).append('<div class="store" id="store'+k+'"><img class="img-responsive store-image" src="'+datas[i][j]["store_info"]["brand_logo"]+'"/><img class="img-responsive logo-frame" src="application/views/inc/img/logo_frame.png"/></div>');
+                        var left_day = "";
+                        if (1 < datas[i][j]["event_left_day"])
+                        {
+                            left_day = "剩余"+datas[i][j]["event_left_day"]+"天";
+                        }
+                        else if (1 == datas[i][j]["event_left_day"])
+                        {
+                            left_day = "最后一天";
+                        }
+                        else
+                        {
+                            left_day = "已过期";
+                        }
+                        (1 > datas[i][j]["event_left_day"] ? ('剩余'+datas[i][j]["event_left_day"]+'天') : '最后一天')
+                        $("#eventDetail"+i).append('<div class="detail" id="detail'+k+'"><div class="content"><div class="act-name" title="'+datas[i][j]["event_name"]+'">'+datas[i][j]["event_name"]+'</div><div class="end-time">'+left_day+'</div><div class="store-name">'+datas[i][j]["store_info"]["store_name"]+'</div></div><button type="button" class="pull-right collection" id="collection'+k+'" onclick="delCollection('+datas[i][j]["event_id"]+', '+k+');"><img class="img-responsive collection-image" src="application/views/inc/img/bin.png" id="collectImg'+k+'"/></button><div class="clearfix"></div></div><br id="br'+k+'"/>');
+                        $("#eventIds"+i).val($("#eventIds"+i).val()+datas[i][j]["event_id"]+",");
+                    }
+                }
+            }
+        }
+    });
+}
+
+$(document).ready(function()
+{
+    if (!isLogined())
+    {
+        window.location.href = "login";
+        return false;
+    }
+    getData();
+    
+    eventHeight = 0;
+});
+
+$(window).resize(function()
+{
+    setEventheight();
+});
+</script>
+</head>
+<body>
+<div class="head">
+  <a class="pull-left icon-left-a" href="javascript:history.go(-1);"><img class="img-responsive icon-left" src="application/views/inc/img/back_arrow.png"/></a>
+  <a class="pull-right icon-right-a" href="setting"><img class="img-responsive icon-right" src="application/views/inc/img/set.png"/></a>
+  <div class="center"><span class="title title-selected title-center">我的收藏</span></div>
+</div>
+<br/>
+<!--<div class="none-label"></div>
+<div class="center none">
+  <div class="none-detail">给力活动很多，可是你还没有收藏</div>
+  <button class="to-collect">收藏好活动</button>
+</div>-->
+<!--<div class="panel-group" id="accordion">
+  <div class="panel panel-default">
+    <div class="panel-heading arrow" id="arrow">
+      <a data-toggle="collapse" data-parent="#accordion" href="#collapseContainer">
+        <div class="collection-district">
+          <img class="img-responsive pull-left icon-content" src="application/views/inc/img/point_for_address.png"/>
+          <div class="collection-district-name">中关村</div>
+          <div class="pull-right collection-right">
+            <span class="collection-number">3</span>
+            <img src="application/views/inc/img/down_arrow.png" class="arrow-image" id="arrowImage"/>
+          </div>
+        </div>
+        <div class="clearfix"></div>
+      </a>
+    </div>
+    <div id="collapseContainer" class="panel-collapse collapse">
+      <div class="panel-body" id="eventDetail"></div>
+    </div>
+  </div>
+</div>-->
+</body>
+</html>

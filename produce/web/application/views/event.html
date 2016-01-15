@@ -1,0 +1,318 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=0.35, maximum-scale=0.35, user-scalable=0"/>
+<title>活动</title>
+<link rel="stylesheet" href="application/views/inc/css/bootstrap.min.css"/>
+<script src="application/views/inc/js/jquery-2.1.4.min.js"></script>
+<script src="application/views/inc/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="application/views/inc/css/head.css"/>
+<link rel="stylesheet" href="application/views/inc/css/event.css"/>
+<script src="application/views/inc/js/func.js"></script>
+<link rel="stylesheet" href="application/views/inc/css/carousel.css"/>
+<script src="application/views/inc/js/jquery.mobile.custom.min.js"></script>
+<script>
+function setHeight()
+{
+    var screenWidth = document.body.clientWidth;
+    var cHeight = screenWidth*0.5166666666666667;
+    $(".item").css("height", cHeight + "px");
+    $("#accordion1").show();
+    $("#accordion2").show();
+    $("#goodTitle").show();
+}
+
+function detailCollect(event_id)
+{
+    if (!isLogined())
+    {
+        window.location.href="login";
+        return false;
+    }
+    if (isCollected(event_id))
+    {
+        $.post("cancelcollectapi", {event_id: event_id}, 
+        function(data)
+        {
+            var obj = $.parseJSON(data);
+            if (0 != obj["err_num"])
+            {
+                if (8002 == obj["err_num"])
+                {
+                    logOut();
+                    return false;
+                }
+                console.log(obj["err_msg"]);
+            }
+            else
+            {
+                $("#collectionImg").attr("src", "application/views/inc/img/heart_detail.png");
+                console.log("取消收藏成功");
+            }
+        });
+    }
+    else
+    {
+        $.post("collectapi", {event_id: event_id}, 
+        function(data)
+        {
+            var obj = $.parseJSON(data);
+            if (0 != obj["err_num"])
+            {
+                if (8002 == obj["err_num"])
+                {
+                    logOut();
+                    return false;
+                }
+                console.log(obj["err_msg"]);
+            }
+            else
+            {
+                $("#collectionImg").attr("src", "application/views/inc/img/heart_detail_collected.png");
+                console.log("收藏成功");
+            }
+        });
+    }
+}
+
+function getData()
+{
+    $.post("eventdetailapi", {event_id:eventId}, 
+    function(data)
+    {
+        var datas = "";
+        if(datas = checkData(data))
+        {
+            $("#title").text(datas["store_info"]["store_name"]+"-活动");
+            $("#title").show();
+            setCarousel(datas["event_photo"], false);
+            setHeight();
+            $("#storeImage").attr("src", datas["store_info"]["brand_logo"]);
+            $("#storeName").text(datas["store_info"]["store_name"]);
+            for (var i in datas["store_info"]["category"])
+            {
+                $("#storeTypes").append('<span class="store-label">'+datas["store_info"]["category"][i]+'</span>');
+            }
+            $("#storeAddress").text(datas["store_info"]["district_name"]+"-"+datas["store_info"]["mall_name"]+(datas["store_info"]["floor_name"] ? "-"+datas["store_info"]["floor_name"] : "")+"-"+datas["store_info"]["store_name"]);
+            $("#actName").text(datas["event_name"]);
+            $("#actInfo").html(datas["event_describe"]);
+            $("#actTime").text(datas["event_stime"]+"至"+datas["event_etime"]);
+            if (datas["product"] && 0!=datas["product"].length)
+            {
+                for (var i in datas["product"])
+                {
+                    var j = Number(i)+1;
+                    if (0 == i%2)
+                    {
+                        $("#goodImgs").append('<a href="product?product='+datas["product"][i]["id"]+'"><div class="pull-left good-imgs good-img-left"><img class="good-img" id="goodImg'+j+'" src="application/views/inc/img/loading.gif"/><div class="good-price">'+((datas["product"][i]["promote_price"] && ""!=datas["product"][i]["promote_price"]) ? "&yen;"+datas["product"][i]["promote_price"]+"&nbsp;&nbsp;<del>&yen;"+datas["product"][i]["price"]+"</del>" : "&yen;"+datas["product"][i]["price"])+'</div></div></a>');
+                    }
+                    else
+                    {
+                        $("#goodImgs").append('<a href="product?product='+datas["product"][i]["id"]+'"><div class="pull-right good-imgs good-img-right"><img class="good-img" id="goodImg'+j+'" src="application/views/inc/img/loading.gif"/><div class="good-price">'+((datas["product"][i]["promote_price"] && ""!=datas["product"][i]["promote_price"]) ? "&yen;"+datas["product"][i]["promote_price"]+"&nbsp;&nbsp;<del>&yen;"+datas["product"][i]["price"]+"</del>" : "&yen;"+datas["product"][i]["price"])+'</div></div></a><div class="clearfix"></div><br/>');
+                    }
+                    lazyImg(datas["product"][i]["photo"], "goodImg"+j, "");
+                }
+            }
+            if (isLogined() && isCollected(eventId))
+            {
+                $("#collectionImg").attr("src", "application/views/inc/img/heart_detail_collected.png");
+            }
+            /*if (is_weixn())
+            {
+                $("#modalBody").html('<div>测试<a>微信</a><a>微博</a><a>QQ</a></div>');
+            }
+            else
+            {*/
+                var url = window.location.href.replace("=","%3D");
+                var title = datas["store_info"]["store_name"]+"-活动";
+                var pic = datas["event_photo"][0];
+                $("#modalBody").append('<div class="center"><a target="_blank" href="http://v.t.sina.com.cn/share/share.php?url='+url+'&title='+title+'&pic='+pic+'"><img src="application/views/inc/img/weibo.png" class="share-img"/></a><a target="_blank" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url='+url+'&title='+title+'&pics='+pic+'"><img src="application/views/inc/img/qq.png" class="share-img"/></a></div>');
+            //}
+        }
+    });
+}
+
+/*function is_weixn()
+{  
+    var ua = navigator.userAgent.toLowerCase();  
+    if(ua.match(/MicroMessenger/i)=="micromessenger")
+    {  
+        return true;  
+    }
+    else
+    {  
+        return false;  
+    }  
+}*/
+
+$(document).ready(function()
+{
+    eventId = getQuerystring("event");
+    eventId = eventId ? eventId : 14;
+    slideNow = 0;
+    slideTotal = 0;
+    getData();
+    $("#updown1").click(function()
+    {
+        if("application/views/inc/img/up_arrow.png" == $("#arrowImage1").attr("src"))
+        {
+            $("#arrowImage1").attr("src", "application/views/inc/img/down_arrow.png");
+        }
+        else
+        {
+            $("#arrowImage1").attr("src", "application/views/inc/img/up_arrow.png");
+        }
+    });
+    $("#updown2").click(function()
+    {
+        if("application/views/inc/img/up_arrow.png" == $("#arrowImage2").attr("src"))
+        {
+            $("#arrowImage2").attr("src", "application/views/inc/img/down_arrow.png");
+        }
+        else
+        {
+            $("#arrowImage2").attr("src", "application/views/inc/img/up_arrow.png");
+        }
+    });
+    $("#carousel").swipeleft(function()
+    {
+        if (slideNow < slideTotal-1)
+        {
+            $("#slide"+(slideNow+1)).click();
+        }
+        else
+        {
+            $("#slide0").click();
+        }
+    });
+    $("#carousel").swiperight(function()
+    {
+        if (0 < slideNow)
+        {
+            $("#slide"+(slideNow-1)).click();
+        }
+        else
+        {
+            $("#slide"+(slideTotal-1)).click();
+        }
+    });
+    $("#collection").click(function()
+    {
+        detailCollect(eventId);
+    });
+});
+</script>
+</head>
+<body>
+<div class="head">
+  <a class="pull-left icon-left-a" href="javascript:history.go(-1);"><img class="img-responsive icon-left" src="application/views/inc/img/back_arrow.png"/></a>
+  <a class="pull-right icon-right-a" href="user"><img class="img-responsive icon-right" src="application/views/inc/img/user.png"/></a>
+  <div class="center"><span class="title title-selected title-center dn" id="title"></span></div>
+</div>
+<br/>
+<div id="carousel" class="carousel slide">
+  <ol class="carousel-indicators" id="indicators"></ol>
+  <div class="carousel-inner" id="inner"></div>
+</div>
+<br/>
+<div class="panel-group dn" id="accordion1">
+  <div class="panel panel-default">
+    <div class="panel-heading clearfix arrow1">
+      <a data-toggle="collapse" data-parent="#accordion1" href="#collapseContainer1" id="updown1">
+        <div class="store">
+          <img class="img-responsive store-image" id="storeImage"/>
+          <img class="img-responsive logo-frame" src="application/views/inc/img/logo_frame.png"/>
+        </div>
+        <div class="store-name" id="storeName"></div>
+        <img src="application/views/inc/img/up_arrow.png" class="img-responsive pull-right arrow-image1" id="arrowImage1"/>
+      </a>
+    </div>
+    <div id="collapseContainer1" class="panel-collapse collapse in">
+      <div class="panel-body">
+        <div class="store-info">
+          <div class="store-type clearfix">
+            经营品类：<span id="storeTypes"></span>
+            <img class="img-responsive pull-right icons1 category" src="application/views/inc/img/category.png"/>
+          </div>
+          <div class="store-address clearfix">
+            商铺地址：<span id="storeAddress"></span>
+            <img class="img-responsive pull-right icons1 point" src="application/views/inc/img/point_for_address.png"/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="panel-group dn" id="accordion2">
+  <div class="panel panel-default">
+    <div class="panel-heading clearfix arrow2">
+      <a data-toggle="collapse" data-parent="#accordion2" href="#collapseContainer2" id="updown2">
+        <div class="act-name">
+          活动：
+          <span id="actName"></span>
+          <img src="application/views/inc/img/up_arrow.png" class="img-responsive pull-right arrow-image2" id="arrowImage2"/>
+        </div>
+      </a>
+    </div>
+    <div id="collapseContainer2" class="panel-collapse collapse in">
+      <div class="panel-body">
+        <div class="act">
+          <div class="act-info">
+            <div class="act-info1">
+              <img class="img-responsive pull-left icons2" src="application/views/inc/img/detail.png"/>
+              <div class="act-info" id="actInfo"></div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="act-info2">
+              <img class="img-responsive pull-left icons2" src="application/views/inc/img/calendar.png"/>
+              <div id="actTime"></div>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="center good-title dn" id="goodTitle">精选活动商品</div>
+<br/>
+<div id="goodImgs" class="goods"></div>
+<div class="collection-share">
+  <button class="collection" id="collection">
+    <img class="img-circle collection-img" id="collectionImg" src="application/views/inc/img/heart_detail.png"/>
+  </button>
+  <button class="share" data-toggle="modal" data-target="#shareModal" data-backdrop="static">
+    <img class="img-circle share-img" src="application/views/inc/img/share_button.png"/>
+  </button>
+</div>
+<div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="shareModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!--<div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <div class="modal-title" id="shareModalLabel">分享到</div>
+      </div>-->
+      <div class="modal-body" id="modalBody">
+        <!-- JiaThis Button BEGIN -->
+<!--<div class="jiathis_style_32x32">
+	<a class="jiathis_button_qzone"></a>
+	<a class="jiathis_button_tsina"></a>
+	<a class="jiathis_button_tqq"></a>
+	<a class="jiathis_button_weixin"></a>
+	<a class="jiathis_button_renren"></a>
+	<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	<a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>-->
+<!-- JiaThis Button END -->
+      </div>
+      <br/>
+      <div class="modal-footer">
+        <button class="btn btn-default btn-lg btn-close" data-dismiss="modal">关闭</button>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

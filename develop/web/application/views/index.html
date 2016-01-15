@@ -1,0 +1,100 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=0.35, maximum-scale=0.35, user-scalable=0"/>
+<title>享优惠看街报</title>
+<link rel="stylesheet" href="application/views/inc/css/bootstrap.min.css"/>
+<script src="application/views/inc/js/jquery-2.1.4.min.js"></script>
+<script src="application/views/inc/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="application/views/inc/css/head.css"/>
+<link rel="stylesheet" href="application/views/inc/css/index.css"/>
+<script src="application/views/inc/js/func.js"></script>
+<link rel="stylesheet" href="application/views/inc/css/act.css"/>
+<script>
+function getData()
+{
+    $.post("eventlistapi", {page_now:pageNow, page_size:pageSize}, 
+    function(data)
+    {
+        var datas = "";
+        if(datas = checkData(data))
+        {
+            setData(datas, Array(true));
+        }
+    });
+}
+
+$(document).ready(function()    
+{
+    var category = cookieGet("category");
+    var style = cookieGet("style");
+    var skip = cookieGet("skip");
+   /* if (""==skip && ""==category && ""==style)
+    {
+        window.location.href = "diy";
+        return false;
+    }*/
+    
+    pageNow = 1;
+    pageSize = 10;
+    pageMax = 0;
+    getData();
+    hOld = $(window).scrollTop();
+    time = new Date();
+    start = time.getTime();
+});
+
+$(window).scroll(function()
+{
+    var hNow = $(window).scrollTop();
+    if (hNow <= hOld)
+    {
+        if ("none" == $("#headBlank").css("display"))
+        {
+            $("#head").addClass("head-fixed");
+            $("#headBlank").show();
+        }
+    }
+    else
+    {
+        if ("block" == $("#headBlank").css("display"))
+        {
+            $("#head").removeClass("head-fixed");
+            $("#headBlank").hide();
+        }
+    }
+    hOld = hNow;
+    
+    if (pageMax && pageMax<=pageNow)
+    {
+        return false;
+    }
+　　if (isBottom(1000))
+    {
+        time = new Date();
+        var now = time.getTime();
+        if (500 > now-start)
+        {
+            start = now;
+            return false;
+        }
+        start = now;
+　　　　++pageNow;
+        getData();
+    }
+});
+</script>
+</head>
+<body>
+<div class="head" id="head">
+  <a class="pull-left icon-left-a" href="index"><img class="img-responsive icon-left" src="application/views/inc/img/logo.png"/></a>
+  <a class="pull-right icon-right-a" href="user"><img class="img-responsive icon-right" src="application/views/inc/img/user.png"/></a>
+  <div class="center"><a href="index" class="title title-selected title-left"><span>活动</span></a>&nbsp;&nbsp;&nbsp;<a href="districtlist" class="title"><span>商圈</span></a></div>
+</div>
+<div class="head-blank" id="headBlank"></div>
+<br/>
+<!--<div class="center diy-container"><a class="diy" href="diy">DIY你的街报</a></div>-->
+<br/>
+</body>
+</html>

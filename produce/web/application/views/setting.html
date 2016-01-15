@@ -1,0 +1,138 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=0.35, maximum-scale=0.35, user-scalable=0"/>
+<title>设置</title>
+<link rel="stylesheet" href="application/views/inc/css/bootstrap.min.css"/>
+<script src="application/views/inc/js/jquery-2.1.4.min.js"></script>
+<script src="application/views/inc/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="application/views/inc/css/head.css"/>
+<link rel="stylesheet" href="application/views/inc/css/input.css"/>
+<link rel="stylesheet" href="application/views/inc/css/setting.css"/>
+<script src="application/views/inc/js/func.js"></script>
+<script>
+$(document).ready(function()
+{
+    if (!isLogined())
+    {
+        window.location.href = "login";
+        return false;
+    }
+    
+    $("#updown1").click(function()
+    {
+        $("#updownimg2").attr("src", "application/views/inc/img/down_arrow.png");
+        if ("application/views/inc/img/down_arrow.png" == $("#updownimg1").attr("src"))
+        {
+            $("#updownimg1").attr("src", "application/views/inc/img/up_arrow.png");
+        }
+        else
+        {
+            $("#updownimg1").attr("src", "application/views/inc/img/down_arrow.png");
+        }
+    });
+    
+    $("#updown2").click(function()
+    {
+        $("#updownimg1").attr("src", "application/views/inc/img/down_arrow.png");
+        if ("application/views/inc/img/down_arrow.png" == $("#updownimg2").attr("src"))
+        {
+            $("#updownimg2").attr("src", "application/views/inc/img/up_arrow.png");
+        }
+        else
+        {
+            $("#updownimg2").attr("src", "application/views/inc/img/down_arrow.png");
+        }
+    });
+    
+    $("#sub").click(function()
+    {
+        $.post("tucaoapi", {user_tucao: $("#tucaoInput").val()}, 
+        function(data)
+        {
+            var obj = $.parseJSON(data);
+            if (0 != obj["err_num"])
+            {
+                console.log(obj["err_msg"]);
+                if (8002 == obj["err_num"])
+                {
+                    logOut();
+                }
+                return false;
+            }
+        });
+    });
+    
+    $("#logout").click(function()
+    {
+        logOut();
+    });
+});
+</script>
+</head>
+<body>
+<div class="head">
+  <a class="pull-left icon-left-a" href="javascript:history.go(-1);"><img class="img-responsive icon-left" src="application/views/inc/img/back_arrow.png"/></a>
+  <a class="pull-right icon-right-a" href="user"><img class="img-responsive icon-right" src="application/views/inc/img/user.png"/></a>
+  <div class="center"><span class="title title-selected title-center">设置</span></div>
+</div>
+<br/><br/>
+<div class="panel-group">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <a href="changepass">
+        <div>
+          修改密码
+          <img class="pull-right arrow-right" src="application/views/inc/img/right_arrow.png"/>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+<div class="clearfix"></div>
+<br/>
+<div class="panel-group" id="accordion">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <a data-toggle="collapse" data-parent="#accordion" href="#collapse1" id="updown1">
+        <div class="clearfix">
+          意见反馈（吐槽专栏）
+          <img class="pull-right arrow-updown" src="application/views/inc/img/down_arrow.png" id="updownimg1"/>
+        </div>
+      </a>
+    </div>
+    <div id="collapse1" class="panel-collapse collapse"><!-- in -->
+      <div class="panel-body center">
+        <form class="tucao">
+          <textarea class="tucao-input" id="tucaoInput"></textarea>
+          <br/>
+          <button type="button" id="sub" class="btn btn-default sub-btn">提交</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <br/><br/>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <a data-toggle="collapse" data-parent="#accordion" href="#collapse2" id="updown2">
+        <div>
+          关于街报
+          <img class="pull-right arrow-updown" src="application/views/inc/img/down_arrow.png" id="updownimg2"/>
+        </div>
+        <div class="clearfix"></div>
+      </a>
+    </div>
+    <div id="collapse2" class="panel-collapse collapse">
+      <div class="panel-body">
+        关于信息……
+      </div>
+    </div>
+  </div>
+</div>
+<br/><br/><br/><br/>
+<div class="center content">
+  <button type="button" class="btn" id="logout">退出登录</button>
+</div>
+</body>
+</html>

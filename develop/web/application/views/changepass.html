@@ -1,0 +1,179 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=0.35, maximum-scale=0.35, user-scalable=0"/>
+<title>修改密码</title>
+<link rel="stylesheet" href="application/views/inc/css/bootstrap.min.css"/>
+<script src="application/views/inc/js/jquery-2.1.4.min.js"></script>
+<script src="application/views/inc/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="application/views/inc/css/head.css"/>
+<link rel="stylesheet" href="application/views/inc/css/input.css"/>
+<link rel="stylesheet" href="application/views/inc/css/errors.css"/>
+<link rel="stylesheet" href="application/views/inc/css/changepass.css"/>
+<script src="application/views/inc/js/func.js"></script>
+<script src="application/views/inc/js/jQuery.md5.js"></script>
+<script>
+function preCheck(mark)
+{
+    switch (mark)
+    {
+        case "passwd":
+            if (null == $("#"+mark).val().match(/^(\w){6,20}$/))
+            {
+                $("#passError").show();
+                passFlag[0] = false;
+            }
+            else
+            {
+                $("#passError").hide();
+                passFlag[0] = true;
+            }
+        case "repasswd":
+            if ($("#repasswd").val() != $("#passwd").val())
+            {
+                if("" != $("#repasswd").val())
+                {
+                    $("#repassError").show();
+                }
+                passFlag[1] = false;
+            }
+            else
+            {
+                $("#repassError").hide();
+                passFlag[1] = true;
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+function checkForm()
+{
+    for (var i in passFlag)
+    {
+        if(false == passFlag[i])
+        {
+            switch (i)
+            {
+                case "0":
+                    $("#passError").show();
+                    $("#passwd").focus();
+                    return false;
+                    break;
+                case "1":
+                    $("#repassError").show();
+                    $("#repasswd").focus();
+                    return false;
+                    break;
+                default:
+                    return false;
+                    break;
+            }
+        }
+    }
+    $("#sub").attr("disabled", "true");
+    var changeFlag = false;
+    $.ajax(
+    {
+        type:"POST",
+        url:"changepassapi",
+        data:{new_pwd:$.md5($("#passwd").val()), new_pwd_re:$.md5($("#repasswd").val())},
+        async:false,
+        success:function(data)
+        {
+            var obj = $.parseJSON(data);
+            if (0 == obj["err_num"])
+            {
+                changeFlag = true;
+            }
+            else
+            {
+                if (8002 == obj["err_num"])
+                {
+                    logOut();
+                    return false;
+                }
+                $("#sub").removeAttr("disabled");
+                changeFlag = false;
+                console.log(obj["err_msg"]);
+            }
+        }
+    });
+    if (changeFlag)
+    {
+        $.post("logoutapi", {}, 
+        function(data)
+        {
+            var obj = $.parseJSON(data);
+            if (0 != obj["err_num"])
+            {
+                if (8002 == obj["err_num"])
+                {
+                    logOut();
+                    return false;
+                }
+                console.log(obj["err_msg"]);
+            }
+            else
+            {
+                $("#success").show();
+                var jump = setTimeout('window.location.href = "login";', 3000);
+            }
+        });
+    }
+}
+
+$(document).ready(function()
+{
+    if (!isLogined())
+    {
+        window.location.href = "resetpass";
+        return false;
+    }
+    
+    passFlag = Array(false, false);
+    
+    $("#form input").blur(function()
+    {
+        preCheck($(this).attr("id"));
+    });
+    
+    $("#sub").click(function()
+    {
+        checkForm();
+    });
+    
+    $("#form input").keydown(function(event)
+    {
+        var e = event || window.event || arguments.callee.caller.arguments[0];
+        if (e && 13==e.keyCode)
+        {
+            $(this).blur();
+            $("#sub").click();
+        }
+    });
+});
+</script>
+</head>
+<body>
+<div class="head">
+  <a class="pull-left icon-left-a" href="javascript:history.go(-1);"><img class="img-responsive icon-left" src="application/views/inc/img/back_arrow.png"/></a>
+  <a class="pull-right icon-right-a" href="user"><img class="img-responsive icon-right" src="application/views/inc/img/user.png"/></a>
+  <div class="center"><span class="title title-selected title-center">修改密码</span></div>
+</div>
+<br/><br/><br/><br/>
+<div class="center content">
+  <form id="form">
+    <input type="password" id="passwd" placeholder="新密码设置" class="txt" maxlength="20"><br/><br/>
+    <input type="password" id="repasswd" placeholder="新密码确认" class="txt" maxlength="20"><br/><br/>
+  </form>
+  <div class="errors repass-error" id="repassError">确认密码不一致</div>
+  <div class="errors pass-error" id="passError">6-20位字母数字下划线</div>
+  <div class="errors" id="success">修改密码成功</div>
+  <br/>
+  <button type="button" class='btn' id="sub">确定</button>
+</div>
+</body>
+</html>

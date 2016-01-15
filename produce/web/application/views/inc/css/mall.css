@@ -1,0 +1,157 @@
+﻿.carousel-indicators {
+    margin-bottom: 120px;
+}
+
+.floor {
+    position: absolute;
+    bottom: -20px;
+    width: 100%;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.5);
+    filter: alpha(opacity = 50);
+    padding: 10px 0 10px 0;
+    margin-bottom: 20px;
+}
+
+.floor-icons {
+    background-color: transparent;
+    border: 0;
+}
+
+.floor img{
+    width: 100%;
+    margin: 0 5px 0 5px;
+}
+
+.blank {
+    height: 1600px;
+}
+
+.mall-stores-container {
+    background-color: white;
+    padding: 0 1%;
+    font-size: 30px;
+}
+
+.stores img{
+	border: 1px solid #999;
+}
+
+.mall-stores-title{
+	font-size: 40px;
+	vertical-align: bottom;
+}
+
+.privilege-container {
+    background-color: white;
+    padding: 0 1%;
+    font-size: 30px;
+}
+
+.privilege-title{
+	font-size: 40px;
+	vertical-align: bottom;
+}
+
+.mall-store {
+    /*margin: 0 2%;*/
+    /*width: 16%;*/
+}
+
+.mall-store-img {
+    width: 100%;
+}
+
+.mall-stores-flow {
+    width: 100%;
+}
+
+.mall-stores-flow ::-webkit-scrollbar {
+    background-color: rgba(255,255,255,0);
+}
+
+.mall-stores-flow ::-webkit-scrollbar-track {
+    background-color: rgba(255,255,255,0);
+}
+
+.mall-stores-flow ::-webkit-scrollbar-thumb {
+    background-color: rgba(255,255,255,0);
+}
+
+.mall-stores-flow ::-webkit-scrollbar-button {
+    background-color: rgba(255,255,255,0);
+}
+
+.mall-stores-flow ::-webkit-scrollbar-corner {
+    background-color: rgba(255,255,255,0);
+}
+
+.mall-stores-flow ::-webkit-scrollbar-track-piece {
+    background-color: rgba(255,255,255,0);
+}
+
+.mall-stores-flow ::-webkit-resizer {
+    background-color: rgba(255,255,255,0);
+}
+
+.flow-container {
+    overflow-x: scroll;
+    scrollbar-face-color: rgba(255,255,255,0);
+    scrollbar-highlight-color: rgba(255,255,255,0);
+    scrollbar-shadow-color: rgba(255,255,255,0);
+    scrollbar-3dlight-color: rgba(255,255,255,0);    
+    scrollbar-arrow-color: rgba(255,255,255,0);
+    scrollbar-track-color: rgba(255,255,255,0);
+    scrollbar-darkshadow-color: rgba(255,255,255,0);
+    scrollbar-base-color: rgba(255,255,255,0);
+}
+
+.map-container {
+    background-color: white;
+    font-size: 40px;
+    padding: 3% 0;
+    color: gray;
+}
+
+.mall-store-a {
+    display: inline-block;
+    width: 100%;
+}
+
+.mall-store-name {
+    overflow: hidden;
+    word-break: keep-all;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    visibility: hidden;
+}
+
+.map-container a {
+    color: black;
+    text-decoration: none;
+}
+
+.map-container a :link {
+    color: black;
+    text-decoration: none;
+}
+
+.map-container a :visited {
+    color: black;
+    text-decoration: none;
+}
+
+.map-container a :hover {
+    color: black;
+    text-decoration: none;
+}
+
+.map-container a :active {
+    color: black;
+    text-decoration: none;
+}
+
+.map-container a :focus {
+    color: black;
+    text-decoration: none;
+}

@@ -1,0 +1,246 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=0.35, maximum-scale=0.35, user-scalable=0"/>
+<title>DIY</title>
+<link rel="stylesheet" href="application/views/inc/css/bootstrap.min.css"/>
+<script src="application/views/inc/js/jquery-2.1.4.min.js"></script>
+<script src="application/views/inc/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="application/views/inc/css/head.css"/>
+<link rel="stylesheet" href="application/views/inc/css/diy.css"/>
+<script src="application/views/inc/js/func.js"></script>
+<script>
+function getStyle(obj, attr)
+{
+    var ie = !+"\v1";
+    if (attr=="backgroundPosition")
+    {
+        if(ie)
+        {        
+            return obj.currentStyle.backgroundPositionX +" "+obj.currentStyle.backgroundPositionY;
+        }
+    }
+    if (obj.currentStyle)
+    {
+        return obj.currentStyle[attr];
+    }
+    else
+    {
+        return document.defaultView.getComputedStyle(obj,null)[attr];
+    }
+}
+
+function setLong()
+{
+    var margin1 = getStyle($(".category3")[0], "marginLeft");
+    margin1 = margin1.substr(0, margin1.length-2);
+    margin1 -= $(".category-long").width()/4;
+    $(".category-long").css("margin-left", margin1+"px");
+    
+    var margin2 = getStyle($(".category0")[0], "marginLeft");
+    margin2 = margin2.substr(0, margin2.length-2);
+    margin2 -= $(".category-long").width()/4;
+    $(".category-long-next").css("margin-left", margin2+"px");
+}
+
+function getData()
+{
+    var categories = Array("", "上衣", "裤子", "内衣", "配饰", "箱包", "鞋子", "运动户外", "裙子", "套装");
+    var categoryNum = categories.length-1;
+    for (var i in categories)
+    {
+        if ("" != categories[i])
+        {
+            var position = Number(i)%4;
+            switch (i)
+            {
+                case "5":
+                    $("#categories").append('<label class="category1-0 category-long-1"><input type="checkbox" class="hidden" name="category" value="'+i+'" id="category-'+i+'"/>'+categories[i]+'</label>');
+                    break;
+                case "6":
+                    $("#categories").append('<label class="category1-0 category-long-pre"><input type="checkbox" class="hidden" name="category" value="'+i+'" id="category-'+i+'"/>'+categories[i]+'</label>');
+                    break;
+                case "7":
+                    $("#categories").append('<label class="category1-0 category-long"><input type="checkbox" class="hidden" name="category" value="'+i+'" id="category-'+i+'"/>'+categories[i]+'</label>');
+                    break;
+                case "8":
+                    $("#categories").append('<label class="category1-0 category-long-next"><input type="checkbox" class="hidden" name="category" value="'+i+'" id="category-'+i+'"/>'+categories[i]+'</label>');
+                    break;
+                default:
+                    $("#categories").append('<label class="category1-0 category'+position+'"><input type="checkbox" class="hidden" name="category" value="'+i+'" id="category-'+i+'"/>'+categories[i]+'</label>');
+                    break;
+            }
+            if (0 == position)
+            {
+                $("#categories").append("<br/><br/>");
+            }
+            else
+            {
+                if (categoryNum == Number(i))
+                {
+                    for (var j=position+1; 4>=j && 1<j; ++j)
+                    {
+                        if (4 == j)
+                        {
+                            j = 0;
+                        }
+                        $("#categories").append('<label class="category1-0 category'+j+' place-holder">占位</label>');
+                    }
+                }
+            }
+        }
+    }
+    
+    var styles = Array("", "学院", "欧美", "日韩", "民族", "休闲", "户外", "运动", "简约", "复古", "街头", "森系");
+    var styleNum = styles.length-1;
+    for (i in styles)
+    {
+        if ("" != styles[i])
+        {
+            position = Number(i)%4;
+            $("#styles").append('<label class="style1-0 style'+position+'"><input type="checkbox" class="hidden" name="style" value="'+i+'" id="style-'+i+'"/>'+styles[i]+'</label>');
+            if (0 == position)
+            {
+                $("#styles").append("<br/><br/>");
+            }
+            else
+            {
+                if (styleNum == Number(i))
+                {
+                    for (j=position+1; 4>=j && 1<j; ++j)
+                    {
+                        if (4 == j)
+                        {
+                            j = 0;
+                        }
+                        $("#styles").append('<label class="style1-0 style'+j+' place-holder">占位</label>');
+                    }
+                }
+            }
+        }
+    }
+}
+
+$(document).ready(function()
+{
+    getData();
+    setLong();
+    
+    var category = cookieGet("category");
+    if ("" != category)
+    {
+        var category_arr = category.split(",");
+        for (var i in category_arr)
+        {
+            $("#category-"+category_arr[i]).attr("checked", "checked");
+            $("#category-"+category_arr[i]).parent().addClass("tag-border");
+        }
+        
+    }
+    var style = cookieGet("style");
+    if ("" != style)
+    {
+        var style_arr = style.split(",");
+        for (var i in style_arr)
+        {
+            $("#category-"+category_arr[i]).attr("checked", "checked");
+            $("#style-"+style_arr[i]).parent().addClass("tag-border");
+        }
+    }
+    
+    $("#categories input").click(function()
+    {
+        $(this).parent().toggleClass("tag-border");
+    });
+    
+    $("#styles input").click(function()
+    {
+        $(this).parent().toggleClass("tag-border");
+    });
+    
+    $("#generate").click(function()
+    {
+        var categories = "";
+        $("input[name='category']:checked").each(function()
+        {
+            categories += $(this).val()+",";
+        });
+        if ("" != categories)
+        {
+            categories = categories.substr(0,categories.length-1);
+        }
+        
+        var styles = "";
+        $("input[name='style']:checked").each(function()
+        {
+            styles += $(this).val()+",";
+        });
+        if ("" != styles)
+        {
+            styles = styles.substr(0,styles.length-1);
+        }
+        
+        if (""==categories && ""==styles)
+        {
+            alert("请选择至少一项");
+            return false;
+        }
+        
+        if (cookieSet("category="+categories+"&style="+styles+"&skip=''"))
+        {
+            window.location.href = "index";
+        }
+    });
+    
+    $("#skip").click(function()
+    {
+        if (cookieSet("category=''&style=''&skip=1"))
+        {
+            window.location.href = "index";
+        }
+    });
+});
+
+$(window).resize(function()
+{
+    setLong();
+});
+</script>
+</head>
+<body>
+<div class="head" id="head">
+  <a class="pull-left icon-left-a" href="index"><img class="img-responsive icon-left" src="application/views/inc/img/logo.png"/></a>
+  <a class="pull-right icon-right-a" href="user"><img class="img-responsive icon-right" src="application/views/inc/img/user.png"/></a>
+  <div class="center"><a href="index" class="title title-selected title-left"><span>活动</span></a>&nbsp;&nbsp;&nbsp;<a href="districtlist" class="title"><span>商圈</span></a></div>
+</div>
+<br/><br/><br/>
+<div class="content">
+  <div class="center diy-title">
+    DIY你的街报&nbsp;&nbsp;or&nbsp;&nbsp;<a href="javascript:void(0);" class="skip" id="skip">跳过</a>
+  </div>
+  <br/><br/>
+  <div>
+    |选择品类<br/><br/>
+    <div id="categories" class="center">
+    </div>
+  </div>
+  <br/><br/>
+  <div>
+    |选择风格<br/><br/>
+    <div id="styles" class="center">
+    </div>
+  </div>
+  <br/><br/>
+  <!--<div>
+    |定位周边<br/><br/>
+    <div class="center clearfix"><div class="pull-left yes">是&nbsp;&nbsp;</div><div class="pull-right no">&nbsp;&nbsp;否</div><hr class="location"/></div>
+  </div>-->
+  <br/><br/>
+  <div class="center btns">
+    <button class="btn btn-default btns" id="generate">生成街报</button>
+  </div>
+  <br/><br/>
+</div>
+</body>
+</html>

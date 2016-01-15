@@ -1,0 +1,295 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=0.35, maximum-scale=0.35, user-scalable=0"/>
+<title>商场</title>
+<link rel="stylesheet" href="application/views/inc/css/bootstrap.min.css"/>
+<script src="application/views/inc/js/jquery-2.1.4.min.js"></script>
+<script src="application/views/inc/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="application/views/inc/css/head.css"/>
+<link rel="stylesheet" href="application/views/inc/css/mall.css"/>
+<script src="application/views/inc/js/func.js"></script>
+<link rel="stylesheet" href="application/views/inc/css/act.css"/>
+<link rel="stylesheet" href="application/views/inc/css/carousel.css"/>
+<script src="application/views/inc/js/jquery.mobile.custom.min.js"></script>
+<script>
+function setHeight()
+{
+    var screenWidth = document.body.clientWidth;
+    var cHeight = screenWidth*0.5006944444444444;
+    var sHeight = screenWidth*0.1541666666666667;
+    $(".item").css("height", cHeight + "px");
+    $("#mallStores").css("height", sHeight + "px");
+    $("#mapContainer").show();
+    $("#storeHeader").show();
+    $("#privilegeHeader").show();
+}
+
+function setDetail()
+{
+    $.post("malladlistapi", {mall_id:mallId}, 
+    function(data)
+    {
+        var datas = "";
+        console.log(1);
+        if(datas = checkData(data))
+        {
+            setCarousel(datas, true);
+            setHeight();
+        }
+    });
+    
+    $.ajax(
+    {
+        type:"POST", 
+        url:"mallfloorapi", 
+        data:{mall_id:mallId}, 
+        async:false, 
+        success:function(data)
+        {
+            var datas = "";
+            //console.log(2);
+            if(datas = checkData(data))
+            {
+                for (var i in datas)
+                {
+                    if (1 < datas[i]["mall_floor_name"].length)
+                    {
+                        var floorNum = datas[i]["mall_floor_name"][1];
+                    }
+                    if ("F1" == datas[i]["mall_floor_name"])
+                    {
+                        floorId = datas[i]["mall_floor_id"];
+                    }
+                    switch (datas[i]["mall_floor_name"][0])
+                    {
+                        case "B":
+                            $("#floor").append('<button type="button" class="floor-icons" value="'+datas[i]["mall_floor_id"]+'" id="'+datas[i]["mall_floor_name"]+'"><img src="application/views/inc/img/B'+floorNum+'-B.png"/></button>');
+                            break;
+                        case "M":
+                            $("#floor").append('<button type="button" class="floor-icons" value="'+datas[i]["mall_floor_id"]+'" id="'+datas[i]["mall_floor_name"]+'"><img src="application/views/inc/img/M-B.png"/></button>');
+                            break;
+                        case "F":
+                            $("#floor").append('<button type="button" class="floor-icons'+(1==floorNum ? " floor-now" : "")+'" value="'+datas[i]["mall_floor_id"]+'" id="'+datas[i]["mall_floor_name"]+'"><img src="application/views/inc/img/F'+floorNum+'-'+(1==floorNum ? "Y" : "B")+'.png"/></button>');
+                            break;
+                    }
+                }
+                $(".floor-icons").click(function()
+                {
+                    var preFloorname = $(".floor-now").attr("id");
+                    var floorName = $(this).attr("id");
+                    if (preFloorname != floorName)
+                    {
+                        $("#"+preFloorname+" img").attr("src", "application/views/inc/img/"+preFloorname+"-B.png");
+                        $("#"+preFloorname).removeClass("floor-now");
+                        $("#"+floorName+" img").attr("src", "application/views/inc/img/"+floorName+"-Y.png");
+                        $("#"+floorName).addClass("floor-now");
+                        
+                        $("body").append('<div class="blank" id="blank"></div>');
+                        $("#mallStores").html("");
+                        floorId = $(this).val();
+                        $(".act-mall").remove();
+                        $(".store").remove();
+                        $(".detail").remove();
+                        $(".split").remove();
+                        $(".over").remove();
+                        getData();
+                    }
+                });
+            }
+        }
+    });
+}
+
+function getEvent()
+{
+    $.post("eventlistapi", {mall_floor_id:floorId, page_now:pageNow, page_size:pageSize}, 
+    function(data)
+    {
+        var datas = "";
+        //console.log(3);
+        if(datas = checkData(data))
+        {
+            setData(datas, false);
+        }
+        $("#blank").remove();
+    });
+}
+
+function getData()
+{
+    $.post("storelistapi", {mall_floor_id:floorId}, 
+    function(data)
+    {
+        var datas = "";
+        console.log(4);
+        if(datas = checkData(data))
+        {
+            console.log(datas);
+            if ("" == $("#title").html())
+            {
+                $("#title").text(datas[0]["mall_name"]);
+                $("#title").show();
+            }
+            var num = datas.length;
+            $("#mallStores").css("width", 20*num+"%");
+            for (var i in datas)
+            {
+                $("#mallStores").append('<div class="pull-left mall-store"><a class="mall-store-a" href="store?id='+datas[i]["store_id"]+'"><img src="'+datas[i]["brand_logo"]+'" class="mall-store-img"/><!--<div class="mall-store-name"><br/>'+datas[i]["store_name"]+'</div>--></a></div>');
+            }
+            var mg = 100/20/num*2;
+            $(".mall-store").css("margin", "0 "+mg+"%");
+            $(".mall-store").css("width", (100/num-mg*2)+"%");
+        }
+        
+    });
+    
+    getEvent();
+}
+
+$(document).ready(function()
+{
+    mallId = getQuerystring("mall");
+    mallId = mallId ? mallId : 3;
+    $("#map").attr("href", "map?id="+mallId);
+    floorId = 0;
+    pageNow = 1;
+    pageSize = 10;
+    pageMax = 0;
+    setDetail();
+    getData();
+    hOld = $(window).scrollTop();
+    time = new Date();
+    start = time.getTime();
+    slideNow = 0;
+    slideTotal = 0;
+    $("#carousel").swipeleft(function()
+    {
+        if (slideNow < slideTotal-1)
+        {
+            $("#slide"+(slideNow+1)).click();
+        }
+        else
+        {
+            $("#slide0").click();
+        }
+    });
+    $("#carousel").swiperight(function()
+    {
+        if (0 < slideNow)
+        {
+            $("#slide"+(slideNow-1)).click();
+        }
+        else
+        {
+            $("#slide"+(slideTotal-1)).click();
+        }
+    });
+});
+
+$(window).scroll(function()
+{
+    var hNow = $(window).scrollTop();
+    if (hNow <= hOld)
+    {
+        if ("none" == $("#headBlank").css("display"))
+        {
+            $("#head").addClass("head-fixed");
+            $("#headBlank").show();
+        }
+    }
+    else
+    {
+        if ("block" == $("#headBlank").css("display"))
+        {
+            $("#head").removeClass("head-fixed");
+            $("#headBlank").hide();
+        }
+    }
+    hOld = hNow;
+    
+    if (pageMax && pageMax<=pageNow)
+    {
+        return false;
+    }
+　　if (isBottom(1000))
+    {
+        time = new Date();
+        var now = time.getTime();
+        if (500 > now-start)
+        {
+            start = now;
+            return false;
+        }
+        start = now;
+　　　　++pageNow;
+        getEvent();
+    }
+});
+</script>
+</head>
+<body>
+<div class="head" id="head">
+  <a class="pull-left icon-left-a" href="javascript:history.go(-1);"><img class="img-responsive icon-left" src="application/views/inc/img/back_arrow.png"/></a>
+  <a class="pull-right icon-right-a" href="user"><img class="img-responsive icon-right" src="application/views/inc/img/user.png"/></a>
+  <div class="center"><span class="title title-selected title-center dn" id="title"></span></div>
+</div>
+<div class="head-blank" id="headBlank"></div>
+<div id="carousel" class="carousel slide">
+  <ol class="carousel-indicators" id="indicators">
+    <!--<li data-target="#carousel" data-slide-to="0" class="active"></li>
+    <li data-target="#carousel" data-slide-to="1"></li>
+    <li data-target="#carousel" data-slide-to="2"></li>-->
+  </ol>
+  <div class="carousel-inner" id="inner">
+    <!--<div class="item active">
+      <img src="application/views/inc/img/slide1.png"/>
+    </div>
+    <div class="item">
+      <img src="application/views/inc/img/slide2.png"/>
+    </div>
+    <div class="item">
+      <img src="application/views/inc/img/slide3.png"/>
+    </div>-->
+  </div>
+  <div class="center floor" id="floor">
+  <!--<a href=""><img src="application/views/inc/img/floor_1_white.png"/></a>
+  <img src="application/views/inc/img/floor_2_black.png"/>
+  <img src="application/views/inc/img/floor_3_black.png"/>
+  <img src="application/views/inc/img/floor_4_black.png"/>
+  <img src="application/views/inc/img/floor_5_black.png"/>
+  <img src="application/views/inc/img/floor_6_black.png"/>-->
+  </div>
+</div>
+<br/>
+<div class="center map-container dn" id="mapContainer">
+  <a id="map">
+    <img src="application/views/inc/img/map.png"/>
+    <span class="map">点击查看该楼层平面导航图</span>
+  </a>
+</div>
+<br/>
+<div class="mall-stores-container">
+  <br/>
+  <div class="dn" id="storeHeader">
+    <img src="application/views/inc/img/clothes.png"/><span class="mall-stores-title">品牌商铺</span>
+  </div>
+  <br/>
+  <div class="mall-stores-flow">
+    <div class="flow-container">
+      <div id="mallStores" class="clearfix stores"></div>
+    </div>
+  </div>
+  <br/>
+</div>
+<br/>
+<div class="privilege-container">
+  <br/>
+  <div class="dn" id="privilegeHeader">
+    <img src="application/views/inc/img/bag.png"/><span class="privilege-title">优惠活动</span>
+  </div>
+  <br/>
+</div>
+</body>
+</html>

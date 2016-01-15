@@ -1,0 +1,124 @@
+﻿.icon-center {
+    width: 280px;
+    border: 1px solid #fff;
+    margin-top: 50px;
+}
+
+.none-label {
+    background-color: #f9f9f9;
+    height: 150px;
+}
+
+.none {
+    height: 700px;
+}
+
+.none-detail {
+    color: grey !important;
+    margin-top: 40%;
+    font-size: 45px;
+}
+
+.to-collect {
+    margin-top: 70px;
+    padding: 50px 90px 50px 100px;
+    font-size: 40px;
+    color:#fff;
+    background-image: url(../img/button_background_rectangle.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    background-color: transparent;
+}
+
+.collection-district {
+    padding-bottom: 40px;
+}
+
+.icon-content {
+    width: 150px;
+}
+
+.collection-district-name {
+    font-size: 50px;
+    padding-top: 45px;
+}
+
+.arrow {
+    width: 100%;
+    font-size: 40px;
+}
+
+.panel-default .panel-heading {
+    background-color: white;
+}
+
+.arrow a {
+    text-decoration: none;
+    color: black;
+}
+
+.collection-right {
+    margin-top: -80px;
+}
+
+.collection-perdistrict-number {
+    color: black;
+    font-size: 40px;
+}
+
+.arrow-image {
+    width: 120px;
+    margin-top: -10px;
+}
+
+* {
+    border: none !important;
+}
+
+.panel-body {
+    padding: 0;
+    background-color: #e9e9e9;
+}
+
+.collection {
+    margin-top: -100px !important;
+}
+
+.overdue {
+    position: absolute;
+    z-index: 3;
+    width: 98%;
+    background-color: rgb(-6, -16, 0);
+    background-color: rgba(-6, -16, 0, 0.5);
+    filter: alpha(opacity = 50);
+    font-size: 50px;
+    font-weight: bold;
+    color: black;
+    padding-top: 32%;
+    left: 1%;
+}
+
+.act-mall {
+    z-index: 4;
+}
+
+.act-mall-overdue {
+    opacity: 0.5;
+    filter: alpha(opacity = 50);
+}
+
+.collection {
+    position: absolute;
+    z-index: 4;
+    right: 0;
+}
+
+.act-mall {
+    margin-bottom: 0;
+}
+
+.store {
+    margin-top: 11px;
+}

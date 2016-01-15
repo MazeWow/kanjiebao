@@ -1,0 +1,14 @@
+﻿.content {
+    position: relative;
+}
+
+.errors {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    width: 550px;
+    color: #f54a77;
+    background-color: #eee;
+    text-align: left;
+    left: 7%;
+}

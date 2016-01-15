@@ -1,0 +1,91 @@
+﻿.store-img-container {
+    position: relative;
+    background-color: white;
+}
+
+.store-img {
+    width: 100%;
+}
+
+.store-logo {
+    position: absolute;
+    z-index: 1;
+    width: 16%;
+    left: 42.5%;
+    bottom: -15%;
+    border: 2px solid #f54a77;
+}
+
+.store-info {
+    background-color: white;
+    padding-top: 13%;
+}
+
+.store-name {
+    font-size: 50px;
+}
+
+.store-distance {
+    font-size: 45px;
+}
+
+hr {
+    background-color: #f54a77;
+    height: 1px;
+    margin: 0;
+}
+
+.content {
+    padding: 5% 5%;
+    background-color: white;
+    font-size: 40px;
+}
+
+.category {
+    padding: 2px 4px 2px 4px;
+    background-color: #f54a77;
+    margin-right: 10px;
+    color: white;
+}
+
+.event {
+    font-size: 40px;
+}
+
+.event a {
+    color: gray;
+    text-decoration: none;
+}
+
+.event a :link {
+    color: gray;
+    text-decoration: none;
+}
+
+.event a :visited {
+    color: gray;
+    text-decoration: none;
+}
+
+.event a :hover {
+    color: gray;
+    text-decoration: none;
+}
+
+.event a :active {
+    color: gray;
+    text-decoration: none;
+}
+
+.event a :focus {
+    color: gray;
+    text-decoration: none;
+}
+
+.arrow-right {
+    margin-top: -1.8%;
+}
+
+.more-a {
+    margin-top: -1.2%;
+}

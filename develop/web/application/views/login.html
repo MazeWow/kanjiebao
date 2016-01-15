@@ -1,0 +1,148 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=0.35, maximum-scale=0.35, user-scalable=0"/>
+<title>登录</title>
+<link rel="stylesheet" href="application/views/inc/css/bootstrap.min.css"/>
+<script src="application/views/inc/js/jquery-2.1.4.min.js"></script>
+<script src="application/views/inc/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="application/views/inc/css/head.css"/>
+<link rel="stylesheet" href="application/views/inc/css/input.css"/>
+<link rel="stylesheet" href="application/views/inc/css/errors.css"/>
+<link rel="stylesheet" href="application/views/inc/css/login.css"/>
+<script src="application/views/inc/js/func.js"></script>
+<script src="application/views/inc/js/jQuery.md5.js"></script>
+<script>
+function preCheck(mark)
+{
+    switch (mark)
+    {
+        case "phone":
+            if (null == $("#"+mark).val().match(/^1{1}(\d){10}$/))
+            {
+                $("#phoneError").show();
+                passFlag[0] = false;
+            }
+            else
+            {
+                $("#phoneError").hide();
+                passFlag[0] = true;
+            }
+            break;
+        case "passwd":
+            if (null == $("#"+mark).val().match(/^(\w){6,20}$/))
+            {
+                $("#passError").show();
+                passFlag[1] = false;
+            }
+            else
+            {
+                $("#passError").hide();
+                passFlag[1] = true;
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+function checkForm()
+{
+    for (var i in passFlag)
+    {
+        if(false == passFlag[i])
+        {
+            switch (i)
+            {
+                case "0":
+                    $("#phoneError").show();
+                    $("#phone").focus();
+                    return false;
+                    break;
+                case "1":
+                    $("#passError").show();
+                    $("#passwd").focus();
+                    return false;
+                    break;
+                default:
+                    return false;
+                    break;
+            }
+        }
+    }
+    $("#sub").attr("disabled", "true");
+    $.post("loginapi", {phone:$("#phone").val(), pwd:$.md5($("#passwd").val())}, 
+    function(data)
+    {
+        var obj = $.parseJSON(data);
+        if (0 != obj["err_num"])
+        {
+            $("#sub").removeAttr("disabled");
+            $("#unError").text(obj["err_msg"]);
+            $("#unError").show();
+        }
+        else
+        {
+            window.location.href = "index";
+        }
+    });
+}
+
+$(document).ready(function()
+{
+    if (isLogined())
+    {
+        console.log("您已登录");
+        window.location.href = "setting";
+        return false;
+    }
+    
+    passFlag = Array(false, false);
+    
+    $("#form input").blur(function()
+    {
+        $("#unError").hide();
+        preCheck($(this).attr("id"));
+    });
+    
+    $("#sub").click(function()
+    {
+        checkForm();
+    });
+    
+    $("#form input").keydown(function(event)
+    {
+        var e = event || window.event || arguments.callee.caller.arguments[0];
+        if (e && 13==e.keyCode)
+        {
+            $(this).blur();
+            $("#sub").click();
+        }
+    });
+});
+</script>
+</head>
+<body>
+<div class="head">
+  <a class="pull-left icon-left-a" href="javascript:history.go(-1);"><img class="img-responsive icon-left" src="application/views/inc/img/back_arrow.png"/></a>
+  <a class="pull-right icon-right-a" href="user"><img class="img-responsive icon-right" src="application/views/inc/img/user.png"/></a>
+  <div class="center"><a href="register" class="title"><span>注册</span></a>&nbsp;&nbsp;&nbsp;<a href="login" class="title title-selected title-right"><span>登录</span></a></div>
+</div>
+<br/><br/><br/><br/>
+<div class="center content">
+  <form id="form">
+    <input type="text" id="phone" placeholder="注册手机号" class="txt" maxlength="11"><br/><br/>
+    <div class="pass-container">
+      <input type="password" id="passwd" placeholder="密码" class="txt" maxlength="20"><br/><br/>
+      <div class="forget"><a href="resetpass">忘记密码</a></div>
+    </div>
+  </form>
+  <div class="errors pass-error" id="passError">6-20位字母数字下划线</div>
+  <div class="errors phone-error" id="phoneError">手机号不正确</div>
+  <div class="errors" id="unError"></div>
+  <br/>
+  <button type="button" class="btn" id="sub">登 陆</button>
+</div>
+</body>
+</html>

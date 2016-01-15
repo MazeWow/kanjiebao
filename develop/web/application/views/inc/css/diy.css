@@ -1,0 +1,122 @@
+﻿* {
+    color: white;
+    font-size: 40px;
+}
+
+body {
+    background-color: black;
+}
+
+.icon-center {
+    width: 140px;
+    margin-top: -30px;
+}
+
+.content {
+    padding: 0 5%;
+}
+
+.diy-title {
+    font-size: 45px;
+}
+
+.category1-0 {
+    cursor: pointer;
+    padding: 1% 3%;
+    border: 2px solid black;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+.category1 {
+    margin-left: 2%;
+}
+
+.category2 {
+    margin-left: 8%;
+}
+
+.category3 {
+    margin-left: 8%;
+}
+
+.category0 {
+    margin-left: 8%;
+    margin-right: 2%;
+}
+
+.category-long-1 {
+    margin-left: 2%;
+}
+
+.category-long-pre {
+    margin-left: 8%;
+}
+
+.category-long-next {
+    margin-right: 2%;
+}
+
+.tag-border {
+    border-color: #f54a77 !important;
+}
+
+.style1-0 {
+    cursor: pointer;
+    padding: 1% 3%;
+    border: 2px solid black;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+.style1 {
+    margin-left: 2%;
+}
+
+.style2 {
+    margin-left: 8%;
+}
+
+.style3 {
+    margin-left: 8%;
+}
+
+.style0 {
+    margin-left: 8%;
+    margin-right: 2%;
+}
+
+.yes {
+    color: yellow;
+    margin-left: 5%;
+}
+
+.no {
+    margin-right: 5%;
+}
+
+.location {
+    border: 2px dashed white;
+    width: 70%;
+}
+
+.btn-container {
+    margin: 0 10%;
+}
+
+.btns {
+    font-size: 50px;
+    color: black;
+    padding: 15px 80px;
+    border-radius: 15px;
+    -webkit-border-radius: 15px;
+}
+
+.place-holder {
+    visibility: hidden;
+}
+
+.skip {
+    color: white;
+    text-decoration: underline;
+}

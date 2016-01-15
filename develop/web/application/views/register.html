@@ -1,0 +1,247 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=0.35, maximum-scale=0.35, user-scalable=0"/>
+<title>注册</title>
+<link rel="stylesheet" href="application/views/inc/css/bootstrap.min.css"/>
+<script src="application/views/inc/js/jquery-2.1.4.min.js"></script>
+<script src="application/views/inc/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="application/views/inc/css/head.css"/>
+<link rel="stylesheet" href="application/views/inc/css/input.css"/>
+<link rel="stylesheet" href="application/views/inc/css/errors.css"/>
+<link rel="stylesheet" href="application/views/inc/css/register.css"/>
+<script src="application/views/inc/js/func.js"></script>
+<script src="application/views/inc/js/jQuery.md5.js"></script>
+<script>
+function preCheck(mark)
+{
+    switch (mark)
+    {
+        case "phone":
+            if (null == $("#"+mark).val().match(/^1{1}(\d){10}$/))
+            {
+                $("#phoneError").show();
+                passFlag[0] = false;
+            }
+            else
+            {
+                $("#phoneError").hide();
+                passFlag[0] = true;
+            }
+            break;
+        case "verification":
+            if ("" == $("#"+mark).val())
+            {
+                $("#verificationError").show();
+                passFlag[1] = false;
+            }
+            else
+            {
+                $("#verificationError").hide();
+                passFlag[1] = true;
+            }
+            break;
+        case "passwd":
+            if (null == $("#"+mark).val().match(/^(\w){6,20}$/))
+            {
+                $("#passError").show();
+                passFlag[2] = false;
+            }
+            else
+            {
+                $("#passError").hide();
+                passFlag[2] = true;
+            }
+        case "repasswd":
+            if ($("#repasswd").val() != $("#passwd").val())
+            {
+                if("" != $("#repasswd").val())
+                {
+                    $("#repassError").show();
+                }
+                passFlag[3] = false;
+            }
+            else
+            {
+                $("#repassError").hide();
+                passFlag[3] = true;
+            }
+            break;
+        default:
+            break;
+    }
+}
+
+function checkForm()
+{
+    for (var i in passFlag)
+    {
+        if(false == passFlag[i])
+        {
+            switch (i)
+            {
+                case "0":
+                    $("#phoneError").show();
+                    $("#phone").focus();
+                    return false;
+                    break;
+                case "1":
+                    $("#verificationError").show();
+                    $("#verification").focus();
+                    return false;
+                    break;
+                case "2":
+                    $("#passError").show();
+                    $("#passwd").focus();
+                    return false;
+                    break;
+                case "3":
+                    $("#repassError").show();
+                    $("#repasswd").focus();
+                    return false;
+                    break;
+                default:
+                    return false;
+                    break;
+            }
+        }
+    }
+    $("#sub").attr("disabled", "true");
+    $.post("registerapi", {phone:$("#phone").val(), pwd:$.md5($("#passwd").val()), re_pwd:$.md5($("#repasswd").val()), verify_code:$("#verification").val()}, 
+    function(data)
+    {
+        var obj = $.parseJSON(data);
+        if (0 == obj["err_num"])
+        {
+            window.location.href = "index"; 
+        }
+        else
+        {
+            $("#sub").removeAttr("disabled");
+            $("#unError").text(obj["err_msg"]);
+            $("#unError").show();
+        }
+    });
+}
+
+function time()
+{
+    --timeup;
+    if (0 < timeup)
+    {
+        $("#count").text(timeup);
+    }
+    else
+    {
+        clearInterval(timecount);
+        timeup = 60;
+        $("#code").html("发送验证码");
+        resend = true;
+    }
+}
+
+$(document).ready(function()
+{
+    if (isLogined())
+    {
+        window.location.href = "setting";
+        return false;
+    }
+    
+    passFlag = Array(false, false, false, false);
+    $("#form input").blur(function()
+    {
+        $("#unError").hide();
+        preCheck($(this).attr("id"));
+    });
+    
+    timeup = 60;
+    resend = true;
+    $("#code").click(function()
+    {
+        if (!resend)
+        {
+            return false;
+        }
+        if (false == passFlag[0])
+        {
+            $("#phoneError").show();
+            $("#phone").focus();
+            return false;
+        }
+        var verifyFlag = false;
+        $.ajax(
+        {
+            type:"POST",
+            url:"verificationapi",
+            data:{phone:$("#phone").val()},
+            async:false,
+            success:function(data)
+            {
+                var obj = $.parseJSON(data);
+                if (0 == obj["err_num"])
+                {
+                    verifyFlag = true;
+                }
+                else
+                {
+                    console.log(obj["err_msg"]);
+                    verifyFlag = false;
+                    alert(obj["err_msg"]);
+                }
+            }
+        });
+        if (!verifyFlag)
+        {
+            return false;
+        }
+        resend = false;
+        $(this).html('<span id="count">'+timeup+'</span>'+'秒后重新发送');
+        timecount = setInterval("time()", 1000);
+    });
+    
+    $("#sub").click(function()
+    {
+        checkForm();
+    });
+    
+    $("#form input").keydown(function(event)
+    {
+        var e = event || window.event || arguments.callee.caller.arguments[0];
+        if (e && 13==e.keyCode)
+        {
+            $(this).blur();
+            $("#sub").click();
+        }
+    });
+});
+</script>
+</head>
+<body>
+<div class="head">
+  <a class="pull-left icon-left-a" href="javascript:history.go(-1);"><img class="img-responsive icon-left" src="application/views/inc/img/back_arrow.png"/></a>
+  <a class="pull-right icon-right-a" href="user"><img class="img-responsive icon-right" src="application/views/inc/img/user.png"/></a>
+  <div class="center"><a href="register" class="title title-selected title-left"><span>注册</span></a>&nbsp;&nbsp;&nbsp;<a href="login" class="title"><span>登录</span></a></div>
+</div>
+<br/><br/><br/><br/>
+<div class="center content">
+  <form id="form">
+    <input type="text" id="phone" placeholder="输入手机号" class="txt" maxlength="11"><br/><br/>
+    <div class="verify-container">
+      <input type="text" id="verification" placeholder="验证码" class="txt" maxlength="10"><br/><br/>
+      <div class="code" id="code">发送验证码</div>
+    </div>
+    <input type="password" id="passwd" placeholder="密码设置" class="txt" maxlength="20"><br/><br/>
+    <input type="password" id="repasswd" placeholder="密码确认" class="txt" maxlength="20"><br/><br/>
+  </form>
+  <div class="errors repass-error" id="repassError">确认密码不一致</div>
+  <div class="errors pass-error" id="passError">6-20位字母数字下划线</div>
+  <div class="errors verification-error" id="verificationError">请输入验证码</div>
+  <div class="errors phone-error" id="phoneError">手机号不正确</div>
+  <div class="errors" id="unError"></div>
+  <br/>
+  <button type="button" class='btn' id="sub">成为街友</button>
+</div>
+</body>
+</html>
