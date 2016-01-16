@@ -45,7 +45,7 @@ class wechatCallbackapiTest
 	        			if(isset($res['showapi_res_body']['showapi_res_code'])){
 	        				$contentStr = "您查询的序列号不对!";
 	        			}else{
-	        				$contentStr = "查询信息为:\n";
+	        				$contentStr = "\n";
 						$res = $res['showapi_res_body'];
 	        				if(isset($res['phone_model'])){
 	        					$contentStr.='手机型号：'.$res['phone_model']."\n";
@@ -67,11 +67,11 @@ class wechatCallbackapiTest
 	        				}
 	        				if(isset($res['serial_number'])){ $contentStr.='手机序列号：'.$res['serial_number']."\n";}
 	        				if(isset($res['start_date'])){ $contentStr.='生产开始时间：'.$res['start_date']."\n";}
-	        				if(isset($res['end_date'])){ $contentStr.='	生产结束时间：'.$res['end_date']."\n";}
+	        				if(isset($res['end_date'])){ $contentStr.='生产结束时间：'.$res['end_date']."\n";}
 	        				if(isset($res['size'])){ $contentStr.='内存大小：'.$res['size']."\n";}
 	        				if(isset($res['tele_support'])){ $contentStr.='电话支持到期时间：'.$res['tele_support']."\n";}
 	        				if(isset($res['tele_support_status'])){ $contentStr.='电话支持状态：'.$res['tele_support_status']."\n";}
-	        				if(isset($res['warranty'])){ $contentStr.='	保修到期时间：'.$res['warranty']."\n";}
+	        				if(isset($res['warranty'])){ $contentStr.='保修到期时间：'.$res['warranty']."\n";}
 	        				if(isset($res['warranty_status'])){ $contentStr.='保修状态：'.$res['warranty_status']."\n";}
 	        			}
 	        		}
