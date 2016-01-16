@@ -37,7 +37,10 @@ class wechatCallbackapiTest
 	        if(!empty( $keyword )){
 	        		$msgType = "text";
 	        		$contentStr = '';
-        				$res = get_apple_msg($keyword)['showapi_res_body'];
+	        		$xlh = mb_substr($keyword,0,3,'utf-8');
+	        		if($xlh == "序列号"){
+	        			$xlh = mb_substr($keyword,3,mb_strlen($keyword),'utf-8');
+        				$res = get_apple_msg($xlh)['showapi_res_body'];
         				if(isset($res['phone_model'])){$contentStr.='手机型号：'.$res['phone_model']."\n";}
         				if(isset($res['made_area'])){ $contentStr.='产地：'.$res['made_area']."\n";}
         				if(isset($res['imei_number'])){ $contentStr.='手机串号：'.$res['imei_number']."\n";}
@@ -53,7 +56,7 @@ class wechatCallbackapiTest
         				if(isset($res['warranty'])){ $contentStr.='保修到期时间：'.$res['warranty']."\n";}
         				if(isset($res['warranty_status'])){ $contentStr.='保修状态：'.$res['warranty_status']."\n";}
         				if(isset($res['remark'])){ $contentStr.='查询错误：'.$res['remark']."\n";}
-	        		
+	        		}
         			//正常返回
 	        		if($contentStr == ''){
 	        			$contentStr = "欢迎来到机子铺!功能如下：\n";
