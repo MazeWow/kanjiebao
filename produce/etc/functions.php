@@ -188,7 +188,6 @@ function curl_get($url, array $get = NULL, array $options = array())
 			CURLOPT_RETURNTRANSFER => TRUE,
 			CURLOPT_TIMEOUT => 4
 	);
-
 	$ch = curl_init();
 	curl_setopt_array($ch, ($options + $defaults));
 	if( ! $result = curl_exec($ch))
