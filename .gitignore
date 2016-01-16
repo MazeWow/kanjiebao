@@ -4,6 +4,8 @@ develop/admin/static/img/
 .buildpath
 .project
 .settings/
+gitpull
+gitpull.log
 
 
 
