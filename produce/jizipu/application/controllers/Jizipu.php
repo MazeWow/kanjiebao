@@ -4,7 +4,6 @@ class wechatCallbackapiTest
 	public function valid()
     {
         $echoStr = $_GET["echostr"];
-
         //valid signature , option
         if($this->checkSignature()){
         	echo $echoStr;
@@ -34,17 +33,24 @@ class wechatCallbackapiTest
 				<MsgType><![CDATA[%s]]></MsgType>
 				<Content><![CDATA[%s]]></Content>
 				<FuncFlag>0</FuncFlag>
-			     </xml>";             
-	        if(!empty( $keyword ))
-                {
-              		$msgType = "text";
-                	$contentStr = "欢迎来到机子铺";
+			     </xml>";
+	        if(!empty( $keyword )){
+	        		$msgType = "text";
+	        		$contentStr = "欢迎来到机子铺！";
+	        		//查询序列号
+	        		if($keyword){
+	        			$res = get_apple_msg($keyword);
+	        			if(isset($res['showapi_res_body']['showapi_res_code'])){
+	        				$contentStr = "您查询的序列号不对!";
+	        			}else{
+	        				$contentStr = json_encode($res);
+	        			}
+	        		}
                 	$resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
                 	echo $resultStr;
-                }else{
+	        }else{
                 	echo "Input something...";
-                }
-
+            }
         }else {
         	echo "";
         	exit;
@@ -78,6 +84,50 @@ class wechatCallbackapiTest
 }
 
 
+function createSign ($paramArr) {
+	$sign = "";
+	ksort($paramArr);
+	foreach ($paramArr as $key => $val) {
+		if ($key != '' && $val != '') {
+			$sign .= $key.$val;
+		}
+	}
+	$sign.='50a2e8e3b42248d1b73739641faa3fa4';
+	$sign = strtoupper(md5($sign));
+	return $sign;
+}
+
+function createStrParam ($paramArr) {
+	$strParam = '';
+	foreach ($paramArr as $key => $val) {
+		if ($key != '' && $val != '') {
+			$strParam .= $key.'='.urlencode($val).'&';
+		}
+	}
+	return $strParam;
+}
+
+
+function get_apple_msg($sn = 'F2LPH9FQG5QV'){
+	date_default_timezone_set("PRC");
+	$paramArr = array(
+			'showapi_appid'=> '14742',
+			'sn' => $sn,
+			'showapi_timestamp' => date('YmdHis')
+	);
+	$sign = createSign($paramArr);
+	$strParam = createStrParam($paramArr);
+	$strParam .= 'showapi_sign='.$sign;
+	$url = 'http://route.showapi.com/864-1?'.$strParam;
+	$result = file_get_contents($url);
+	$result = json_decode($result,true);
+	return $result;
+}
+
+
+
+
+
 
 class Jizipu extends CI_Controller{
 	public function __construct(){
@@ -90,7 +140,7 @@ class Jizipu extends CI_Controller{
 		if(!$access_token) {echo "update access token fail:response error"; return false;}
 		
 		$this->load->database();
-		$sql = "delete from jizipu_weixin_access_token";	
+		$sql = "delete from jizipu_weixin_access_token";
 		$query = $this->db->query($sql);
 		$sql = "insert into jizipu_weixin_access_token (access_token) values ('$access_token')";
 		$query = $this->db->query($sql);
@@ -103,7 +153,7 @@ class Jizipu extends CI_Controller{
 		$sql = "select access_token from jizipu_weixin_access_token limit 1";
 	        $query = $this->db->query($sql);
 	        $access_token = $query->result_array()[0]['access_token'];
-		return $access_token;			
+		return $access_token;
 	}
 
 	public function index(){
@@ -114,5 +164,5 @@ class Jizipu extends CI_Controller{
 		}else{
 			$wechatObj -> responseMsg();
 		}
-	}	
+	}
 }
