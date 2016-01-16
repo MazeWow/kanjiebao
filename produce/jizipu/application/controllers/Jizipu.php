@@ -45,7 +45,6 @@ class wechatCallbackapiTest
 	        			if(isset($res['showapi_res_body']['showapi_res_code'])){
 	        				$contentStr = "您查询的序列号不对!";
 	        			}else{
-	        				$contentStr = "\n";
 						$res = $res['showapi_res_body'];
 	        				if(isset($res['phone_model'])){
 	        					$contentStr.='手机型号：'.$res['phone_model']."\n";
