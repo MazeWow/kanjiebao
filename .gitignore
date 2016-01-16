@@ -1,12 +1,12 @@
 hsh/
 produce/admin/static/img/
 develop/admin/static/img/
+develop/api/debug.php
 .buildpath
 .project
 .settings/
 gitpull
 gitpull.log
-
 
 
 
