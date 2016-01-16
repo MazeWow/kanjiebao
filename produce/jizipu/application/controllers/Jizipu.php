@@ -43,7 +43,33 @@ class wechatCallbackapiTest
 	        			if(isset($res['showapi_res_body']['showapi_res_code'])){
 	        				$contentStr = "您查询的序列号不对!";
 	        			}else{
-	        				$contentStr = json_encode($res);
+	        				$contentStr = '';
+	        				if(isset($res['phone_model'])){
+	        					$contentStr.='手机型号：'.$res['phone_model'].'/n';
+	        				}
+	        				if(isset($res['made_area'])){
+	        					$contentStr.='产地：'.$res['made_area'].'/n';
+	        				}
+	        				if(isset($res['imei_number'])){
+	        					$contentStr.='手机串号：'.$res['imei_number'].'/n';
+	        				}
+	        				if(isset($res['color'])){
+	        					$contentStr.='颜色：'.$res['color'].'/n';
+	        				}
+	        				if(isset($res['active'])){
+	        					$contentStr.='是否激活：'.$res['active'].'/n';
+	        				}
+	        				if(isset($res['made_area'])){
+	        					$contentStr.='产地：'.$res['made_area'].'/n';
+	        				}
+	        				if(isset($res['serial_number'])){ $contentStr.='手机序列号：'.$res['serial_number'].'/n';}
+	        				if(isset($res['start_date'])){ $contentStr.='生产开始时间：'.$res['start_date'].'/n';}
+	        				if(isset($res['end_date'])){ $contentStr.='	生产结束时间：'.$res['end_date'].'/n';}
+	        				if(isset($res['size'])){ $contentStr.='内存大小：'.$res['size'].'/n';}
+	        				if(isset($res['tele_support'])){ $contentStr.='电话支持到期时间：'.$res['tele_support'].'/n';}
+	        				if(isset($res['tele_support_status'])){ $contentStr.='电话支持状态：'.$res['tele_support_status'].'/n';}
+	        				if(isset($res['warranty'])){ $contentStr.='	保修到期时间：'.$res['warranty'].'/n';}
+	        				if(isset($res['warranty_status'])){ $contentStr.='保修状态：'.$res['warranty_status'].'/n';}
 	        			}
 	        		}
                 	$resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
