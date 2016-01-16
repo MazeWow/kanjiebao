@@ -39,13 +39,16 @@ class wechatCallbackapiTest
 	        		$contentStr = "欢迎来到机子铺！";
 	        		//查询序列号
 	        		if($keyword){
+					debug($keyword);
 	        			$res = get_apple_msg($keyword);
+					debug($res);
 	        			if(isset($res['showapi_res_body']['showapi_res_code'])){
 	        				$contentStr = "您查询的序列号不对!";
 	        			}else{
-	        				$contentStr = '';
+	        				$contentStr = "查询信息为:\n";
+						$res = $res['showapi_res_body'];
 	        				if(isset($res['phone_model'])){
-	        					$contentStr.='手机型号：'.$res['phone_model'].'/n';
+	        					$contentStr.='手机型号：'.$res['phone_model']."\n";
 	        				}
 	        				if(isset($res['made_area'])){
 	        					$contentStr.='产地：'.$res['made_area'].'/n';
