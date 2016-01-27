@@ -8,7 +8,7 @@ develop/api/debug.php
 .settings/
 gitpull
 gitpull.log
-
+./weixin_token_update.log
 
 
 
