@@ -1,5 +1,6 @@
 hsh/
 produce/admin/static/img/
+produce/etc/
 develop/admin/static/img/
 develop/api/debug.php
 .buildpath
