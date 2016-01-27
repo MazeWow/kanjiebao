@@ -162,3 +162,239 @@ array (
 **********************get*************************
 
 
+
+**********************value*************************
+'F2LPH9FQG5QV'
+**********************value*************************
+
+
+
+**********************value*************************
+'F2LPH9FQG5QV'
+**********************value*************************
+
+
+
+**********************value*************************
+array (
+  'showapi_res_code' => 0,
+  'showapi_res_error' => '',
+  'showapi_res_body' => 
+  array (
+    'active' => '已激活',
+    'color' => '灰色',
+    'end_date' => '2015-04-04',
+    'made_area' => '中国',
+    'ret_code' => 0,
+    'serial_number' => 'f2lph9fqg5qv',
+    'size' => '',
+    'start_date' => '2015-03-29',
+    'tele_support' => '',
+    'tele_support_status' => '已过期',
+    'warranty' => '2016-05-02',
+    'warranty_status' => '未过期',
+  ),
+)
+**********************value*************************
+
+
+
+**********************value*************************
+'F2LPH9FQG5QV'
+**********************value*************************
+
+
+
+**********************value*************************
+array (
+  'showapi_res_code' => 0,
+  'showapi_res_error' => '',
+  'showapi_res_body' => 
+  array (
+    'active' => '已激活',
+    'color' => '灰色',
+    'end_date' => '2015-04-04',
+    'made_area' => '中国',
+    'ret_code' => 0,
+    'serial_number' => 'f2lph9fqg5qv',
+    'size' => '',
+    'start_date' => '2015-03-29',
+    'tele_support' => '',
+    'tele_support_status' => '已过期',
+    'warranty' => '2016-05-02',
+    'warranty_status' => '未过期',
+  ),
+)
+**********************value*************************
+
+
+
+**********************value*************************
+'F2LPH9FQG5QV'
+**********************value*************************
+
+
+
+**********************value*************************
+array (
+  'showapi_res_code' => 0,
+  'showapi_res_error' => '',
+  'showapi_res_body' => 
+  array (
+    'active' => '已激活',
+    'color' => '灰色',
+    'end_date' => '2015-04-04',
+    'made_area' => '中国',
+    'ret_code' => 0,
+    'serial_number' => 'f2lph9fqg5qv',
+    'size' => '',
+    'start_date' => '2015-03-29',
+    'tele_support' => '',
+    'tele_support_status' => '已过期',
+    'warranty' => '2016-05-02',
+    'warranty_status' => '未过期',
+  ),
+)
+**********************value*************************
+
+
+
+**********************value*************************
+'F2LPH9FQG5QV'
+**********************value*************************
+
+
+
+**********************value*************************
+array (
+  'showapi_res_code' => 0,
+  'showapi_res_error' => '',
+  'showapi_res_body' => 
+  array (
+    'active' => '已激活',
+    'color' => '灰色',
+    'end_date' => '2015-04-04',
+    'made_area' => '中国',
+    'ret_code' => 0,
+    'serial_number' => 'f2lph9fqg5qv',
+    'size' => '',
+    'start_date' => '2015-03-29',
+    'tele_support' => '',
+    'tele_support_status' => '已过期',
+    'warranty' => '2016-05-02',
+    'warranty_status' => '未过期',
+  ),
+)
+**********************value*************************
+
+
+
+**********************value*************************
+'F2LPH9FQG5QV'
+**********************value*************************
+
+
+
+**********************value*************************
+array (
+  'showapi_res_code' => 0,
+  'showapi_res_error' => '',
+  'showapi_res_body' => 
+  array (
+    'active' => '已激活',
+    'color' => '灰色',
+    'end_date' => '2015-04-04',
+    'made_area' => '中国',
+    'ret_code' => 0,
+    'serial_number' => 'f2lph9fqg5qv',
+    'size' => '',
+    'start_date' => '2015-03-29',
+    'tele_support' => '',
+    'tele_support_status' => '已过期',
+    'warranty' => '2016-05-02',
+    'warranty_status' => '未过期',
+  ),
+)
+**********************value*************************
+
+
+
+**********************value*************************
+'F2LPH9FQG5QV'
+**********************value*************************
+
+
+
+**********************value*************************
+array (
+  'showapi_res_code' => 0,
+  'showapi_res_error' => '',
+  'showapi_res_body' => 
+  array (
+    'active' => '已激活',
+    'color' => '灰色',
+    'end_date' => '2015-04-04',
+    'made_area' => '中国',
+    'ret_code' => 0,
+    'serial_number' => 'f2lph9fqg5qv',
+    'size' => '',
+    'start_date' => '2015-03-29',
+    'tele_support' => '',
+    'tele_support_status' => '已过期',
+    'warranty' => '2016-05-02',
+    'warranty_status' => '未过期',
+  ),
+)
+**********************value*************************
+
+
+
+**********************value*************************
+'F2LPH9FQG5QV'
+**********************value*************************
+
+
+
+**********************value*************************
+array (
+  'showapi_res_code' => 0,
+  'showapi_res_error' => '',
+  'showapi_res_body' => 
+  array (
+    'active' => '已激活',
+    'color' => '灰色',
+    'end_date' => '2015-04-04',
+    'made_area' => '中国',
+    'ret_code' => 0,
+    'serial_number' => 'f2lph9fqg5qv',
+    'size' => '',
+    'start_date' => '2015-03-29',
+    'tele_support' => '',
+    'tele_support_status' => '已过期',
+    'warranty' => '2016-05-02',
+    'warranty_status' => '未过期',
+  ),
+)
+**********************value*************************
+
+
+
+**********************value*************************
+'比较'
+**********************value*************************
+
+
+
+**********************value*************************
+array (
+  'showapi_res_code' => 0,
+  'showapi_res_error' => '',
+  'showapi_res_body' => 
+  array (
+    'remark' => '找不到此序列号',
+    'ret_code' => -1,
+  ),
+)
+**********************value*************************
+
+

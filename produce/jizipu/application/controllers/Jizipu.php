@@ -60,7 +60,7 @@ class wechatCallbackapiTest
         			//正常返回
 	        		if($contentStr == ''){
 	        			$contentStr = "欢迎来到机子铺!功能如下：\n";
-	        			$contentStr .= "(1)直接输入苹果序列号查询手机信息";
+	        			$contentStr .= "(1)输入'序列号(直接填你的序列号)'查询苹果手机信息";
 	        		}
                 	$resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
                 	echo $resultStr;
