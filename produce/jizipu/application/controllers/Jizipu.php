@@ -176,4 +176,8 @@ class Jizipu extends CI_Controller{
 			$wechatObj -> responseMsg();
 		}
 	}
+	
+	public function test(){
+		echo "test!!!!!";
+	}
 }
