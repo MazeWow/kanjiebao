@@ -178,9 +178,7 @@ class Jizipu extends CI_Controller{
 	}
 	
 	public function test(){
-		echo "test!!!!!";
-		
-		$model = 'F2LPH9FQG5QV';
+		$model = 'F2LP7419G5QW';
 		$curl = curl_init();
 		
 		curl_setopt_array($curl, array(
