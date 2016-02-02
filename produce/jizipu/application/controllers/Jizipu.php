@@ -140,11 +140,6 @@ function get_apple_msg($sn = 'F2LPH9FQG5QV'){
 	return $result;
 }
 
-
-
-
-
-
 class Jizipu extends CI_Controller{
 	public function __construct(){
 		parent::__construct();
