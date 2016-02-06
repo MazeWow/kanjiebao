@@ -37,6 +37,8 @@ class wechatCallbackapiTest
 	        if(!empty( $keyword )){
 	        		$msgType = "text";
 	        		$contentStr = '';
+	        		
+	        		//序列号
 	        		$xlh = mb_substr($keyword,0,3,'utf-8');
 	        		if($xlh == "序列号"){
 	        			$xlh = mb_substr($keyword,3,mb_strlen($keyword),'utf-8');
