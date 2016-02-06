@@ -2,24 +2,22 @@
 class wechatCallbackapiTest
 {
 	public function valid()
-    {
+    {/*{{{*/
         $echoStr = $_GET["echostr"];
         //valid signature , option
         if($this->checkSignature()){
         	echo $echoStr;
         	exit;
         }
-    }
+    }/*}}}*/
 
     public function responseMsg()
-    {
+    {/*{{{*/
 		//get post data, May be due to the different environments
 		$postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
 
       	//extract post data
 		if (!empty($postStr)){
-                /* libxml_disable_entity_loader is to prevent XML eXternal Entity Injection,
-                   the best way is to check the validity of xml by yourself */
                 libxml_disable_entity_loader(true);
               	$postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
                 $fromUsername = $postObj->FromUserName;
@@ -35,39 +33,69 @@ class wechatCallbackapiTest
 				<FuncFlag>0</FuncFlag>
 			     </xml>";
 	        if(!empty( $keyword )){
-	        		$msgType = "text";
-	        		$contentStr = '';
-	        		
-	        		//序列号
-	        		$xlh = mb_substr($keyword,0,3,'utf-8');
-	        		if($xlh == "序列号"){
-	        			$xlh = mb_substr($keyword,3,mb_strlen($keyword),'utf-8');
-        				$res = get_apple_msg($xlh)['showapi_res_body'];
-        				if(isset($res['phone_model'])){$contentStr.='手机型号：'.$res['phone_model']."\n";}
-        				if(isset($res['made_area'])){ $contentStr.='产地：'.$res['made_area']."\n";}
-        				if(isset($res['imei_number'])){ $contentStr.='手机串号：'.$res['imei_number']."\n";}
-        				if(isset($res['color'])){ $contentStr.='颜色：'.$res['color']."\n";}
-        				if(isset($res['active'])){ $contentStr.='是否激活：'.$res['active']."\n";}
-        				if(isset($res['made_area'])){$contentStr.='产地：'.$res['made_area']."\n";}
-        				if(isset($res['serial_number'])){ $contentStr.='手机序列号：'.$res['serial_number']."\n";}
-        				if(isset($res['start_date'])){ $contentStr.='生产开始时间：'.$res['start_date']."\n";}
-        				if(isset($res['end_date'])){ $contentStr.='生产结束时间：'.$res['end_date']."\n";}
-        				if(isset($res['size'])){ $contentStr.='内存大小：'.$res['size']."\n";}
-        				if(isset($res['tele_support'])){ $contentStr.='电话支持到期时间：'.$res['tele_support']."\n";}
-        				if(isset($res['tele_support_status'])){ $contentStr.='电话支持状态：'.$res['tele_support_status']."\n";}
-        				if(isset($res['warranty'])){ $contentStr.='保修到期时间：'.$res['warranty']."\n";}
-        				if(isset($res['warranty_status'])){ $contentStr.='保修状态：'.$res['warranty_status']."\n";}
-        				if(isset($res['remark'])){ $contentStr.='查询错误：'.$res['remark']."\n";}
-	        		}
-        			//正常返回
-	        		if($contentStr == ''){
-	        			$contentStr = "欢迎来到机子铺!功能如下：\n";
-	        			$contentStr .= "(1)输入'序列号(直接填你的序列号)'查询苹果手机信息";
-	        		}
-                	$resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+					$contentStr = '';
+					if(preg_match('#\w{10,}#',$keyword)){
+						$contentStr = get_apple_msg($keyword);
+						if($contentStr = json_decode($contentStr,true)){
+							$c = $contentStr;
+							$contentStr = "设备型号：$c[model]\n容量：$c[capacity]\n颜色: $c[color]\n版本:$c[number]\n类型:$c[identifier]\n";
+							$contentStr.= "模型：$c[order]\n网络:$c[network]\n";
+							if($c['activated']){
+								$contentStr .= "激活状态：已激活\n";
+								$contentStr .= "激活时间:$c[time]\n";
+							}else{
+								$contentStr .= "激活状态：未激活\n";
+							}
+							$contentStr .= "产地:$c[origin]\n";
+							$contentStr .= "出厂日期:$c[end]\n";
+							$contentStr .= "产品类型:$c[product]\n";
+							$contentStr .= "硬件保修:$c[warranty]\n";
+							$contentStr .= "保修剩余天数:$c[dayleft]\n";
+							$contentStr .= "电话支持:$c[tele]\n";
+							if($c['purchasing']){
+								$contentStr .= "是否有效购买：是\n";
+							}else{
+								$contentStr .= "是否有效购买：否\n";
+							}
+							if($c['locked']){
+								$contentStr .= "激活锁状态：锁定\n";
+							}else{
+								$contentStr .= "激活锁状态：关闭\n";
+							}
+							$p = $c['renovate']['probability'];
+							$r = $c['renovate']['result'];
+							$contentStr .= "翻新机概率:$p\n";
+							$contentStr .= "鉴定结果:$r\n";
+							$contentStr .= "详细规格如下 : \n";
+							$s = $c['spec'];
+							$contentStr .= "产品：$s[item]\n";
+							$contentStr .= "上市时间：$s[intro]\n";
+							$contentStr .= "停产时间：$s[disc]\n";
+							$contentStr .= "显示屏：$s[display]\n";
+							$contentStr .= "分辨率：$s[resolution]\n";
+							$contentStr .= "处理器：$s[cpu]\n";
+							$contentStr .= "处理器核心：$s[processor]\n";
+							$contentStr .= "处理器频率：$s[speed]\n";
+							$contentStr .= "内存：$s[ram]\n";
+							$contentStr .= "储存：$s[storage]\n";
+							$contentStr .= "尺寸：$s[dimension]\n";
+							$contentStr .= "重量：$s[weight]";
+
+							$img = $c['img'];
+							$contentStr .="设备图片:$img\n";
+						}else{
+							$contentStr = "不好意思，您的序列号/imei码可能有误，确认后再试一下吧～";
+						}
+					}else{
+	        			$contentStr = "这位机友迷路了吧？机子铺里，你可以一秒轻松鉴定手机真伪、分分钟获取相关干货、还能随时随地请教机小妹！\n";
+						$contentStr .= "1）输入手机“序列号”，获取手机的具体信息；\n";
+						$contentStr .= "2）输入手机“imei”码，获取更全面信息，轻松鉴定手机真伪！\n";
+						$contentStr .= "3）二手手机相关干货，查看历史消息即可～";
+					}
+                	$resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, 'text', $contentStr);
                 	echo $resultStr;
 	        }else{
-                	echo "Input something...";
+                	echo "您没有输入任何内容!";
             }
         }else {
         	echo "";
@@ -76,7 +104,7 @@ class wechatCallbackapiTest
     }
 		
 	private function checkSignature()
-	{
+	{/*{{{*/
         // you must define TOKEN by yourself
         if (!defined("TOKEN")) {
             throw new Exception('TOKEN is not defined!');
@@ -98,11 +126,12 @@ class wechatCallbackapiTest
 		}else{
 			return false;
 		}
-	}
+	/*}}}*/}
+
 }
 
-
-function createSign ($paramArr) {
+function createSign ($paramArr) 
+{/*{{{*/
 	$sign = "";
 	ksort($paramArr);
 	foreach ($paramArr as $key => $val) {
@@ -113,9 +142,10 @@ function createSign ($paramArr) {
 	$sign.='50a2e8e3b42248d1b73739641faa3fa4';
 	$sign = strtoupper(md5($sign));
 	return $sign;
-}
+/*}}}*/}
 
-function createStrParam ($paramArr) {
+function createStrParam ($paramArr) 
+{/*{{{*/
 	$strParam = '';
 	foreach ($paramArr as $key => $val) {
 		if ($key != '' && $val != '') {
@@ -123,11 +153,23 @@ function createStrParam ($paramArr) {
 		}
 	}
 	return $strParam;
-}
+/*}}}*/}
 
-
-function get_apple_msg($sn = 'F2LPH9FQG5QV'){
+function get_apple_msg($sn = 'F2LPH9FQG5QV')
+{/*{{{*/
 	date_default_timezone_set("PRC");
+	$ch = curl_init();
+    $url = "http://apis.baidu.com/3023/apple/apple?sn=$sn";
+   	$header = array(
+       	'apikey: f71b2732ad014b80ad528ea06d08470f',
+    );
+	// 添加apikey到header
+	curl_setopt($ch, CURLOPT_HTTPHEADER  , $header);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	// 执行HTTP请求
+	curl_setopt($ch , CURLOPT_URL , $url);
+	return $res = curl_exec($ch);
+	/*	
 	$paramArr = array(
 			'showapi_appid'=> '14742',
 			'sn' => $sn,
@@ -140,7 +182,8 @@ function get_apple_msg($sn = 'F2LPH9FQG5QV'){
 	$result = file_get_contents($url);
 	$result = json_decode($result,true);
 	return $result;
-}
+	*/
+/*}}}*/}
 
 class Jizipu extends CI_Controller{
 	public function __construct(){
@@ -180,7 +223,7 @@ class Jizipu extends CI_Controller{
 	}
 	
 	public function test(){
-		 $ch = curl_init();
+		$ch = curl_init();
     	$url = 'http://apis.baidu.com/3023/apple/apple?sn=F2LPH9FQG5QV';
    		$header = array(
         	'apikey: f71b2732ad014b80ad528ea06d08470f',
