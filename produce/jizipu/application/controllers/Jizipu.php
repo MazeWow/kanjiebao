@@ -64,6 +64,7 @@ class wechatCallbackapiTest
 							}
 							$p = $c['renovate']['probability'];
 							$r = $c['renovate']['result'];
+							/*
 							$contentStr .= "翻新机概率:$p\n";
 							$contentStr .= "鉴定结果:$r\n";
 							$contentStr .= "详细规格如下 : \n";
@@ -80,9 +81,9 @@ class wechatCallbackapiTest
 							$contentStr .= "储存：$s[storage]\n";
 							$contentStr .= "尺寸：$s[dimension]\n";
 							$contentStr .= "重量：$s[weight]";
-
 							$img = $c['img'];
 							$contentStr .="设备图片:$img\n";
+							*/
 						}else{
 							$contentStr = "不好意思，您的序列号/imei码可能有误，确认后再试一下吧～";
 						}
