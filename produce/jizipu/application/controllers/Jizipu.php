@@ -62,9 +62,10 @@ class wechatCallbackapiTest
 							}else{
 								$contentStr .= "激活锁状态：关闭\n";
 							}
+							$contentStr .= "PS: 此查询结果仅供参考,一切以苹果官网查询结果为准\n";
+							/*
 							$p = $c['renovate']['probability'];
 							$r = $c['renovate']['result'];
-							/*
 							$contentStr .= "翻新机概率:$p\n";
 							$contentStr .= "鉴定结果:$r\n";
 							$contentStr .= "详细规格如下 : \n";
@@ -131,7 +132,7 @@ class wechatCallbackapiTest
 
 }
 
-function createSign ($paramArr) 
+function createSign ($paramArr)
 {/*{{{*/
 	$sign = "";
 	ksort($paramArr);
@@ -145,7 +146,7 @@ function createSign ($paramArr)
 	return $sign;
 /*}}}*/}
 
-function createStrParam ($paramArr) 
+function createStrParam ($paramArr)
 {/*{{{*/
 	$strParam = '';
 	foreach ($paramArr as $key => $val) {
@@ -170,7 +171,7 @@ function get_apple_msg($sn = 'F2LPH9FQG5QV')
 	// 执行HTTP请求
 	curl_setopt($ch , CURLOPT_URL , $url);
 	return $res = curl_exec($ch);
-	/*	
+	/*
 	$paramArr = array(
 			'showapi_appid'=> '14742',
 			'sn' => $sn,
