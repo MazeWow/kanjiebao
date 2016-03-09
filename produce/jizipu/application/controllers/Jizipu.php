@@ -34,7 +34,7 @@ class wechatCallbackapiTest
 			     </xml>";
 	        if(!empty( $keyword )){
 					$contentStr = '';
-					if(preg_match('#\w{10,}#',$keyword)){
+					if(preg_match('#\w{10,14}#',$keyword)){
 						$contentStr = get_apple_msg($keyword);
 						if($contentStr = json_decode($contentStr,true)){
 							$c = $contentStr;
@@ -63,37 +63,20 @@ class wechatCallbackapiTest
 								$contentStr .= "激活锁状态：关闭\n";
 							}
 							$contentStr .= "PS: 此查询结果仅供参考,一切以苹果官网查询结果为准\n";
-							/*
-							$p = $c['renovate']['probability'];
-							$r = $c['renovate']['result'];
-							$contentStr .= "翻新机概率:$p\n";
-							$contentStr .= "鉴定结果:$r\n";
-							$contentStr .= "详细规格如下 : \n";
-							$s = $c['spec'];
-							$contentStr .= "产品：$s[item]\n";
-							$contentStr .= "上市时间：$s[intro]\n";
-							$contentStr .= "停产时间：$s[disc]\n";
-							$contentStr .= "显示屏：$s[display]\n";
-							$contentStr .= "分辨率：$s[resolution]\n";
-							$contentStr .= "处理器：$s[cpu]\n";
-							$contentStr .= "处理器核心：$s[processor]\n";
-							$contentStr .= "处理器频率：$s[speed]\n";
-							$contentStr .= "内存：$s[ram]\n";
-							$contentStr .= "储存：$s[storage]\n";
-							$contentStr .= "尺寸：$s[dimension]\n";
-							$contentStr .= "重量：$s[weight]";
-							$img = $c['img'];
-							$contentStr .="设备图片:$img\n";
-							*/
 						}else{
-							$contentStr = "不好意思，您的序列号/imei码可能有误，确认后再试一下吧～";
+							$contentStr = "不好意思，您的序列号可能有误，确认后再试一下吧～ps：如果有问题，可以直接留言，机小妹会第一时间为你排忧解难";
 						}
 					}else{
-	        			$contentStr = "这位机友迷路了吧？机子铺里，你可以一秒轻松鉴定手机真伪、分分钟获取相关干货、还能随时随地请教机小妹！\n";
-						$contentStr .= "1）输入手机“序列号”，获取手机的具体信息；\n";
+	        			$contentStr = "哈喽！机友！终于等到你咯~到了机子铺，表客气！机小妹随时听候差遣~在这里，你可以一秒轻松鉴定手机真伪、分分钟获取相关干货、还能随时随地请教机小妹！\n";
+						$contentStr .= "1）输入手机“序列号”，获取手机的具体信息\n";
 						$contentStr .= "2）输入手机“imei”码，获取更全面信息，轻松鉴定手机真伪！\n";
-						$contentStr .= "3）二手手机相关干货，查看历史消息即可～";
+						$contentStr .= "3）二手手机相关干货，翻看历史消息，轻松掌握～\n";
+						$contentStr .= "4）有神马问题，随时留言，机小妹会在第一时间为你排忧解难！\n";
 					}
+					
+					
+					
+					//格式化返回给微信的数据
                 	$resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, 'text', $contentStr);
                 	echo $resultStr;
 	        }else{
