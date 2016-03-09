@@ -2366,3 +2366,1068 @@ array (
 **********************ret*************************
 
 
+
+**********************this->params*************************
+array (
+  'page_now' => '1',
+)
+**********************this->params*************************
+
+
+
+**********************value*************************
+array (
+)
+**********************value*************************
+
+
+
+**********************resutls*************************
+array (
+  'records' => 
+  array (
+    0 => 
+    array (
+      'id' => '16',
+      'phone' => '18911938192',
+      'name' => '',
+      'pwd' => 'f1ca107ad143f9cc8a8dc854f0f5f6ed',
+      'email' => '',
+      'qq' => '0',
+      'head' => '',
+      'des' => '',
+      'city' => '',
+      'register_time' => '0',
+    ),
+    1 => 
+    array (
+      'id' => '17',
+      'phone' => '17606339907',
+      'name' => '',
+      'pwd' => '8110390732f95f8a71344e5ffe65d847',
+      'email' => '',
+      'qq' => '0',
+      'head' => '',
+      'des' => '',
+      'city' => '',
+      'register_time' => '0',
+    ),
+    2 => 
+    array (
+      'id' => '18',
+      'phone' => '18510872040',
+      'name' => '',
+      'pwd' => '8ee2ee6b58bbd6b02f7ce0601fe2aa18',
+      'email' => '',
+      'qq' => '0',
+      'head' => '',
+      'des' => '',
+      'city' => '',
+      'register_time' => '0',
+    ),
+    3 => 
+    array (
+      'id' => '19',
+      'phone' => '18518737146',
+      'name' => '',
+      'pwd' => '893c2032e23afe1aeb26f26bf495a6fd',
+      'email' => '',
+      'qq' => '0',
+      'head' => '',
+      'des' => '',
+      'city' => '',
+      'register_time' => '0',
+    ),
+    4 => 
+    array (
+      'id' => '20',
+      'phone' => '18515527001',
+      'name' => '',
+      'pwd' => 'c8e89dc2fe92c439eb0938bfdde1cb4e',
+      'email' => '',
+      'qq' => '0',
+      'head' => '',
+      'des' => '',
+      'city' => '',
+      'register_time' => '0',
+    ),
+    5 => 
+    array (
+      'id' => '21',
+      'phone' => '18810417571',
+      'name' => '',
+      'pwd' => 'ee14af75a1ca2d938de6bcac096831d0',
+      'email' => '',
+      'qq' => '0',
+      'head' => '',
+      'des' => '',
+      'city' => '',
+      'register_time' => '0',
+    ),
+    6 => 
+    array (
+      'id' => '22',
+      'phone' => '18039683299',
+      'name' => '',
+      'pwd' => '9602bf2861444fc957e93945afa59de4',
+      'email' => '',
+      'qq' => '0',
+      'head' => '',
+      'des' => '',
+      'city' => '',
+      'register_time' => '1452350296',
+    ),
+  ),
+  'records_num' => '7',
+  'pager' => 
+  array (
+    'total_pages' => 1,
+    'pre_page' => 1,
+    'next_page' => 1,
+    'page_now' => '1',
+    'pages' => 
+    array (
+      0 => 1,
+    ),
+  ),
+)
+**********************resutls*************************
+
+
+
+**********************ret*************************
+array (
+  'err_num' => 0,
+  'err_msg' => '获取用户列表成功',
+  'results' => 
+  array (
+    'records' => 
+    array (
+      0 => 
+      array (
+        'id' => '16',
+        'phone' => '18911938192',
+        'name' => '',
+        'pwd' => 'f1ca107ad143f9cc8a8dc854f0f5f6ed',
+        'email' => '',
+        'qq' => '0',
+        'head' => '',
+        'des' => '',
+        'city' => '',
+        'register_time' => '0',
+      ),
+      1 => 
+      array (
+        'id' => '17',
+        'phone' => '17606339907',
+        'name' => '',
+        'pwd' => '8110390732f95f8a71344e5ffe65d847',
+        'email' => '',
+        'qq' => '0',
+        'head' => '',
+        'des' => '',
+        'city' => '',
+        'register_time' => '0',
+      ),
+      2 => 
+      array (
+        'id' => '18',
+        'phone' => '18510872040',
+        'name' => '',
+        'pwd' => '8ee2ee6b58bbd6b02f7ce0601fe2aa18',
+        'email' => '',
+        'qq' => '0',
+        'head' => '',
+        'des' => '',
+        'city' => '',
+        'register_time' => '0',
+      ),
+      3 => 
+      array (
+        'id' => '19',
+        'phone' => '18518737146',
+        'name' => '',
+        'pwd' => '893c2032e23afe1aeb26f26bf495a6fd',
+        'email' => '',
+        'qq' => '0',
+        'head' => '',
+        'des' => '',
+        'city' => '',
+        'register_time' => '0',
+      ),
+      4 => 
+      array (
+        'id' => '20',
+        'phone' => '18515527001',
+        'name' => '',
+        'pwd' => 'c8e89dc2fe92c439eb0938bfdde1cb4e',
+        'email' => '',
+        'qq' => '0',
+        'head' => '',
+        'des' => '',
+        'city' => '',
+        'register_time' => '0',
+      ),
+      5 => 
+      array (
+        'id' => '21',
+        'phone' => '18810417571',
+        'name' => '',
+        'pwd' => 'ee14af75a1ca2d938de6bcac096831d0',
+        'email' => '',
+        'qq' => '0',
+        'head' => '',
+        'des' => '',
+        'city' => '',
+        'register_time' => '0',
+      ),
+      6 => 
+      array (
+        'id' => '22',
+        'phone' => '18039683299',
+        'name' => '',
+        'pwd' => '9602bf2861444fc957e93945afa59de4',
+        'email' => '',
+        'qq' => '0',
+        'head' => '',
+        'des' => '',
+        'city' => '',
+        'register_time' => '1452350296',
+      ),
+    ),
+    'records_num' => '7',
+    'pager' => 
+    array (
+      'total_pages' => 1,
+      'pre_page' => 1,
+      'next_page' => 1,
+      'page_now' => '1',
+      'pages' => 
+      array (
+        0 => 1,
+      ),
+    ),
+  ),
+)
+**********************ret*************************
+
+
+
+**********************this->params*************************
+array (
+  'page_now' => '1',
+)
+**********************this->params*************************
+
+
+
+**********************value*************************
+array (
+)
+**********************value*************************
+
+
+
+**********************resutls*************************
+array (
+  'records' => 
+  array (
+    0 => 
+    array (
+      'id' => '16',
+      'phone' => '18911938192',
+      'name' => '',
+      'pwd' => 'f1ca107ad143f9cc8a8dc854f0f5f6ed',
+      'email' => '',
+      'qq' => '0',
+      'head' => '',
+      'des' => '',
+      'city' => '',
+      'register_time' => '0',
+    ),
+    1 => 
+    array (
+      'id' => '17',
+      'phone' => '17606339907',
+      'name' => '',
+      'pwd' => '8110390732f95f8a71344e5ffe65d847',
+      'email' => '',
+      'qq' => '0',
+      'head' => '',
+      'des' => '',
+      'city' => '',
+      'register_time' => '0',
+    ),
+    2 => 
+    array (
+      'id' => '18',
+      'phone' => '18510872040',
+      'name' => '',
+      'pwd' => '8ee2ee6b58bbd6b02f7ce0601fe2aa18',
+      'email' => '',
+      'qq' => '0',
+      'head' => '',
+      'des' => '',
+      'city' => '',
+      'register_time' => '0',
+    ),
+    3 => 
+    array (
+      'id' => '19',
+      'phone' => '18518737146',
+      'name' => '',
+      'pwd' => '893c2032e23afe1aeb26f26bf495a6fd',
+      'email' => '',
+      'qq' => '0',
+      'head' => '',
+      'des' => '',
+      'city' => '',
+      'register_time' => '0',
+    ),
+    4 => 
+    array (
+      'id' => '20',
+      'phone' => '18515527001',
+      'name' => '',
+      'pwd' => 'c8e89dc2fe92c439eb0938bfdde1cb4e',
+      'email' => '',
+      'qq' => '0',
+      'head' => '',
+      'des' => '',
+      'city' => '',
+      'register_time' => '0',
+    ),
+    5 => 
+    array (
+      'id' => '21',
+      'phone' => '18810417571',
+      'name' => '',
+      'pwd' => 'ee14af75a1ca2d938de6bcac096831d0',
+      'email' => '',
+      'qq' => '0',
+      'head' => '',
+      'des' => '',
+      'city' => '',
+      'register_time' => '0',
+    ),
+    6 => 
+    array (
+      'id' => '22',
+      'phone' => '18039683299',
+      'name' => '',
+      'pwd' => '9602bf2861444fc957e93945afa59de4',
+      'email' => '',
+      'qq' => '0',
+      'head' => '',
+      'des' => '',
+      'city' => '',
+      'register_time' => '1452350296',
+    ),
+  ),
+  'records_num' => '7',
+  'pager' => 
+  array (
+    'total_pages' => 1,
+    'pre_page' => 1,
+    'next_page' => 1,
+    'page_now' => '1',
+    'pages' => 
+    array (
+      0 => 1,
+    ),
+  ),
+)
+**********************resutls*************************
+
+
+
+**********************ret*************************
+array (
+  'err_num' => 0,
+  'err_msg' => '获取用户列表成功',
+  'results' => 
+  array (
+    'records' => 
+    array (
+      0 => 
+      array (
+        'id' => '16',
+        'phone' => '18911938192',
+        'name' => '',
+        'pwd' => 'f1ca107ad143f9cc8a8dc854f0f5f6ed',
+        'email' => '',
+        'qq' => '0',
+        'head' => '',
+        'des' => '',
+        'city' => '',
+        'register_time' => '0',
+      ),
+      1 => 
+      array (
+        'id' => '17',
+        'phone' => '17606339907',
+        'name' => '',
+        'pwd' => '8110390732f95f8a71344e5ffe65d847',
+        'email' => '',
+        'qq' => '0',
+        'head' => '',
+        'des' => '',
+        'city' => '',
+        'register_time' => '0',
+      ),
+      2 => 
+      array (
+        'id' => '18',
+        'phone' => '18510872040',
+        'name' => '',
+        'pwd' => '8ee2ee6b58bbd6b02f7ce0601fe2aa18',
+        'email' => '',
+        'qq' => '0',
+        'head' => '',
+        'des' => '',
+        'city' => '',
+        'register_time' => '0',
+      ),
+      3 => 
+      array (
+        'id' => '19',
+        'phone' => '18518737146',
+        'name' => '',
+        'pwd' => '893c2032e23afe1aeb26f26bf495a6fd',
+        'email' => '',
+        'qq' => '0',
+        'head' => '',
+        'des' => '',
+        'city' => '',
+        'register_time' => '0',
+      ),
+      4 => 
+      array (
+        'id' => '20',
+        'phone' => '18515527001',
+        'name' => '',
+        'pwd' => 'c8e89dc2fe92c439eb0938bfdde1cb4e',
+        'email' => '',
+        'qq' => '0',
+        'head' => '',
+        'des' => '',
+        'city' => '',
+        'register_time' => '0',
+      ),
+      5 => 
+      array (
+        'id' => '21',
+        'phone' => '18810417571',
+        'name' => '',
+        'pwd' => 'ee14af75a1ca2d938de6bcac096831d0',
+        'email' => '',
+        'qq' => '0',
+        'head' => '',
+        'des' => '',
+        'city' => '',
+        'register_time' => '0',
+      ),
+      6 => 
+      array (
+        'id' => '22',
+        'phone' => '18039683299',
+        'name' => '',
+        'pwd' => '9602bf2861444fc957e93945afa59de4',
+        'email' => '',
+        'qq' => '0',
+        'head' => '',
+        'des' => '',
+        'city' => '',
+        'register_time' => '1452350296',
+      ),
+    ),
+    'records_num' => '7',
+    'pager' => 
+    array (
+      'total_pages' => 1,
+      'pre_page' => 1,
+      'next_page' => 1,
+      'page_now' => '1',
+      'pages' => 
+      array (
+        0 => 1,
+      ),
+    ),
+  ),
+)
+**********************ret*************************
+
+
+
+**********************this->params*************************
+array (
+  'page_now' => '1',
+  'stime' => '2016-03-17',
+  'etime' => '2016-03-22',
+)
+**********************this->params*************************
+
+
+
+**********************value*************************
+'register_time < 1458576000 and register_time > 1458144000'
+**********************value*************************
+
+
+
+**********************resutls*************************
+array (
+  'pager' => 
+  array (
+    'total_pages' => 0,
+    'pre_page' => 1,
+    'next_page' => 0,
+    'page_now' => '1',
+  ),
+)
+**********************resutls*************************
+
+
+
+**********************ret*************************
+array (
+  'err_num' => 9000,
+  'err_msg' => 'json_str 解析错误,这是api内部报错！请联系1162097842@qq.com',
+  'results' => 
+  array (
+    0 => '
+<div style="border:1px solid #990000;padding-left:20px;margin:0 0 10px 0;">
+
+<h4>A PHP Error was encountered</h4>
+
+<p>Severity: Notice</p>
+<p>Message:  Undefined index: records_num</p>
+<p>Filename: controllers/User.php</p>
+<p>Line Number: 504</p>
+
+
+	<p>Backtrace:</p>
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /var/www/jiebao/produce/api/application/controllers/User.php<br />
+			Line: 504<br />
+			Function: _error_handler			</p>
+
+		
+	
+		
+	
+		
+	
+		
+			<p style="margin-left:10px">
+			File: /var/www/jiebao/produce/api/index.php<br />
+			Line: 194<br />
+			Function: require_once			</p>
+
+		
+	
+
+</div>{"err_num":0,"err_msg":"\\u83b7\\u53d6\\u7528\\u6237\\u5217\\u8868\\u6210\\u529f","results":{"pager":{"total_pages":0,"pre_page":1,"next_page":0,"page_now":"1"}}}',
+  ),
+)
+**********************ret*************************
+
+
+
+**********************this->params*************************
+array (
+  'page_now' => '1',
+)
+**********************this->params*************************
+
+
+
+**********************value*************************
+array (
+)
+**********************value*************************
+
+
+
+**********************resutls*************************
+array (
+  'records' => 
+  array (
+    0 => 
+    array (
+      'id' => '16',
+      'phone' => '18911938192',
+      'name' => '',
+      'pwd' => 'f1ca107ad143f9cc8a8dc854f0f5f6ed',
+      'email' => '',
+      'qq' => '0',
+      'head' => '',
+      'des' => '',
+      'city' => '',
+      'register_time' => '0',
+    ),
+    1 => 
+    array (
+      'id' => '17',
+      'phone' => '17606339907',
+      'name' => '',
+      'pwd' => '8110390732f95f8a71344e5ffe65d847',
+      'email' => '',
+      'qq' => '0',
+      'head' => '',
+      'des' => '',
+      'city' => '',
+      'register_time' => '0',
+    ),
+    2 => 
+    array (
+      'id' => '18',
+      'phone' => '18510872040',
+      'name' => '',
+      'pwd' => '8ee2ee6b58bbd6b02f7ce0601fe2aa18',
+      'email' => '',
+      'qq' => '0',
+      'head' => '',
+      'des' => '',
+      'city' => '',
+      'register_time' => '0',
+    ),
+    3 => 
+    array (
+      'id' => '19',
+      'phone' => '18518737146',
+      'name' => '',
+      'pwd' => '893c2032e23afe1aeb26f26bf495a6fd',
+      'email' => '',
+      'qq' => '0',
+      'head' => '',
+      'des' => '',
+      'city' => '',
+      'register_time' => '0',
+    ),
+    4 => 
+    array (
+      'id' => '20',
+      'phone' => '18515527001',
+      'name' => '',
+      'pwd' => 'c8e89dc2fe92c439eb0938bfdde1cb4e',
+      'email' => '',
+      'qq' => '0',
+      'head' => '',
+      'des' => '',
+      'city' => '',
+      'register_time' => '0',
+    ),
+    5 => 
+    array (
+      'id' => '21',
+      'phone' => '18810417571',
+      'name' => '',
+      'pwd' => 'ee14af75a1ca2d938de6bcac096831d0',
+      'email' => '',
+      'qq' => '0',
+      'head' => '',
+      'des' => '',
+      'city' => '',
+      'register_time' => '0',
+    ),
+    6 => 
+    array (
+      'id' => '22',
+      'phone' => '18039683299',
+      'name' => '',
+      'pwd' => '9602bf2861444fc957e93945afa59de4',
+      'email' => '',
+      'qq' => '0',
+      'head' => '',
+      'des' => '',
+      'city' => '',
+      'register_time' => '1452350296',
+    ),
+  ),
+  'records_num' => '7',
+  'pager' => 
+  array (
+    'total_pages' => 1,
+    'pre_page' => 1,
+    'next_page' => 1,
+    'page_now' => '1',
+    'pages' => 
+    array (
+      0 => 1,
+    ),
+  ),
+)
+**********************resutls*************************
+
+
+
+**********************ret*************************
+array (
+  'err_num' => 0,
+  'err_msg' => '获取用户列表成功',
+  'results' => 
+  array (
+    'records' => 
+    array (
+      0 => 
+      array (
+        'id' => '16',
+        'phone' => '18911938192',
+        'name' => '',
+        'pwd' => 'f1ca107ad143f9cc8a8dc854f0f5f6ed',
+        'email' => '',
+        'qq' => '0',
+        'head' => '',
+        'des' => '',
+        'city' => '',
+        'register_time' => '0',
+      ),
+      1 => 
+      array (
+        'id' => '17',
+        'phone' => '17606339907',
+        'name' => '',
+        'pwd' => '8110390732f95f8a71344e5ffe65d847',
+        'email' => '',
+        'qq' => '0',
+        'head' => '',
+        'des' => '',
+        'city' => '',
+        'register_time' => '0',
+      ),
+      2 => 
+      array (
+        'id' => '18',
+        'phone' => '18510872040',
+        'name' => '',
+        'pwd' => '8ee2ee6b58bbd6b02f7ce0601fe2aa18',
+        'email' => '',
+        'qq' => '0',
+        'head' => '',
+        'des' => '',
+        'city' => '',
+        'register_time' => '0',
+      ),
+      3 => 
+      array (
+        'id' => '19',
+        'phone' => '18518737146',
+        'name' => '',
+        'pwd' => '893c2032e23afe1aeb26f26bf495a6fd',
+        'email' => '',
+        'qq' => '0',
+        'head' => '',
+        'des' => '',
+        'city' => '',
+        'register_time' => '0',
+      ),
+      4 => 
+      array (
+        'id' => '20',
+        'phone' => '18515527001',
+        'name' => '',
+        'pwd' => 'c8e89dc2fe92c439eb0938bfdde1cb4e',
+        'email' => '',
+        'qq' => '0',
+        'head' => '',
+        'des' => '',
+        'city' => '',
+        'register_time' => '0',
+      ),
+      5 => 
+      array (
+        'id' => '21',
+        'phone' => '18810417571',
+        'name' => '',
+        'pwd' => 'ee14af75a1ca2d938de6bcac096831d0',
+        'email' => '',
+        'qq' => '0',
+        'head' => '',
+        'des' => '',
+        'city' => '',
+        'register_time' => '0',
+      ),
+      6 => 
+      array (
+        'id' => '22',
+        'phone' => '18039683299',
+        'name' => '',
+        'pwd' => '9602bf2861444fc957e93945afa59de4',
+        'email' => '',
+        'qq' => '0',
+        'head' => '',
+        'des' => '',
+        'city' => '',
+        'register_time' => '1452350296',
+      ),
+    ),
+    'records_num' => '7',
+    'pager' => 
+    array (
+      'total_pages' => 1,
+      'pre_page' => 1,
+      'next_page' => 1,
+      'page_now' => '1',
+      'pages' => 
+      array (
+        0 => 1,
+      ),
+    ),
+  ),
+)
+**********************ret*************************
+
+
+
+**********************this->params*************************
+array (
+  'page_now' => '1',
+)
+**********************this->params*************************
+
+
+
+**********************value*************************
+array (
+)
+**********************value*************************
+
+
+
+**********************resutls*************************
+array (
+  'records' => 
+  array (
+    0 => 
+    array (
+      'id' => '16',
+      'phone' => '18911938192',
+      'name' => '',
+      'pwd' => 'f1ca107ad143f9cc8a8dc854f0f5f6ed',
+      'email' => '',
+      'qq' => '0',
+      'head' => '',
+      'des' => '',
+      'city' => '',
+      'register_time' => '0',
+    ),
+    1 => 
+    array (
+      'id' => '17',
+      'phone' => '17606339907',
+      'name' => '',
+      'pwd' => '8110390732f95f8a71344e5ffe65d847',
+      'email' => '',
+      'qq' => '0',
+      'head' => '',
+      'des' => '',
+      'city' => '',
+      'register_time' => '0',
+    ),
+    2 => 
+    array (
+      'id' => '18',
+      'phone' => '18510872040',
+      'name' => '',
+      'pwd' => '8ee2ee6b58bbd6b02f7ce0601fe2aa18',
+      'email' => '',
+      'qq' => '0',
+      'head' => '',
+      'des' => '',
+      'city' => '',
+      'register_time' => '0',
+    ),
+    3 => 
+    array (
+      'id' => '19',
+      'phone' => '18518737146',
+      'name' => '',
+      'pwd' => '893c2032e23afe1aeb26f26bf495a6fd',
+      'email' => '',
+      'qq' => '0',
+      'head' => '',
+      'des' => '',
+      'city' => '',
+      'register_time' => '0',
+    ),
+    4 => 
+    array (
+      'id' => '20',
+      'phone' => '18515527001',
+      'name' => '',
+      'pwd' => 'c8e89dc2fe92c439eb0938bfdde1cb4e',
+      'email' => '',
+      'qq' => '0',
+      'head' => '',
+      'des' => '',
+      'city' => '',
+      'register_time' => '0',
+    ),
+    5 => 
+    array (
+      'id' => '21',
+      'phone' => '18810417571',
+      'name' => '',
+      'pwd' => 'ee14af75a1ca2d938de6bcac096831d0',
+      'email' => '',
+      'qq' => '0',
+      'head' => '',
+      'des' => '',
+      'city' => '',
+      'register_time' => '0',
+    ),
+    6 => 
+    array (
+      'id' => '22',
+      'phone' => '18039683299',
+      'name' => '',
+      'pwd' => '9602bf2861444fc957e93945afa59de4',
+      'email' => '',
+      'qq' => '0',
+      'head' => '',
+      'des' => '',
+      'city' => '',
+      'register_time' => '1452350296',
+    ),
+  ),
+  'records_num' => '7',
+  'pager' => 
+  array (
+    'total_pages' => 1,
+    'pre_page' => 1,
+    'next_page' => 1,
+    'page_now' => '1',
+    'pages' => 
+    array (
+      0 => 1,
+    ),
+  ),
+)
+**********************resutls*************************
+
+
+
+**********************ret*************************
+array (
+  'err_num' => 0,
+  'err_msg' => '获取用户列表成功',
+  'results' => 
+  array (
+    'records' => 
+    array (
+      0 => 
+      array (
+        'id' => '16',
+        'phone' => '18911938192',
+        'name' => '',
+        'pwd' => 'f1ca107ad143f9cc8a8dc854f0f5f6ed',
+        'email' => '',
+        'qq' => '0',
+        'head' => '',
+        'des' => '',
+        'city' => '',
+        'register_time' => '0',
+      ),
+      1 => 
+      array (
+        'id' => '17',
+        'phone' => '17606339907',
+        'name' => '',
+        'pwd' => '8110390732f95f8a71344e5ffe65d847',
+        'email' => '',
+        'qq' => '0',
+        'head' => '',
+        'des' => '',
+        'city' => '',
+        'register_time' => '0',
+      ),
+      2 => 
+      array (
+        'id' => '18',
+        'phone' => '18510872040',
+        'name' => '',
+        'pwd' => '8ee2ee6b58bbd6b02f7ce0601fe2aa18',
+        'email' => '',
+        'qq' => '0',
+        'head' => '',
+        'des' => '',
+        'city' => '',
+        'register_time' => '0',
+      ),
+      3 => 
+      array (
+        'id' => '19',
+        'phone' => '18518737146',
+        'name' => '',
+        'pwd' => '893c2032e23afe1aeb26f26bf495a6fd',
+        'email' => '',
+        'qq' => '0',
+        'head' => '',
+        'des' => '',
+        'city' => '',
+        'register_time' => '0',
+      ),
+      4 => 
+      array (
+        'id' => '20',
+        'phone' => '18515527001',
+        'name' => '',
+        'pwd' => 'c8e89dc2fe92c439eb0938bfdde1cb4e',
+        'email' => '',
+        'qq' => '0',
+        'head' => '',
+        'des' => '',
+        'city' => '',
+        'register_time' => '0',
+      ),
+      5 => 
+      array (
+        'id' => '21',
+        'phone' => '18810417571',
+        'name' => '',
+        'pwd' => 'ee14af75a1ca2d938de6bcac096831d0',
+        'email' => '',
+        'qq' => '0',
+        'head' => '',
+        'des' => '',
+        'city' => '',
+        'register_time' => '0',
+      ),
+      6 => 
+      array (
+        'id' => '22',
+        'phone' => '18039683299',
+        'name' => '',
+        'pwd' => '9602bf2861444fc957e93945afa59de4',
+        'email' => '',
+        'qq' => '0',
+        'head' => '',
+        'des' => '',
+        'city' => '',
+        'register_time' => '1452350296',
+      ),
+    ),
+    'records_num' => '7',
+    'pager' => 
+    array (
+      'total_pages' => 1,
+      'pre_page' => 1,
+      'next_page' => 1,
+      'page_now' => '1',
+      'pages' => 
+      array (
+        0 => 1,
+      ),
+    ),
+  ),
+)
+**********************ret*************************
+
+
