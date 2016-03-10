@@ -12,7 +12,7 @@ class wechatCallbackapiTest
     }
 
     public function responseMsg()
-    { 
+    {
 		//get post data, May be due to the different environments
 		$postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
 
@@ -254,8 +254,4 @@ class Jizipu extends CI_Controller{
 	    var_dump(json_decode($res));
 	}
 }
-
-
-
-
-
+}
