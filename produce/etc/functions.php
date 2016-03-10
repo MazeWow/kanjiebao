@@ -107,7 +107,7 @@ function rand_str($length = '4',$chars = '')
  * @return 0
  * @author  caokaiyan
  * */
-function debug($param,$str="value",$path = '/var/www/jiebao/develop/api/debug.php'){
+function debug($param,$str="value",$path = '/var/www/jiebao/debug.log'){
 	$star = "\n**********************$str*************************\n";
 	file_put_contents($path, $star,FILE_APPEND);
 	file_put_contents($path,var_export($param,true),FILE_APPEND);

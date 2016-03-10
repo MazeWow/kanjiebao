@@ -17,83 +17,52 @@ class wechatCallbackapiTest
 		$postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
 
       	//extract post data
-		if (!empty($postStr)){
+		if (!empty($postStr))
+		{
                 libxml_disable_entity_loader(true);
               	$postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
                 $fromUsername = $postObj->FromUserName;
                 $toUsername = $postObj->ToUserName;
                 $keyword = trim($postObj->Content);
                 $time = time();
-                $textTpl = "<xml>
-				<ToUserName><![CDATA[%s]]></ToUserName>
-				<FromUserName><![CDATA[%s]]></FromUserName>
-				<CreateTime>%s</CreateTime>
-				<MsgType><![CDATA[%s]]></MsgType>
-				<Content><![CDATA[%s]]></Content>
-				<FuncFlag>0</FuncFlag>
-			     </xml>";
-	        if(!empty( $keyword )){
-	        	
-	        		//　返回给用户的数据
-					$contentStr = '';
-
-					//当用户输入 10-14位 “字母+数字” 时，调用序列号查询接口！
-					//1,数据返回正确，则正确返回。
-					//2,数据查询错误，返回“不好意思，您的序列号可能有误，确认后再试一下吧～ps：如果有问题，可以直接留言，机小妹会第一时间为你排忧解难”！
-					if(preg_match('/^\w{10,14}$/',$keyword)){
-						$contentStr = get_apple_msg($keyword);
-						if($contentStr = json_decode($contentStr,true)){
-							$c = $contentStr;
-							$contentStr = "设备型号：$c[model]\n容量：$c[capacity]\n颜色: $c[color]\n版本:$c[number]\n类型:$c[identifier]\n";
-							$contentStr.= "模型：$c[order]\n网络:$c[network]\n";
-							if($c['activated']){
-								$contentStr .= "激活状态：已激活\n";
-								$contentStr .= "激活时间:$c[time]\n";
-							}else{
-								$contentStr .= "激活状态：未激活\n";
-							}
-							$contentStr .= "产地:$c[origin]\n";
-							$contentStr .= "出厂日期:$c[end]\n";
-							$contentStr .= "产品类型:$c[product]\n";
-							$contentStr .= "硬件保修:$c[warranty]\n";
-							$contentStr .= "保修剩余天数:$c[dayleft]\n";
-							$contentStr .= "电话支持:$c[tele]\n";
-							if($c['purchasing']){
-								$contentStr .= "是否有效购买：是\n";
-							}else{
-								$contentStr .= "是否有效购买：否\n";
-							}
-							if($c['locked']){
-								$contentStr .= "激活锁状态：锁定\n";
-							}else{
-								$contentStr .= "激活锁状态：关闭\n";
-							}
-							$contentStr .= "PS: 此查询结果仅供参考,一切以<a href='https://checkcoverage.apple.com/cn/zh;jsessionid=nlLgWWJcyJlfqjP5G68LymHwQLdJJy58ynkTNyyJDw1FJTHzTqFv!1843384130'>苹果官网</a>查询结果为准\n";
-							$contentStr .= "销售地(哪国版)：[设置/通用/关于本机/型号]忽略/A最后两位CH为国行,ZP港行,KH韩版,LL美版";
-						}else{
-							$contentStr = "不好意思，您的序列号可能有误，确认后再试一下吧～ps：如果有问题，可以直接留言，机小妹会第一时间为你排忧解难";
-						}
+                $textTpl = "<xml><ToUserName><![CDATA[%s]]></ToUserName><FromUserName><![CDATA[%s]]></FromUserName><CreateTime>%s</CreateTime><MsgType><![CDATA[%s]]></MsgType><Content><![CDATA[%s]]></Content><FuncFlag>0</FuncFlag></xml>";
+			//如果用户发信息过来了
+			debug($keyword,'keyword');
+			if(!empty( $keyword ))
+			{
+				$data = ''; //返回给用户的数据
+				//当用户输入 10-14位 “字母+数字” 时，调用序列号查询接口！
+				//1,数据返回正确，则正确返回。
+				//2,数据查询错误，返回“不好意思，您的序列号可能有误，确认后再试一下吧～ps：如果有问题，可以直接留言，机小妹会第一时间为你排忧解难”！
+				if(preg_match('/^\w{10,14}$/',$keyword))
+				{
+					//$data = get_apple_msg($keyword);
+					$data .= "您输入的是序列号!";
+					if($data){
+						
+					}else{
+							$data = "不好意思，您的序列号可能有误，确认后再试一下吧～ps：如果有问题，可以直接留言，机小妹会第一时间为你排忧解难";
 					}
-					elseif(preg_match('/^\d{14,18}$/',$keyword)){
-						$contentStr = "您输入的是imie码";
-					}
-					else{
-	        			$contentStr = "哈喽！机友！终于等到你咯~到了机子铺，表客气！机小妹随时听候差遣~在这里，你可以一秒轻松鉴定手机真伪、分分钟获取相关干货、还能随时随地请教机小妹！\n";
-						$contentStr .= "1）输入手机“序列号”，获取手机的具体信息\n";
-						$contentStr .= "2）输入手机“imei”码，获取更全面信息，轻松鉴定手机真伪！\n";
-						$contentStr .= "3）二手手机相关干货，翻看历史消息，轻松掌握～\n";
-						$contentStr .= "4）有神马问题，随时留言，机小妹会在第一时间为你排忧解难！\n";
-					}
-
-					//格式化返回给微信的数据
-                	$resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, 'text', $contentStr);
-                	echo $resultStr;
-	        }else{
-                	echo "您没有输入任何内容!";
-            }
-        }else {
-        	echo "";
-        	exit;
+				}
+				if(preg_match('/^\d{14,18}$/',$keyword))
+				{
+					$data .= "您输入的是imei码";
+					$imei = $keyword;
+					//$data = get_apple_serial($imei);
+				}
+				//用户发的普通信息,自动回复如下
+				//其他消息均不自动回复
+				else
+				{
+	        			$data = "哈喽！机友！终于等到你咯~到了机子铺，表客气！机小妹随时听候差遣~在这里，你可以一秒轻松鉴定手机真伪、分分钟获取相关干货、还能随时随地请教机小妹！\n";
+						$data .= "1）输入手机“序列号”，获取手机的具体信息\n";
+						$data .= "2）输入手机“imei”码，获取更全面信息，轻松鉴定手机真伪！\n";
+						$data .= "3）二手手机相关干货，翻看历史消息，轻松掌握～\n";
+						$data .= "4）有神马问题，随时留言，机小妹会在第一时间为你排忧解难！\n";
+				}
+				//格式化返回给微信的数据
+                echo sprintf($textTpl, $fromUsername, $toUsername, $time, 'text', $data);
+	        }
         }
     }
 		
@@ -162,8 +131,75 @@ function get_apple_msg($sn = 'F2LPH9FQG5QV')
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 	// 执行HTTP请求
 	curl_setopt($ch , CURLOPT_URL , $url);
-	return $res = curl_exec($ch);
+
+	//调用api获取下数据
+	$res = curl_exec($ch);
+	
+	debug($res,'get_apple_msg');
+	return $res;
+	
+						if($contentStr = json_decode($res,true)){
+							$c = $contentStr;
+							$contentStr = "设备型号：$c[model]\n容量：$c[capacity]\n颜色: $c[color]\n版本:$c[number]\n类型:$c[identifier]\n";
+							$contentStr.= "模型：$c[order]\n网络:$c[network]\n";
+							if($c['activated']){
+								$contentStr .= "激活状态：已激活\n";
+								$contentStr .= "激活时间:$c[time]\n";
+							}else{
+								$contentStr .= "激活状态：未激活\n";
+							}
+							$contentStr .= "产地:$c[origin]\n";
+							$contentStr .= "出厂日期:$c[end]\n";
+							$contentStr .= "产品类型:$c[product]\n";
+							$contentStr .= "硬件保修:$c[warranty]\n";
+							$contentStr .= "保修剩余天数:$c[dayleft]\n";
+							$contentStr .= "电话支持:$c[tele]\n";
+							if($c['purchasing']){
+								$contentStr .= "是否有效购买：是\n";
+							}else{
+								$contentStr .= "是否有效购买：否\n";
+							}
+							if($c['locked']){
+								$contentStr .= "激活锁状态：锁定\n";
+							}else{
+								$contentStr .= "激活锁状态：关闭\n";
+							}
+							$contentStr .= "PS: 此查询结果仅供参考,一切以<a href='https://checkcoverage.apple.com/cn/zh;jsessionid=nlLgWWJcyJlfqjP5G68LymHwQLdJJy58ynkTNyyJDw1FJTHzTqFv!1843384130'>苹果官网</a>查询结果为准\n";
+							$contentStr .= "销售地(哪国版)：[设置/通用/关于本机/型号]忽略/A最后两位CH为国行,ZP港行,KH韩版,LL美版";
+	
+
+
+
+
+
+
+
 }
+
+function get_apple_serial($imei){
+    $url = "http://iphoneimei.info/?imei=$imei";
+	$res = file_get_contents($url);
+
+	//第一次处理网页输出
+	//输出:Serial Number: </span><span class="value">F2LP7419G5QW</span></div>
+	$pos = strpos($res,"Serial Number");
+	//能否找到?
+	if($pos){
+		$res1 = substr($res,$pos,100);
+		//第二次处理匹配查找
+		$res2 = [];
+		$pos = preg_match('/\w{10,}/',$res1,$res2);
+		if($pos){
+			$serial = $res2[0];
+			return $serial;
+		}
+	}
+	return false;
+}
+
+
+
+
 
 class Jizipu extends CI_Controller{
 	public function __construct(){
@@ -218,3 +254,8 @@ class Jizipu extends CI_Controller{
 	    var_dump(json_decode($res));
 	}
 }
+
+
+
+
+
