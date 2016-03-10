@@ -2,17 +2,17 @@
 class wechatCallbackapiTest
 {
 	public function valid()
-    {/*{{{*/
+    {
         $echoStr = $_GET["echostr"];
         //valid signature , option
         if($this->checkSignature()){
         	echo $echoStr;
         	exit;
         }
-    }/*}}}*/
+    }
 
     public function responseMsg()
-    {/*{{{*/
+    { 
 		//get post data, May be due to the different environments
 		$postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
 
@@ -40,7 +40,7 @@ class wechatCallbackapiTest
 					//当用户输入 10-14位 “字母+数字” 时，调用序列号查询接口！
 					//1,数据返回正确，则正确返回。
 					//2,数据查询错误，返回“不好意思，您的序列号可能有误，确认后再试一下吧～ps：如果有问题，可以直接留言，机小妹会第一时间为你排忧解难”！
-					if(preg_match('^\w{10,14}$',$keyword)){
+					if(preg_match('/^\w{10,14}$/',$keyword)){
 						$contentStr = get_apple_msg($keyword);
 						if($contentStr = json_decode($contentStr,true)){
 							$c = $contentStr;
@@ -74,7 +74,7 @@ class wechatCallbackapiTest
 							$contentStr = "不好意思，您的序列号可能有误，确认后再试一下吧～ps：如果有问题，可以直接留言，机小妹会第一时间为你排忧解难";
 						}
 					}
-					elseif(preg_match('^\d{14,18}$',$keyword)){
+					elseif(preg_match('/^\d{14,18}$/',$keyword)){
 						$contentStr = "您输入的是imie码";
 					}
 					else{
@@ -98,7 +98,7 @@ class wechatCallbackapiTest
     }
 		
 	private function checkSignature()
-	{/*{{{*/
+	{
         // you must define TOKEN by yourself
         if (!defined("TOKEN")) {
             throw new Exception('TOKEN is not defined!');
@@ -120,12 +120,12 @@ class wechatCallbackapiTest
 		}else{
 			return false;
 		}
-	/*}}}*/}
+	}
 
 }
 
 function createSign ($paramArr)
-{/*{{{*/
+{
 	$sign = "";
 	ksort($paramArr);
 	foreach ($paramArr as $key => $val) {
@@ -136,10 +136,10 @@ function createSign ($paramArr)
 	$sign.='50a2e8e3b42248d1b73739641faa3fa4';
 	$sign = strtoupper(md5($sign));
 	return $sign;
-/*}}}*/}
+}
 
 function createStrParam ($paramArr)
-{/*{{{*/
+{
 	$strParam = '';
 	foreach ($paramArr as $key => $val) {
 		if ($key != '' && $val != '') {
@@ -147,10 +147,10 @@ function createStrParam ($paramArr)
 		}
 	}
 	return $strParam;
-/*}}}*/}
+}
 
 function get_apple_msg($sn = 'F2LPH9FQG5QV')
-{/*{{{*/
+{
 	date_default_timezone_set("PRC");
 	$ch = curl_init();
     $url = "http://apis.baidu.com/3023/apple/apple?sn=$sn";
@@ -163,21 +163,7 @@ function get_apple_msg($sn = 'F2LPH9FQG5QV')
 	// 执行HTTP请求
 	curl_setopt($ch , CURLOPT_URL , $url);
 	return $res = curl_exec($ch);
-	/*
-	$paramArr = array(
-			'showapi_appid'=> '14742',
-			'sn' => $sn,
-			'showapi_timestamp' => date('YmdHis')
-	);
-	$sign = createSign($paramArr);
-	$strParam = createStrParam($paramArr);
-	$strParam .= 'showapi_sign='.$sign;
-	$url = 'http://route.showapi.com/864-1?'.$strParam;
-	$result = file_get_contents($url);
-	$result = json_decode($result,true);
-	return $result;
-	*/
-/*}}}*/}
+}
 
 class Jizipu extends CI_Controller{
 	public function __construct(){
