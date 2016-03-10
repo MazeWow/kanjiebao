@@ -40,7 +40,7 @@ class wechatCallbackapiTest
 					//当用户输入 10-14位 “字母+数字” 时，调用序列号查询接口！
 					//1,数据返回正确，则正确返回。
 					//2,数据查询错误，返回“不好意思，您的序列号可能有误，确认后再试一下吧～ps：如果有问题，可以直接留言，机小妹会第一时间为你排忧解难”！
-					if(preg_match('#\w{10,14}#',$keyword)){
+					if(preg_match('^\w{10,14}$',$keyword)){
 						$contentStr = get_apple_msg($keyword);
 						if($contentStr = json_decode($contentStr,true)){
 							$c = $contentStr;
@@ -74,7 +74,7 @@ class wechatCallbackapiTest
 							$contentStr = "不好意思，您的序列号可能有误，确认后再试一下吧～ps：如果有问题，可以直接留言，机小妹会第一时间为你排忧解难";
 						}
 					}
-					elseif(preg_match('#\w{14,18}#',$keyword)){
+					elseif(preg_match('^\d{14,18}$',$keyword)){
 						$contentStr = "您输入的是imie码";
 					}
 					else{
