@@ -33,7 +33,13 @@ class wechatCallbackapiTest
 				<FuncFlag>0</FuncFlag>
 			     </xml>";
 	        if(!empty( $keyword )){
+	        	
+	        		//　返回给用户的数据
 					$contentStr = '';
+
+					//当用户输入 10-14位 “字母+数字” 时，调用序列号查询接口！
+					//1,数据返回正确，则正确返回。
+					//2,数据查询错误，返回“不好意思，您的序列号可能有误，确认后再试一下吧～ps：如果有问题，可以直接留言，机小妹会第一时间为你排忧解难”！
 					if(preg_match('#\w{10,14}#',$keyword)){
 						$contentStr = get_apple_msg($keyword);
 						if($contentStr = json_decode($contentStr,true)){
@@ -67,7 +73,11 @@ class wechatCallbackapiTest
 						}else{
 							$contentStr = "不好意思，您的序列号可能有误，确认后再试一下吧～ps：如果有问题，可以直接留言，机小妹会第一时间为你排忧解难";
 						}
-					}else{
+					}
+					elseif(preg_match('#\w{14,18}#',$keyword)){
+						$contentStr = "您输入的是imie码";
+					}
+					else{
 	        			$contentStr = "哈喽！机友！终于等到你咯~到了机子铺，表客气！机小妹随时听候差遣~在这里，你可以一秒轻松鉴定手机真伪、分分钟获取相关干货、还能随时随地请教机小妹！\n";
 						$contentStr .= "1）输入手机“序列号”，获取手机的具体信息\n";
 						$contentStr .= "2）输入手机“imei”码，获取更全面信息，轻松鉴定手机真伪！\n";
