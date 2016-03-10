@@ -62,7 +62,8 @@ class wechatCallbackapiTest
 							}else{
 								$contentStr .= "激活锁状态：关闭\n";
 							}
-							$contentStr .= "PS: 此查询结果仅供参考,一切以苹果官网查询结果为准\n";
+							$contentStr .= "PS: 此查询结果仅供参考,一切以<a href='https://checkcoverage.apple.com/cn/zh;jsessionid=nlLgWWJcyJlfqjP5G68LymHwQLdJJy58ynkTNyyJDw1FJTHzTqFv!1843384130'>苹果官网</a>查询结果为准\n";
+							$contentStr .= "销售地(哪国版)：[设置/通用/关于本机/型号]忽略/A最后两位CH为国行,ZP港行,KH韩版,LL美版";
 						}else{
 							$contentStr = "不好意思，您的序列号可能有误，确认后再试一下吧～ps：如果有问题，可以直接留言，机小妹会第一时间为你排忧解难";
 						}
@@ -73,9 +74,7 @@ class wechatCallbackapiTest
 						$contentStr .= "3）二手手机相关干货，翻看历史消息，轻松掌握～\n";
 						$contentStr .= "4）有神马问题，随时留言，机小妹会在第一时间为你排忧解难！\n";
 					}
-					
-					
-					
+
 					//格式化返回给微信的数据
                 	$resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, 'text', $contentStr);
                 	echo $resultStr;
