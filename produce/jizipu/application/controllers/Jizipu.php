@@ -1,4 +1,14 @@
 <?php
+
+/*常量*/
+$data = "哈喽！机友！终于等到你咯~到了机子铺，表客气！机小妹随时听候差遣~在这里，你可以一秒轻松鉴定手机真伪、分分钟获取相关干货、还能随时随地请教机小妹！\n";
+$data .= "1）输入手机“序列号”，获取手机的具体信息\n";
+$data .= "2）输入手机“imei”码，获取更全面信息，轻松鉴定手机真伪！\n";
+$data .= "3）二手手机相关干货，翻看历史消息，轻松掌握～\n";
+$data .= "4）有神马问题，随时留言，机小妹会在第一时间为你排忧解难！\n";
+
+define("ATTENTION_MSG",$data);
+
 /*functions*/
 function createSign ($paramArr)
 {
@@ -126,47 +136,31 @@ class wechatCallbackapiTest
 
     public function responseMsg()
     {
-		//get post data, May be due to the different environments
+		//获取微信发送过来的post请求数据
 		$postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
-		
-		debug($GLOBALS["HTTP_RAW_POST_DATA"],'HTTP_RAW_POST_DATA');
-
-      	//extract post data
 		if (!empty($postStr))
 		{
-                libxml_disable_entity_loader(true);
-              	$postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
-                $fromUsername = $postObj->FromUserName;
-                $toUsername = $postObj->ToUserName;
-				$msgtype = $postObj->MsgType;
-				
-                $time = time();
-                $textTpl = "<xml><ToUserName><![CDATA[%s]]></ToUserName><FromUserName><![CDATA[%s]]></FromUserName><CreateTime>%s</CreateTime><MsgType><![CDATA[%s]]></MsgType><Content><![CDATA[%s]]></Content><FuncFlag>0</FuncFlag></xml>";
-			
+			libxml_disable_entity_loader(true);
+            $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
+            $fromUsername = $postObj->FromUserName;
+            $toUsername = $postObj->ToUserName;
+			$msgtype = $postObj->MsgType;
+			$time = time();
+            $textTpl = "<xml><ToUserName><![CDATA[%s]]></ToUserName><FromUserName><![CDATA[%s]]></FromUserName><CreateTime>%s</CreateTime><MsgType><![CDATA[%s]]></MsgType><Content><![CDATA[%s]]></Content><FuncFlag>0</FuncFlag></xml>";
 			
 			$data = ''; //返回给用户的数据
 			
 			//如果推送类型是事件
 			if(strtolower($postObj->MsgType) == "event"){
-				
 				//关注公众号事件
 				if(strtolower($postObj->Event == "subscribe")){
-	        		$data = "哈喽！机友！终于等到你咯~到了机子铺，表客气！机小妹随时听候差遣~在这里，你可以一秒轻松鉴定手机真伪、分分钟获取相关干货、还能随时随地请教机小妹！\n";
-					$data .= "1）输入手机“序列号”，获取手机的具体信息\n";
-					$data .= "2）输入手机“imei”码，获取更全面信息，轻松鉴定手机真伪！\n";
-					$data .= "3）二手手机相关干货，翻看历史消息，轻松掌握～\n";
-					$data .= "4）有神马问题，随时留言，机小妹会在第一时间为你排忧解难！\n";
-				//取消关注事件
-				}elseif(strtolower($postObj->Event == "unsubscribe")){
-				
+					$data .= ATTENTION_MSG;
 				}
 			//用户发消息给公众号
 			}elseif(strtolower($postObj->MsgType) == "text"){
 				//获取文本
 				$keyword = trim($postObj->Content);
-				//当用户输入 10-14位 “字母+数字” 时，调用序列号查询接口！
-				//1,数据返回正确，则正确返回。
-				//2,数据查询错误，返回“不好意思，您的序列号可能有误，确认后再试一下吧～ps：如果有问题，可以直接留言，机小妹会第一时间为你排忧解难”！
+				//当用户输入 10-14位 “字母+数字” 时,使用序列号查询苹果信息
 				if(preg_match('/^\w{10,14}$/',$keyword))
 				{
 					//$data .= "您输入的是序列号!\n";
@@ -192,42 +186,12 @@ class wechatCallbackapiTest
 						$data .= "序列号：$serial\n";
 						$data .= get_apple_msg($serial);
 					}
+				}else{
+					$data .= ATTENTION_MSG;
 				}
 			}
 			//格式化返回给微信的数据
             echo sprintf($textTpl, $fromUsername, $toUsername, $time, 'text', $data);
-
-			return;	
-				//当用户输入 10-14位 “字母+数字” 时，调用序列号查询接口！
-				//1,数据返回正确，则正确返回。
-				//2,数据查询错误，返回“不好意思，您的序列号可能有误，确认后再试一下吧～ps：如果有问题，可以直接留言，机小妹会第一时间为你排忧解难”！
-				if(preg_match('/^\w{10,14}$/',$keyword))
-				{
-					//$data .= "您输入的是序列号!\n";
-					$data .= "[$keyword] 信息：\n";
-					$msg = get_apple_msg($keyword);
-					if($msg){
-						$data .= $msg;
-					}else{
-						$data .= "不好意思，您的序列号可能有误，确认后再试一下吧～ps：如果有问题，可以直接留言，机小妹会第一时间为你排忧解难";
-					}
-				}
-				
-				//用户输入14-18位的纯数字查询
-				elseif(preg_match('/^\d{14,18}$/',$keyword))
-				{
-					$imei   = $keyword;
-					$serial = get_apple_serial($imei);
-					$data .= "[$imei] 信息：\n";
-					//查询序列码失败
-					if(!$serial){
-						$data .= "不好意思，您的imei可能有误，确认后再试一下吧～ps：如果有问题，可以直接留言，机小妹会第一时间为你排忧解难";
-					}else{
-						//根据拿到的序列码查apple信息
-						$data .= "序列号：$serial\n";
-						$data .= get_apple_msg($serial);
-					}
-				}
         }
     }
 		
