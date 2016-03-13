@@ -70,7 +70,7 @@ function get_apple_msg($sn = 'F2LPH9FQG5QV')
 	
 	//调用apple查询接口,查询错误
 	if(!$contentStr){
-		return "不好意思，您的序列号可能有误，确认后再试一下吧～ps：如果有问题，可以直接留言，机小妹会第一时间为你排忧解难";
+		return false;
 	}
 		//重置下$contentStr用于生成返回字符串,这么挫的代码是历史原因,懒得改....
 		$c = $contentStr;
@@ -87,15 +87,17 @@ function get_apple_msg($sn = 'F2LPH9FQG5QV')
 		}
 		$contentStr .= "产地:$c[origin]\n";
 		$contentStr .= "出厂日期:$c[end]\n";
-		$contentStr .= "产品类型:$c[product]\n";
+//		$contentStr .= "产品类型:$c[product]\n";
 		$contentStr .= "硬件保修:$c[warranty]\n";
 		$contentStr .= "保修剩余天数:$c[dayleft]\n";
 		$contentStr .= "电话支持:$c[tele]\n";
+		/*
 		if($c['purchasing']){
 			$contentStr .= "是否有效购买：是\n";
 		}else{
 			$contentStr .= "是否有效购买：否\n";
 		}
+		*/
 		if($c['locked']){
 			$contentStr .= "激活锁状态：锁定\n";
 		}else{
@@ -149,7 +151,12 @@ class wechatCallbackapiTest
 				{
 					//$data .= "您输入的是序列号!\n";
 					$data .= "[$keyword] 信息：\n";
-					$data .= get_apple_msg($keyword);
+					$msg = get_apple_msg($keyword);
+					if($msg){
+						$data .= $msg;
+					}else{
+						$data .= "不好意思，您的序列号可能有误，确认后再试一下吧～ps：如果有问题，可以直接留言，机小妹会第一时间为你排忧解难";
+					}
 				}
 				
 				//用户输入14-18位的纯数字查询
