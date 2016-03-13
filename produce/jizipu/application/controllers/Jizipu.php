@@ -2,10 +2,10 @@
 
 /*常量*/
 $data = "哈喽！机友！终于等到你咯~到了机子铺，表客气！机小妹随时听候差遣~在这里，你可以一秒轻松鉴定手机真伪、分分钟获取相关干货、还能随时随地请教机小妹！\n";
-$data .= "1）输入手机“序列号”，获取手机的具体信息\n";
-$data .= "2）输入手机“imei”码，获取更全面信息，轻松鉴定手机真伪！\n";
-$data .= "3）二手手机相关干货，翻看历史消息，轻松掌握～\n";
-$data .= "4）有神马问题，随时留言，机小妹会在第一时间为你排忧解难！\n";
+$data .= "1）输入手机“序列号”，获取手机的具体信息,轻松鉴定手机真伪!\n";
+//$data .= "2）输入手机“imei”码，获取更全面信息，轻松鉴定手机真伪！\n";
+$data .= "2）二手手机相关干货，翻看历史消息，轻松掌握～\n";
+$data .= "3）有神马问题，随时留言，机小妹会在第一时间为你排忧解难！\n";
 
 define("ATTENTION_MSG",$data);
 
@@ -39,8 +39,10 @@ function createStrParam ($paramArr)
 function get_apple_serial($imei){
 	$url = "http://iphoneimei.info/?imei=$imei";
 
+	debug($url,'url');
 	$res = file_get_contents($url);
 	
+	debug($res,'res');
 	//第一次处理网页输出
 	//输出:Serial Number: </span><span class="value">F2LP7419G5QW</span></div>
 	$pos = strpos($res,"Serial Number");
