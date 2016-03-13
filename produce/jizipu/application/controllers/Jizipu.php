@@ -28,8 +28,9 @@ function createStrParam ($paramArr)
 
 function get_apple_serial($imei){
 	$url = "http://iphoneimei.info/?imei=$imei";
-	$res = file_get_contents($url);
 
+	$res = file_get_contents($url);
+	
 	//第一次处理网页输出
 	//输出:Serial Number: </span><span class="value">F2LP7419G5QW</span></div>
 	$pos = strpos($res,"Serial Number");
@@ -63,13 +64,20 @@ function get_apple_msg($sn = 'F2LPH9FQG5QV')
 
 	//调用api获取下数据
 	$res = curl_exec($ch);
-
-	debug($res,'get_apple_msg');
-	return $res;
-
-	if($contentStr = json_decode($res,true)){
+	
+	//查询后解析正确？
+	$contentStr = json_decode($res,true);
+	
+	//调用apple查询接口,查询错误
+	if(!$contentStr){
+		return "不好意思，您的序列号可能有误，确认后再试一下吧～ps：如果有问题，可以直接留言，机小妹会第一时间为你排忧解难";
+	}
+		//重置下$contentStr用于生成返回字符串,这么挫的代码是历史原因,懒得改....
 		$c = $contentStr;
-		$contentStr = "设备型号：$c[model]\n容量：$c[capacity]\n颜色: $c[color]\n版本:$c[number]\n类型:$c[identifier]\n";
+		$contentStr = '';
+		
+		//格式化apple信息
+		$contentStr = "设备型号：$c[model]\n容量：$c[capacity]\n颜色: $c[color]\n版本:$c[number]\n";
 		$contentStr.= "模型：$c[order]\n网络:$c[network]\n";
 		if($c['activated']){
 			$contentStr .= "激活状态：已激活\n";
@@ -93,9 +101,12 @@ function get_apple_msg($sn = 'F2LPH9FQG5QV')
 		}else{
 			$contentStr .= "激活锁状态：关闭\n";
 		}
+		$contentStr .="\n";
 		$contentStr .= "PS: 此查询结果仅供参考,一切以<a href='https://checkcoverage.apple.com/cn/zh;jsessionid=nlLgWWJcyJlfqjP5G68LymHwQLdJJy58ynkTNyyJDw1FJTHzTqFv!1843384130'>苹果官网</a>查询结果为准\n";
+		
+		$contentStr .="\n";
 		$contentStr .= "销售地(哪国版)：[设置/通用/关于本机/型号]忽略/A最后两位CH为国行,ZP港行,KH韩版,LL美版";
-	}
+		return $contentStr;
 }
 
 /*处理微信事件的类*/
@@ -127,28 +138,34 @@ class wechatCallbackapiTest
                 $time = time();
                 $textTpl = "<xml><ToUserName><![CDATA[%s]]></ToUserName><FromUserName><![CDATA[%s]]></FromUserName><CreateTime>%s</CreateTime><MsgType><![CDATA[%s]]></MsgType><Content><![CDATA[%s]]></Content><FuncFlag>0</FuncFlag></xml>";
 			//如果用户发信息过来了
-			debug($keyword,'keyword');
 			if(!empty( $keyword ))
 			{
 				$data = ''; //返回给用户的数据
+				
 				//当用户输入 10-14位 “字母+数字” 时，调用序列号查询接口！
 				//1,数据返回正确，则正确返回。
 				//2,数据查询错误，返回“不好意思，您的序列号可能有误，确认后再试一下吧～ps：如果有问题，可以直接留言，机小妹会第一时间为你排忧解难”！
 				if(preg_match('/^\w{10,14}$/',$keyword))
 				{
-					//$data = get_apple_msg($keyword);
-					$data .= "您输入的是序列号!";
-					if($data){
-						
-					}else{
-							$data = "不好意思，您的序列号可能有误，确认后再试一下吧～ps：如果有问题，可以直接留言，机小妹会第一时间为你排忧解难";
-					}
+					//$data .= "您输入的是序列号!\n";
+					$data .= "[$keyword] 信息：\n";
+					$data .= get_apple_msg($keyword);
 				}
-				if(preg_match('/^\d{14,18}$/',$keyword))
+				
+				//用户输入14-18位的纯数字查询
+				elseif(preg_match('/^\d{14,18}$/',$keyword))
 				{
-					$data .= "您输入的是imei码";
-					$imei = $keyword;
-					//$data = get_apple_serial($imei);
+					$imei   = $keyword;
+					$serial = get_apple_serial($imei);
+					$data .= "[$imei] 信息：\n";
+					//查询序列码失败
+					if(!$serial){
+						$data .= "不好意思，您的imei可能有误，确认后再试一下吧～ps：如果有问题，可以直接留言，机小妹会第一时间为你排忧解难";
+					}else{
+						//根据拿到的序列码查apple信息
+						$data .= "序列号：$serial\n";
+						$data .= get_apple_msg($serial);
+					}
 				}
 				//用户发的普通信息,自动回复如下
 				//其他消息均不自动回复
