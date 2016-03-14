@@ -189,7 +189,7 @@ class wechatCallbackapiTest
 						$data .= get_apple_msg($serial);
 					}
 				}else{
-					$data .= ATTENTION_MSG;
+					return ;
 				}
 			}
 			//格式化返回给微信的数据
