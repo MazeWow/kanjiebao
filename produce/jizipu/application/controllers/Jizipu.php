@@ -101,7 +101,7 @@ function get_apple_msg($sn = 'F2LPH9FQG5QV')
 		$contentStr .= "出厂日期:$c[end]\n";
 //		$contentStr .= "产品类型:$c[product]\n";
 		$contentStr .= "硬件保修:$c[warranty]\n";
-		$contentStr .= "保修剩余天数:$c[dayleft]\n";
+		$contentStr .= "保修剩余天数:$c[daysleft]\n";
 		$contentStr .= "电话支持:$c[tele]\n";
 		/*
 		if($c['purchasing']){
