@@ -1,6 +1,5 @@
 <?php
 /*********************街报环境配置***************************/
-						
 /*
  * @desc				配置说明
  * 
@@ -28,9 +27,9 @@
 
 define("API_URL","http://api.kanjiebao.com/");
 define('MYSQL_USER','root');
-define('MYSQL_PASSWORD','jiebao2015');
+define('MYSQL_PASSWORD','Cky951010');
 define('MYSQL_DB','jiebao_produce');
-define('MEMCACHE_HOST','27.0.0.1');
+define('MEMCACHE_HOST','127.0.0.1');
 define('MEMCACHE_PORT',11211);
 define("API_ACCESS_CONTROL","Access-Control-Allow-Origin:http://admindev.kanjiebao.com");
 
