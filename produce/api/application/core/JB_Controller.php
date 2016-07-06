@@ -24,7 +24,7 @@ class JB_Controller extends CI_Controller{
 	
 	protected $page_now = 1;
 		
-	// 街报网安全控制：必传参数验证　＋　参数对称加密验证　＋　api 白名单
+	// 街报网安全控制：必传参数验证　＋　签名验证　＋　api 白名单
 	public function __construct(){
 		parent::__construct();
 		$this->mem = Mem::get_mem_ins();
