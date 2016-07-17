@@ -103,6 +103,7 @@ function get_apple_msg($sn = 'F2LPH9FQG5QV')
 		$contentStr .= "激活与保修:<a href='https://checkcoverage.apple.com/cn/zh;jsessionid=nlLgWWJcyJlfqjP5G68LymHwQLdJJy58ynkTNyyJDw1FJTHzTqFv!1843384130'>查看苹果官网</a>\n";
 		$contentStr .= "产地:$c[origin]\n";
 		$contentStr .= "出厂日期:$c[end]\n";
+		$contentStr .= "激活锁状态:<a href='https://www.icloud.com/activationlock/'>点击检查</a>\n";
 //		$contentStr .= "产品类型:$c[product]\n";
 //		$contentStr .= "硬件保修:$c[warranty]\n";
 //		$contentStr .= "保修剩余天数:$c[daysleft]\n";
