@@ -38,10 +38,10 @@ function createStrParam ($paramArr)
 function get_apple_serial($imei){
 	$url = "http://iphoneimei.info/?imei=$imei";
 
-	debug($url,'url');
+	//debug($url,'url');
 	$res = file_get_contents($url);
 	
-	debug($res,'res');
+	//debug($res,'res');
 	//第一次处理网页输出
 	//输出:Serial Number: </span><span class="value">F2LP7419G5QW</span></div>
 	$pos = strpos($res,"Serial Number");
@@ -88,19 +88,24 @@ function get_apple_msg($sn = 'F2LPH9FQG5QV')
 		$contentStr = '';
 		
 		//格式化apple信息
-		$contentStr = "设备型号：$c[model]\n容量：$c[capacity]\n颜色: $c[color]\n版本:$c[number]\n";
-		$contentStr.= "模型：$c[order]\n网络:$c[network]\n";
+		//$contentStr = "设备型号：$c[model]\n容量：$c[capacity]\n颜色: $c[color]\n版本:$c[number]\n";
+		$contentStr = "设备型号：$c[model]\n容量：$c[capacity]\n颜色: $c[color]\n";
+		//$contentStr.= "模型：$c[order]\n网络:$c[network]\n";
+		//$contentStr.= "模型：$c[order]\n网络:$c[network]\n";
+		/*
 		if($c['activated']){
 			$contentStr .= "激活状态：已激活\n";
 			$contentStr .= "激活时间:$c[time]\n";
 		}else{
 			$contentStr .= "激活状态：未激活\n";
 		}
+		*/
+		$contentStr .= "激活与保修:<a href='https://checkcoverage.apple.com/cn/zh;jsessionid=nlLgWWJcyJlfqjP5G68LymHwQLdJJy58ynkTNyyJDw1FJTHzTqFv!1843384130'>查看苹果官网</a>\n";
 		$contentStr .= "产地:$c[origin]\n";
 		$contentStr .= "出厂日期:$c[end]\n";
 //		$contentStr .= "产品类型:$c[product]\n";
-		$contentStr .= "硬件保修:$c[warranty]\n";
-		$contentStr .= "保修剩余天数:$c[daysleft]\n";
+//		$contentStr .= "硬件保修:$c[warranty]\n";
+//		$contentStr .= "保修剩余天数:$c[daysleft]\n";
 		$contentStr .= "电话支持:$c[tele]\n";
 		/*
 		if($c['purchasing']){
@@ -109,11 +114,13 @@ function get_apple_msg($sn = 'F2LPH9FQG5QV')
 			$contentStr .= "是否有效购买：否\n";
 		}
 		*/
+		/*
 		if($c['locked']){
 			$contentStr .= "激活锁状态：锁定\n";
 		}else{
 			$contentStr .= "激活锁状态：关闭\n";
 		}
+		*/
 		$contentStr .="\n";
 		$contentStr .= "PS: 此查询结果仅供参考,一切以<a href='https://checkcoverage.apple.com/cn/zh;jsessionid=nlLgWWJcyJlfqjP5G68LymHwQLdJJy58ynkTNyyJDw1FJTHzTqFv!1843384130'>苹果官网</a>查询结果为准\n";
 		
@@ -170,7 +177,7 @@ class wechatCallbackapiTest
 					if($msg){
 						$data .= $msg;
 					}else{
-						$data .= "不好意思，您的序列号可能有误，确认后再试一下吧～ps：如果有问题，可以直接留言，机小妹会第一时间为你排忧解难";
+						$data .= "不好意思，您的序列号可能有误，确认后再试一下吧～ps：如果有问题，可以直接留言，机子君会第一时间为你排忧解难";
 					}
 				}
 				//用户输入14-18位的纯数字查询
@@ -181,13 +188,14 @@ class wechatCallbackapiTest
 					$data .= "[$imei] 信息：\n";
 					//查询序列码失败
 					if(!$serial){
-						$data .= "不好意思，您的imei可能有误，确认后再试一下吧～ps：如果有问题，可以直接留言，机小妹会第一时间为你排忧解难";
+						$data .= "不好意思，您的imei可能有误，确认后再试一下吧～ps：如果有问题，可以直接留言，机子君会第一时间为你排忧解难";
 					}else{
 						//根据拿到的序列码查apple信息
 						$data .= "序列号：$serial\n";
 						$data .= get_apple_msg($serial);
 					}
 				}else{
+            		echo sprintf($textTpl, $fromUsername, $toUsername, $time, 'transfer_customer_service', $data);
 					return ;
 				}
 			}
