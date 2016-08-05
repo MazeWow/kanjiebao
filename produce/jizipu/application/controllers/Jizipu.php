@@ -1,6 +1,13 @@
 <?php
+/*  引入文件 */
+require_once 'CURL.php';
 
 /*常量*/
+define("TOKEN",'codekissyoung');
+define("JIZIPU_APPID",'wx68a013bfd83c3963');
+define("JIZIPU_APPSCRET",'b4cfaf64763615eeb460bd0c40ccafca');
+
+
 $data = "关注我就对了!!到了机子铺有神马问题，随时给我留言，机子君会在第一时间为你解答!\n";
 $data .= "1）直接输入苹果序列号即可得到查询结果!\n";
 //$data .= "2）输入手机“imei”码，获取更全面信息，轻松鉴定手机真伪！\n";
@@ -165,6 +172,9 @@ class wechatCallbackapiTest
 				if(strtolower($postObj->Event == "subscribe")){
 					$data .= ATTENTION_MSG;
 				}
+				if(strtolower($postObj->Event) == "click"){
+					$data .= "在输入框内@机子君、机小妹、机大大，问想问的问题，要想要的服务，机子铺一定第一时间满足你";
+				}
 			//用户发消息给公众号
 			}elseif(strtolower($postObj->MsgType) == "text"){
 				//获取文本
@@ -240,7 +250,8 @@ class Jizipu extends CI_Controller{
 	}
 	
 	public function weixin_access_token_update(){
-		$url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx57c3018bd11713e4&secret=2dda6ad80590e404df1901ddd4238f33';
+		$url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".JIZIPU_APPID."&secret=".JIZIPU_APPSCRET;
+		echo $url;
 		$response = json_decode(file_get_contents($url),true);
 		$access_token = (isset($response['access_token']))?$response['access_token']:false;
 		if(!$access_token) {echo "update access token fail:response error"; return false;}
@@ -263,13 +274,37 @@ class Jizipu extends CI_Controller{
 	}
 
 	public function index(){
-		define("TOKEN",'codekissyoung');
 		$wechatObj = new wechatCallbackapiTest();
 		if(isset($_GET['echostr'])){
 			$wechatObj -> valid();
 		}else{
 			$wechatObj -> responseMsg();
 		}
+	}
+
+	public function setMenu(){
+		$access_token = $this -> weixin_access_token_get();
+		$setMenuUrl = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=$access_token";
+		$menu = [
+			'button' => [
+				[
+					'type' => 'view',
+					'name' => "搞机干货",
+					'url' => 'http://mp.weixin.qq.com/mp/getmasssendmsg?__biz=MzIzNjM4NzAzMg==#wechat_webview_type=1&wechat_redirect'
+				],
+				[
+					'type' => 'view',
+					'name' => "商城",
+					'url' => 'https://kdt.im/EX31Ur'
+				],
+				[
+					'type' => 'click',
+					'name' => "用户服务",
+					'key' => 'user_service'
+				]
+			],
+		];
+		$res = CURL::post($setMenuUrl,json_encode($menu,JSON_UNESCAPED_UNICODE));
 	}
 }
 /*end of file*/
