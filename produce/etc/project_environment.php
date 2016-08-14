@@ -27,7 +27,7 @@
 
 define("API_URL","http://api.kanjiebao.com/");
 define('MYSQL_USER','root');
-define('MYSQL_PASSWORD','Cky951010');
+define('MYSQL_PASSWORD','Cky_951010');
 define('MYSQL_DB','jiebao_produce');
 define('MEMCACHE_HOST','127.0.0.1');
 define('MEMCACHE_PORT',11211);

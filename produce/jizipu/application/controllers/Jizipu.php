@@ -153,7 +153,7 @@ class wechatCallbackapiTest
     public function responseMsg()
     {
 		//获取微信发送过来的post请求数据
-		$postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
+		$postStr = file_get_contents("php://input");
 		if (!empty($postStr))
 		{
 			libxml_disable_entity_loader(true);
@@ -221,11 +221,9 @@ class wechatCallbackapiTest
         if (!defined("TOKEN")) {
             throw new Exception('TOKEN is not defined!');
         }
-        
         $signature = $_GET["signature"];
         $timestamp = $_GET["timestamp"];
         $nonce = $_GET["nonce"];
-        		
 		$token = TOKEN;
 		$tmpArr = array($token, $timestamp, $nonce);
         // use SORT_STRING rule
@@ -239,17 +237,19 @@ class wechatCallbackapiTest
 			return false;
 		}
 	}
-
 }
-
 
 /*Jizipu　class*/
 class Jizipu extends CI_Controller{
-	public function __construct(){
+	
+	public function __construct()
+	{
 		parent::__construct();
 	}
 	
-	public function weixin_access_token_update(){
+	// 更新微信access_token , 记得写入crontab -e
+	public function weixin_access_token_update()
+	{/*{{{*/
 		$url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".JIZIPU_APPID."&secret=".JIZIPU_APPSCRET;
 		echo $url;
 		$response = json_decode(file_get_contents($url),true);
@@ -263,26 +263,32 @@ class Jizipu extends CI_Controller{
 		$query = $this->db->query($sql);
 		echo "weixin_access_token update success!";
 		return true;
-	}
-
-	public function weixin_access_token_get(){
+	}/*}}}*/
+	
+	// 从数据库里获取微信access_token
+	public function weixin_access_token_get()
+	{/*{{{*/
 		$this->load->database();
 		$sql = "select access_token from jizipu_weixin_access_token limit 1";
 		$query = $this->db->query($sql);
 		$access_token = $query->result_array()[0]['access_token'];
 		return $access_token;
-	}
-
-	public function index(){
+	}/*}}}*/
+	
+	// 微信回调的url
+	public function index()
+	{/*{{{*/
 		$wechatObj = new wechatCallbackapiTest();
 		if(isset($_GET['echostr'])){
 			$wechatObj -> valid();
 		}else{
 			$wechatObj -> responseMsg();
 		}
-	}
-
-	public function setMenu(){
+	}/*}}}*/
+	
+	// 设置微信菜单,菜单有更新时调用下就好
+	public function setMenu()
+	{/*{{{*/
 		$access_token = $this -> weixin_access_token_get();
 		$setMenuUrl = "https://api.weixin.qq.com/cgi-bin/menu/create?access_token=$access_token";
 		$menu = [
@@ -305,6 +311,7 @@ class Jizipu extends CI_Controller{
 			],
 		];
 		$res = CURL::post($setMenuUrl,json_encode($menu,JSON_UNESCAPED_UNICODE));
-	}
+		var_dump($res);
+	}/*}}}*/
 }
 /*end of file*/
