@@ -1,4 +1,5 @@
 <?php
+/*
 class Mem extends Memcache{
 	private static $mem_instance = null;
 	private function __construct(){
@@ -13,3 +14,5 @@ class Mem extends Memcache{
 	}
 	
 }
+
+*/

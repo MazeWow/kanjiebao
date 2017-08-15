@@ -26,20 +26,7 @@ class Auth extends Ad_Controller{
 	}
 	
 	public function do_login(){
-		
-		
-		// root 是超级管理员，写死在程序里面的
-// 		if($this->post_data['account'] == 'root'){
-// 			if($this->post_data['pwd']  == 'jiebao2015'){
-				
-// 			}
-			
-// 		}
-		
-		
 		$res = get_api_data('employee/login',$this->post_data);
-		
-		
 		if($res['err_num'] == 0){
 			$this->load->library('session');
 			$newdata = array(

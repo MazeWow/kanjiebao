@@ -125,7 +125,7 @@ require_once '../etc/jiebao.conf.php';
 /***************************如果使用电脑访问,跳转到街巷科技官网******************************/
 $is_mobile = is_mobile();
 if(!$is_mobile){
-	header("location:http://pc.kanjiebao.com");
+	// header("location:http://pc.kanjiebao.com");
 }
 /*********************************************************************************************/
 //load Codeigniter 

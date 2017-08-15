@@ -25,13 +25,13 @@
  * 
  * */
 
-define("API_URL","http://api.kanjiebao.com/");
+define("API_URL","http://api.jb.dadishe.com/");
 define('MYSQL_USER','root');
-define('MYSQL_PASSWORD','Cky_951010');
+define('MYSQL_PASSWORD','Cky951010');
 define('MYSQL_DB','jiebao_produce');
 define('MEMCACHE_HOST','127.0.0.1');
 define('MEMCACHE_PORT',11211);
-define("API_ACCESS_CONTROL","Access-Control-Allow-Origin:http://admindev.kanjiebao.com");
+define("API_ACCESS_CONTROL","Access-Control-Allow-Origin:http://admin.jb.dadishe.com");
 
 
 /*
@@ -59,43 +59,4 @@ define("API_ACCESS_CONTROL","Access-Control-Allow-Origin:http://admindev.kanjieb
 //define('MEMCACHE_HOST','27.0.0.1');
 //define('MEMCACHE_PORT',11211);
 //define("API_ACCESS_CONTROL","Access-Control-Allow-Origin:http://admindev.kanjiebao.com");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

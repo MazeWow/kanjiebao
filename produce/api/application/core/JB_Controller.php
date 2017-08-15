@@ -27,8 +27,8 @@ class JB_Controller extends CI_Controller{
 	// 街报网安全控制：必传参数验证　＋　签名验证　＋　api 白名单
 	public function __construct(){
 		parent::__construct();
-		$this->mem = Mem::get_mem_ins();
-		$this->mem->addserver('127.0.0.1',11211);
+		// $this->mem = Mem::get_mem_ins();
+		// $this->mem->addserver('127.0.0.1',11211);
 		$this->params = $this->input->post(NULL, TRUE);
 		
 		//分页设置
